@@ -205,7 +205,7 @@ VALUES(1, 0, ST_GeomFromText('POINT(68.0593 24.0562)')),
       (17, 16, ST_GeomFromText('POINT(68.0501 24.1132)')),
       (17, 17, ST_GeomFromText('POINT(68.0497 24.1121)')),
       (17, 18, ST_GeomFromText('POINT(68.0499 24.1114)')),
-      (17, 19, ST_GeomFromText('POINT(68.0502 24.1112)')).
+      (17, 19, ST_GeomFromText('POINT(68.0502 24.1112)')),
       (18, 0, ST_GeomFromText('POINT(68.0826 24.0381)')),
       (18, 1, ST_GeomFromText('POINT(68.0844 24.0425)')),
       (18, 2, ST_GeomFromText('POINT(68.0883 24.0359)')),
