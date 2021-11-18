@@ -11,13 +11,15 @@ Create initial components for showing weather statistics
 **/
 
 import * as React from "react";
+import {toDegrees} from "./DataCalculations";
 
  
 function Statistics({weatherState}) {
 
+
   return (
     <div>
-      <p style={{display: "none"}}>{weatherState !== null && weatherState.temperature !== undefined && weatherState.temperature.threeDaysAverage !== undefined ? weatherState.temperature.threeDaysAverage: "Lataa"}</p>
+      <p style={{display: "none"}}>{toDegrees(Math.atan2(weatherState.winter.strongWindDirectionY, weatherState.winter.strongWindDirectionX))}</p>
     </div>
   );
 }
