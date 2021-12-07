@@ -18,58 +18,64 @@ Fetched weather data from Ilmatieteenlaitos and create initial components for sh
 
 
 import * as React from "react";
-import Wheel from "./Wheel";
+import WeatherInfo from "./WeatherInfo";
 import Statistics from "./Statistics";
 import {getThreeDayStatistics, getThreeDayWindStatistics, getThreeDaysHighest, getThreeDaysLowest, getSnowDepthStatistics, getCurrentAirPressureInfo, getWinterTemperatures, getWinterWindStats} from "./DataCalculations";
  
 
 function WeatherTab() {
-  var initialState = { temperature: 
-    { current: "",
-      firstDayAverage: "",
-      secondDayAverage: "",
-      thirdDayAverage: "",
-      threeDaysAverage: "",
-      threeDaysHighest: "",
-      threeDaysLowest: "",
-      thawDaysOutOfThree: 0,
-      thawDays: []
-    }, windspeed: { 
-    current: "",
-    firstDayAverage: "",
-    secondDayAverage: "",
-    thirdDayAverage: "",
-    threeDaysAverage: "",
-    threeDaysHighest: ""
-  }, winddirection: {
-    current: "",
-    firstDayAverage: "",
-    secondDayAverage: "",
-    thirdDayAverage: "",
-    threeDaysAverage: ""
-  }, snowdepth: {
+  var initialState = { 
     firstDay: "",
     secondDay: "",
     thirdDay: "",
-    sevenDaysGrowth: ""
-  }, airpressure: {
-    current: "",
-    direction: "",
-    firstDayAverage: "",
-    secondDayAverage: "",
-    thirdDayAverage: "",
-    threeDaysAverage: ""
-  }, winter: {
-    median: "",
-    thawDays: "",
-    maxWind: 0,
-    strongWindDays: 0,
-    strongWindDirectionX: 0,
-    strongWindDirectionY: 0,
-    months: 0
-  } };
+    temperature: 
+    { current: "",
+      firstDayAverage: 0,
+      secondDayAverage: 0,
+      thirdDayAverage: 0,
+      threeDaysAverage: 0,
+      threeDaysHighest: "",
+      threeDaysLowest: "",
+      thawDaysOutOfThree: 0,
+      thawDays: ["21.11.  3\xB0C", "22.11.  4\xB0C", "23.11.  2\xB0C"]
+    }, windspeed: { 
+      current: "",
+      firstDayAverage: 0,
+      secondDayAverage: 0,
+      thirdDayAverage: 0,
+      threeDaysAverage: 0,
+      threeDaysHighest: ""
+    }, winddirection: {
+      current: "",
+      firstDayAverage: 0,
+      secondDayAverage: 0,
+      thirdDayAverage: 0,
+      threeDaysAverage: 0
+    }, snowdepth: {
+      firstDay: "",
+      secondDay: "",
+      thirdDay: "",
+      sevenDaysGrowth: 0
+    }, airpressure: {
+      current: "",
+      direction: "",
+      firstDayAverage: 0,
+      secondDayAverage: 0,
+      thirdDayAverage: 0,
+      threeDaysAverage: 0
+    }, winter: {
+      season: false,
+      median: 0,
+      thawDays: 0,
+      maxWind: 0,
+      strongWindDays: 0,
+      strongWindDirectionX: 0,
+      strongWindDirectionY: 0,
+      months: 0
+    } };
 
   const [ weatherState, setWeatherState ] = React.useState(initialState);
+  const [ displayWeatherStatistics, setDisplayWeatherStatistics ] = React.useState(false);
 
   const fetchWeather = async () => {
 
@@ -79,12 +85,18 @@ function WeatherTab() {
 
     const currentDate = new Date();
 
+    weather.thirdDay = `${currentDate.getDate()}.${currentDate.getMonth() + 1}.`;
+
     var firstDayStart = new Date(currentDate.getTime());
     firstDayStart.setDate(firstDayStart.getDate() - 2);
     firstDayStart.setHours(0,0,0,0);
 
+    weather.firstDay = `${firstDayStart.getDate()}.${firstDayStart.getMonth() + 1}.`;
+
     var secondDay = new Date(currentDate.getTime());
     secondDay.setDate(secondDay.getDate() - 1);
+
+    weather.secondDay = `${secondDay.getDate()}.${secondDay.getMonth() + 1}.`;
 
     var snowDataStart = new Date(currentDate.getTime());
     snowDataStart.setDate(snowDataStart.getDate() - 6);
@@ -100,12 +112,14 @@ function WeatherTab() {
     // Remember to change 11 to 5 after development
     if (currentMonth < 11) {
       winterSeason = true;
+      weather.winter = { ...weather.winter, season: true };
       decemberStart.setFullYear(currentDate.getFullYear() - 1, 11, 1);
       decemberStart.setHours(0,0,0,0);
       decemberEnd.setFullYear(currentDate.getFullYear() - 1, 11, 31);
       decemberEnd.setHours(0,0,0,0);
     } else if (currentMonth === 11 && currentDay !== 1) {
       winterSeason = true;
+      weather.winter = { ...weather.winter, season: true };
       decemberStart.setFullYear(currentDate.getFullYear(), 11, 1);
       decemberStart.setHours(0,0,0,0);
       decemberEnd.setFullYear(currentDate.getFullYear(), 11, 31);
@@ -209,18 +223,33 @@ function WeatherTab() {
 
         // Calculate how many thaw (+0 degrees) days there are out of three
         var thawDays = 0;
+        
         if (weather.temperature.firstDayAverage >= 0) {
           ++thawDays;
-          weather.temperature.thawDays.push(`${firstDayStart.getFullYear()}-${firstDayStart.getMonth()}-${firstDayStart.getDate()}`);
+          weather.temperature.thawDays.push(`${firstDayStart.getDate()}.${firstDayStart.getMonth() + 1}.  ${weather.temperature.firstDayAverage.toFixed()}\xB0C`);
         }
         if (weather.temperature.secondDayAverage >= 0) {
           ++thawDays;
-          weather.temperature.thawDays.push(`${secondDay.getFullYear()}-${secondDay.getMonth()}-${secondDay.getDate()}`);
+          weather.temperature.thawDays.push(`${secondDay.getDate()}.${secondDay.getMonth() + 1}.  ${weather.temperature.secondDayAverage.toFixed()}\xB0C`);
         }
         if (weather.temperature.thirdDayAverage >= 0) {
           ++thawDays;
-          weather.temperature.thawDays.push(`${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`);
+          weather.temperature.thawDays.push(`${currentDate.getDate()}.${currentDate.getMonth() + 1}.  ${weather.temperature.thirdDayAverage.toFixed()}\xB0C`);
         }
+        
+        /*if (weather.temperature.firstDayAverage >= 0) {
+          ++thawDays;
+          weather.temperature.thawDays.push(`${firstDayStart.getFullYear()}-${firstDayStart.getMonth() + 1}-${firstDayStart.getDate()}`);
+        }
+        if (weather.temperature.secondDayAverage >= 0) {
+          ++thawDays;
+          weather.temperature.thawDays.push(`${secondDay.getFullYear()}-${secondDay.getMonth() + 1}-${secondDay.getDate()}`);
+        }
+        if (weather.temperature.thirdDayAverage >= 0) {
+          ++thawDays;
+          weather.temperature.thawDays.push(`${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`);
+        }*/
+
         weather.temperature = { ...weather.temperature, thawDaysOutOfThree: thawDays };
       }).catch((error) => {
         console.log(error);
@@ -560,13 +589,19 @@ function WeatherTab() {
 
   fetchWeather();
 
+  const handleReturnClick = () => {
+    setDisplayWeatherStatistics(false);
+  };
+
+  const handleMoreInformationClick = () => {
+    setDisplayWeatherStatistics(true);
+  };
+
   return (
     <div>
-      <Wheel weatherState={weatherState}></Wheel>
-      <Statistics weatherState={weatherState}></Statistics>
-      <p style={{display: "none"}}>
-        {weatherState.winter.strongWindDirectionX}
-      </p>
+      {!displayWeatherStatistics ?
+        <WeatherInfo weatherState={weatherState} handleMoreInformationClick={handleMoreInformationClick}/> :
+        <Statistics weatherState={weatherState} handleReturnClick={handleReturnClick}/>}
     </div>
   );
 }

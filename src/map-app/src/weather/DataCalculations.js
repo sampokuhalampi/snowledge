@@ -73,10 +73,10 @@ export function getThreeDayWindStatistics(data) {
   }
 
   return {
-    firstDayAverage: toDegrees(Math.atan2(firstDayCountY, firstDayCountX)),
-    secondDayAverage: toDegrees(Math.atan2(secondDayCountY, secondDayCountX)),
-    thirdDayAverage: toDegrees(Math.atan2(thirdDayCountY, thirdDayCountX)),
-    threeDaysAverage: toDegrees(Math.atan2(firstDayCountY + secondDayCountY + thirdDayCountY, firstDayCountX + secondDayCountX +  thirdDayCountX))
+    firstDayAverage: (toDegrees(Math.atan2(firstDayCountY, firstDayCountX)) + 360) % 360,
+    secondDayAverage: (toDegrees(Math.atan2(secondDayCountY, secondDayCountX)) + 360) % 360,
+    thirdDayAverage: (toDegrees(Math.atan2(thirdDayCountY, thirdDayCountX)) + 360) % 360,
+    threeDaysAverage: (toDegrees(Math.atan2(firstDayCountY + secondDayCountY + thirdDayCountY, firstDayCountX + secondDayCountX +  thirdDayCountX)) + 360) % 360
   };
 }
 
@@ -217,9 +217,9 @@ export function getCurrentAirPressureInfo(data) {
   /*
   Air pressure direction according to change during three hours
 
-  >= 0.1 hPa fall per hour : direction 1 (down)
-  < 0.1 hPa change in 3hrs : direction 2 (steady)
-  >= 0.1 hPa rise per hour : direction 3 (up)
+  >= 0.1 hPa fall per hour : direction 135 (down)
+  < 0.1 hPa change in 3hrs : direction 90 (steady)
+  >= 0.1 hPa rise per hour : direction 45 (up)
 
   */
 
@@ -229,15 +229,15 @@ export function getCurrentAirPressureInfo(data) {
 
   var threeHoursAgo = Number(measurements[measurements.length - 19].lastElementChild.innerHTML);
 
-  var direction = 2;
+  var direction = 90;
   if (Math.abs(current - threeHoursAgo) < 0.1) {
-    direction = 2;
+    direction = 90;
   } else {
     var changeDuringOneHour = current - hourAgo;
     if (changeDuringOneHour >= 0.1) {
-      direction = 3;
+      direction = 45;
     } else if (changeDuringOneHour <= -0.1) {
-      direction = 1;
+      direction = 135;
     }
   }
 
@@ -252,16 +252,21 @@ export function getWinterTemperatures(data) {
   var array = [];
   for (let i = 0; i < measurements.length; i++) {
     var temp = Number(measurements[i].lastElementChild.innerHTML);
-    array.push(Math.round(temp));
+
+    var roundedTemp = Math.round(temp);
+    if (roundedTemp === 0) {
+      roundedTemp = 0;
+    }
+    array.push(roundedTemp);
     if (temp > 0) {
       ++thawDays;
     }
   }
 
-  const sortedArray = array.sort();
-  const len = array.length;
+  const sortedArray = array.sort(function(a,b){return a-b;});
+  const len = sortedArray.length;
   const mid = Math.ceil(len / 2);
-  const median = len % 2 == 0 ? (sortedArray[mid] + sortedArray[mid - 1]) / 1 : sortedArray[mid - 1];
+  const median = len % 2 === 0 ? (sortedArray[mid] + sortedArray[mid - 1]) / 2 : sortedArray[mid];
 
   return { thawDays: thawDays, median: median };
 }
@@ -334,4 +339,10 @@ export function getWinterWindStats(speeds, directions) {
   }
 
   return { maxWind: maxWind, strongWindDirectionX: directionX, strongWindDirectionY: directionY, strongWindDays: dayCount };
+}
+
+// Return verbal wind direction for degrees
+export function getWindDirection(degrees) {
+  const directions = ["pohjoinen", "koillinen", "itä", "kaakko", "etelä", "lounas", "länsi", "luode"];
+  return directions[Math.round(degrees / 45) % 8];
 }
