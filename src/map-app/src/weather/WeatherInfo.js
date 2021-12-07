@@ -6,7 +6,7 @@ Created: Oona Laitamaki
 
 Latest update
 
-28.10.2021 Oona Laitamaki
+28.11.2021 Oona Laitamaki
 Create user interface for showing weather information on mobile and laptop view
 
 31.10.2021 Oona Laitamaki
@@ -46,14 +46,6 @@ const useStyles = makeStyles(() => ({
     textTransform: "uppercase",
     textAlign: "center",
   },
-  card: {
-    paddingLeft: "5%",
-    paddingRight: "5%",
-    margin: "5%",
-    align: "center",
-    backgroundColor: "rgba(255,255,255,0.9)",
-    borderRadius: "10px",
-  },
   paper: {
     borderRadius: "10px",
     paddingTop: "1%",
@@ -62,16 +54,16 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "rgba(255,255,255,0.7)",
     marginLeft: "10%",
     marginRight: "10%",
-    minHeight: "600px",
+    minHeight: "95%",
     alignContent: "center",
   },
   upperGridContainer: {
     justifyContent: "center",
-    paddingTop: "30px",
+    paddingTop: "10px",
   },
   gridContainer: {
     justifyContent: "center",
-    paddingBottom: "30px",
+    paddingBottom: "20px",
     alignItems: "center",
   },
   paperHeader: {
@@ -88,27 +80,27 @@ const useStyles = makeStyles(() => ({
     letterSpacing: 2,
     fontWeight: 600,
     display: "block",
-    fontSize: "3vh",
+    fontSize: "2.5vh",
     textAlign: "left",
     paddingBottom: "10px",
   },
   text: {
     fontFamily: "Donau",
     letterSpacing: 2,
-    textTransform: "uppercase",
+    textTransform: "unset",
     fontWeight: 600,
     display: "block",
-    fontSize: "3vh",
+    fontSize: "2.6vh",
     textAlign: "left",
     paddingLeft: "20px",
   },
   subText: {
     fontFamily: "Donau",
     letterSpacing: 2,
-    textTransform: "uppercase",
+    textTransform: "unset",
     fontWeight: 400,
     display: "block",
-    fontSize: "3vh",
+    fontSize: "2.3vh",
     textAlign: "left",
     paddingLeft: "20px",
   },
@@ -117,7 +109,7 @@ const useStyles = makeStyles(() => ({
   },
   airpressureDirection: {
     transform: props => "rotate(" + props.airpressureDirection + "deg)",
-    fontSize: "4vh"
+    fontSize: "3.4vh"
   }
 }));
 
@@ -141,7 +133,7 @@ function FirstDayWeatherPaper({weatherState}) {
               component={"img"}
               style={{fill: "#FFFFFF"}}
               src={process.env.PUBLIC_URL + "/icons/weather/temperature.svg"}
-              alt="lumityypin logo"
+              alt="temperature icon"
             />
           </Grid>
           <Grid item xs={8} sm={6}>
@@ -159,7 +151,7 @@ function FirstDayWeatherPaper({weatherState}) {
               component={"img"}
               style={{fill: "#FFFFFF"}}
               src={process.env.PUBLIC_URL + "/icons/weather/snow.svg"}
-              alt="lumityypin logo"
+              alt="snowflake icon"
             />
           </Grid>
           <Grid item xs={8} sm={6}>
@@ -177,7 +169,7 @@ function FirstDayWeatherPaper({weatherState}) {
               component={"img"}
               className={classes.navigationIcon}
               src={process.env.PUBLIC_URL + "/icons/weather/winddirection.svg"}
-              alt="lumityypin logo"
+              alt="wind direction icon"
             />
           </Grid>
           <Grid item xs={8} sm={6} style={{alignContent: "center"}}>
@@ -196,7 +188,7 @@ function FirstDayWeatherPaper({weatherState}) {
               component={"img"}
               style={{fill: "#FFFFFF"}}
               src={process.env.PUBLIC_URL + "/icons/weather/airpressure.svg"}
-              alt="lumityypin logo"
+              alt="air pressure icon"
             />
           </Grid>
           <Grid item xs={8} sm={6}>
@@ -230,7 +222,7 @@ function SecondDayWeatherPaper({weatherState}) {
               component={"img"}
               style={{fill: "#FFFFFF"}}
               src={process.env.PUBLIC_URL + "/icons/weather/temperature.svg"}
-              alt="lumityypin logo"
+              alt="temperature icon"
             />
           </Grid>
           <Grid item xs={8} sm={6}>
@@ -248,7 +240,7 @@ function SecondDayWeatherPaper({weatherState}) {
               component={"img"}
               style={{fill: "#FFFFFF"}}
               src={process.env.PUBLIC_URL + "/icons/weather/snow.svg"}
-              alt="lumityypin logo"
+              alt="snowflake icon"
             />
           </Grid>
           <Grid item xs={8} sm={6}>
@@ -266,7 +258,7 @@ function SecondDayWeatherPaper({weatherState}) {
               component={"img"}
               className={classes.navigationIcon}
               src={process.env.PUBLIC_URL + "/icons/weather/winddirection.svg"}
-              alt="lumityypin logo"
+              alt="wind direction icon"
             />
           </Grid>
           <Grid item xs={8} sm={6} style={{alignContent: "center"}}>
@@ -285,7 +277,7 @@ function SecondDayWeatherPaper({weatherState}) {
               component={"img"}
               style={{fill: "#FFFFFF"}}
               src={process.env.PUBLIC_URL + "/icons/weather/airpressure.svg"}
-              alt="lumityypin logo"
+              alt="air pressure icon"
             />
           </Grid>
           <Grid item xs={8} sm={6}>
@@ -319,7 +311,7 @@ function CurrentWeatherPaper({weatherState}) {
               component={"img"}
               style={{fill: "#FFFFFF"}}
               src={process.env.PUBLIC_URL + "/icons/weather/temperature.svg"}
-              alt="lumityypin logo"
+              alt="temperature icon"
             />
           </Grid>
           <Grid item xs={6} sm={6}>
@@ -337,7 +329,7 @@ function CurrentWeatherPaper({weatherState}) {
               component={"img"}
               style={{fill: "#FFFFFF"}}
               src={process.env.PUBLIC_URL + "/icons/weather/snow.svg"}
-              alt="lumityypin logo"
+              alt="snowflake icon"
             />
           </Grid>
           <Grid item xs={6} sm={6}>
@@ -355,7 +347,7 @@ function CurrentWeatherPaper({weatherState}) {
               component={"img"}
               className={classes.navigationIcon}
               src={process.env.PUBLIC_URL + "/icons/weather/winddirection.svg"}
-              alt="lumityypin logo"
+              alt="wind direction icon"
             />
           </Grid>
           <Grid item xs={6} sm={6} style={{alignContent: "center"}}>
@@ -374,13 +366,13 @@ function CurrentWeatherPaper({weatherState}) {
               component={"img"}
               style={{fill: "#FFFFFF"}}
               src={process.env.PUBLIC_URL + "/icons/weather/airpressure.svg"}
-              alt="lumityypin logo"
+              alt="air pressure icon"
             />
           </Grid>
           <Grid item xs={6} sm={6}>
             <Typography className={classes.text}>{`${weatherState.airpressure.current} mBar`}</Typography>
             
-            <Typography className={classes.subText} style={{verticalAlign: "middle", display: "flex", left: "1%"}}>Muutos
+            <Typography className={classes.subText} style={{verticalAlign: "middle", display: "flex", left: "1%"}}>muutos
               <CallMadeIcon className={classes.airpressureDirection} />
             </Typography>
           </Grid>
@@ -393,6 +385,7 @@ function CurrentWeatherPaper({weatherState}) {
 }
 
 
+// Element for displaying three day weather info
 function WeatherInfo({weatherState, handleMoreInformationClick}) {
   const carouselRef = React.useRef(null);
   const classes = useStyles({windDirection: weatherState.winddirection.current - 180});
@@ -417,9 +410,9 @@ function WeatherInfo({weatherState, handleMoreInformationClick}) {
               textColor="primary"
               centered
             >
-              <Tab label={<div><Typography className={classes.tabsText}>{weatherState.firstDay}</Typography><Typography className={classes.tabsText}>Toissapäivänä</Typography></div>} />
-              <Tab label={<div><Typography className={classes.tabsText}>{weatherState.secondDay}</Typography><Typography className={classes.tabsText}>Eilen</Typography></div>} />
-              <Tab label={<div><Typography className={classes.tabsText}>{weatherState.thirdDay}</Typography><Typography className={classes.tabsText}>Nyt</Typography></div>} />
+              <Tab label={<div><Typography className={classes.tabsText}>{weatherState.dates.firstDay}</Typography><Typography className={classes.tabsText}>Toissapäivänä</Typography></div>} />
+              <Tab label={<div><Typography className={classes.tabsText}>{weatherState.dates.secondDay}</Typography><Typography className={classes.tabsText}>Eilen</Typography></div>} />
+              <Tab label={<div><Typography className={classes.tabsText}>{weatherState.dates.thirdDay}</Typography><Typography className={classes.tabsText}>Nyt</Typography></div>} />
             </Tabs>
           </Paper>
           
@@ -442,7 +435,8 @@ function WeatherInfo({weatherState, handleMoreInformationClick}) {
               style: {
                 backgroundColor: "rgba(255,255,255,0.2)",
                 padding: "5px",
-                borderRadius: 50
+                borderRadius: 50,
+                color: "black",
               }
             }}
           >
@@ -460,31 +454,28 @@ function WeatherInfo({weatherState, handleMoreInformationClick}) {
             onClick={handleMoreInformationClick}
             variant="contained"
             style={{
-              backgroundColor: "rgba(255,255,255,0.9)",
-              fontFamily: "Donau",
-              textTransform: "unset",
-              fontSize: "3vh",
+              backgroundColor: "rgba(255,255,255,0.6)",
               position: "absolute",
-              right: "15px",
-              top: "90%",
+              right: 5,
+              top: 450,
               borderRadius: "100%",
-              padding: "20px"}}
+              padding: "18px"}}
           >
-            <EqualizerIcon style={{fontSize: "5vh"}}/>
+            <EqualizerIcon style={{fontSize: "4vh"}}/>
           </Button>
         </div> : 
         <div>
-          <Grid item xs={12} sm={12} container style={{padding: "100px"}}>
+          <Grid item xs={12} sm={12} container style={{padding: "30px", position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)"}}>
             <Grid item xs={4} sm={4}>
-              <Typography className={classes.tabsText}>{weatherState.firstDay}</Typography>
+              <Typography className={classes.tabsText}>{weatherState.dates.firstDay}</Typography>
               <Typography className={classes.tabsText}>Toissapäivänä</Typography>
             </Grid>
             <Grid item xs={4} sm={4}>
-              <Typography className={classes.tabsText}>{weatherState.secondDay}</Typography>
+              <Typography className={classes.tabsText}>{weatherState.dates.secondDay}</Typography>
               <Typography className={classes.tabsText}>Eilen</Typography>
             </Grid>
             <Grid item xs={4} sm={4}>
-              <Typography className={classes.tabsText}>{weatherState.thirdDay}</Typography>
+              <Typography className={classes.tabsText}>{weatherState.dates.thirdDay}</Typography>
               <Typography className={classes.tabsText}>Nyt</Typography>
             </Grid>
             <Grid item xs={4} sm={4}>
@@ -496,7 +487,7 @@ function WeatherInfo({weatherState, handleMoreInformationClick}) {
             <Grid item xs={4} sm={4}>
               <CurrentWeatherPaper weatherState={weatherState}/>
             </Grid>
-            <Grid item xs={12} sm={12} container style={{justifyContent: "end", padding: "30px", paddingRight: "80px"}}>
+            <Grid item xs={12} sm={12} container style={{justifyContent: "end", paddingTop: "2%", paddingBottom: "5%", paddingRight: "8%"}}>
               <Button
                 onClick={handleMoreInformationClick}
                 variant="contained"
