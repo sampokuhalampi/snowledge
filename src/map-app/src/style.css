@@ -86,7 +86,7 @@ body {
   background-color: white;
 }
 
-.maplibregl-ctrl-scale {
+.maplibregl-ctrl-bottom-right {
   position: absolute;
   bottom: 60px;
   right: 5px;
@@ -118,6 +118,34 @@ body {
   width: 75vw;
   position: absolute;
   background-color: white;
+}
+
+/* Styling for mobile devices */
+@media (max-width: 900px) {
+  .app .management_view {
+    width: 100vw;
+  }
+
+  .app .snow_tab {
+    width: 100vw;
+  }
+
+  .app .map_container {
+    width: 100vw;
+  }
+
+  .app .weather_tab {
+    width: 100vw;
+  }
+
+  .welcome_view {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    z-index: 6;
+  }
 }
 
 /*
