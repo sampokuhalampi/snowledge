@@ -18,7 +18,7 @@ import Button from "@material-ui/core/Button";
 const useStyles = makeStyles(() => ({
   root: {
     backgroundColor: "#292929",
-    height: "100vh",
+    height: "100%",
     display: "flex",
     flexFlow: "column"
   },
@@ -58,7 +58,7 @@ const useStyles = makeStyles(() => ({
   },
   mobileRoot: {
     backgroundColor: "rgba(0, 0, 0, 0.8)",
-    height: "100vh",
+    height: "100%",
     display: "flex",
     flexFlow: "column"
   },

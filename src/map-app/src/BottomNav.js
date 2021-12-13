@@ -22,12 +22,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 
 const useStyles = makeStyles(() => ({
   navbar: {
-    display: "flex",
-    height: "55px",
-    justifyContent: "center",
     backgroundColor: "rgba(0, 0, 0, 0.8)",
-    position: "absolute",
-    bottom: 0,
     width: "75vw"
   }
 }));
@@ -50,7 +45,7 @@ function BottomNav(props) {
   // Use styles
   const styledClasses = useStyles();
 
-  if(props.user === null) {
+  if(props.user === null || props.user === undefined) {
     return(
       <ThemeProvider theme={navBarTheme}>
         <BottomNavigation
