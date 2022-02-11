@@ -1,0 +1,58 @@
+#Jetbrains toolbox
+.idea
+
+#Below are combined old .gitignore files
+#map-app .gitignore file
+
+# dependencies
+src/map-app/node_modules
+src/map-app/.pnp
+src/map-app/.pnp.js
+
+# testing
+src/map-app/coverage
+
+# production
+src/map-app/build
+
+# misc
+src/map-app/.DS_Store
+src/map-app/.env.local
+src/map-app/.env.development.local
+src/map-app/.env.test.local
+src/map-app/.env.production.local
+src/map-app/.env
+
+src/map-app/npm-debug.log*
+src/map-app/yarn-debug.log*
+src/map-app/yarn-error.log*
+
+
+#src .gitignore file
+
+# dependencies
+src/node_modules
+src/.pnp
+src/.pnp.js
+
+# testing
+src/coverage
+
+# production
+src/build
+
+# misc
+src/.DS_Store
+src/.env.local
+src/.env.development.local
+src/.env.test.local
+src/.env.production.local
+src/.env
+
+src/npm-debug.log*
+src/yarn-debug.log*
+src/yarn-error.log*
+
+#Vagrant .gitignore file
+vagrant/.vagrant
+vagrant/ubuntu*console.log

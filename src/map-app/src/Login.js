@@ -147,6 +147,7 @@ function Login(props) {
       <div className={styledClasses.snowIcon} >
         {loading ? <CircularProgress color="secondary" size={20} /> :
           <IconButton
+            title={"openloginwindow"}
             onClick={openLogin}
           >
             {/* <Typography variant="button">{(loading ? "Kirjaudutaan" : "Kirjaudu")}</Typography>
