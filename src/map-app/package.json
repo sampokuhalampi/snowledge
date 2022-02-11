@@ -30,7 +30,7 @@
     "start": "react-scripts start",
     "watch": "npm-watch",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "cypress open",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.js"
   },
