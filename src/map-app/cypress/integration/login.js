@@ -13,7 +13,7 @@ describe("Login", () => {
     cy.findByRole("textbox", {  name: /email/i}).type(email);
     cy.findByLabelText(/salasana/i).type(password);
     cy.findByRole("button", { name: /kirjaudu/i }).click();
-    cy.findByRole("button", { name: /hallitse/i }).should("be.visible");
+    cy.findByRole("button", { name: /hallitse/i }, {timeout: 15000}).should("be.visible");
 
     //User login
     //
