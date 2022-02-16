@@ -1,8 +1,7 @@
-// eslint-disable-next-line no-undef
 describe("Login", () => {
 
 
-  // eslint-disable-next-line no-undef
+
   it("Ski resort employee logs in",() => {
 
     const email = "test@test.fi";
@@ -13,7 +12,7 @@ describe("Login", () => {
     cy.findByRole("textbox", {  name: /email/i}).type(email);
     cy.findByLabelText(/salasana/i).type(password);
     cy.findByRole("button", { name: /kirjaudu/i }).click();
-    cy.findByRole("button", { name: /hallitse/i }, {timeout: 15000}).should("be.visible");
+    cy.findByRole("button", { name: /hallitse/i },{timeout: 15000}).should("be.visible");
 
     //User login
     //
