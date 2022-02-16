@@ -657,7 +657,7 @@ function Info(props) {
                         <Box className={classes.item} boxShadow={2}>
                           <Box display="flex" flexDirection="row">
                             <Typography className={classes.smallHeaders}>{item.secondary ? "Toissijainen tyyppi" : "Ensisijainen tyyppi"}</Typography>
-                            <IconButton onClick={() => removeSnowtype(item)} style={isXS ? { left: "30%" } : { left: "35%" }} >
+                            <IconButton onClick={() => removeSnowtype(item)} style={isXS ? { left: "30%" } : { left: "35%" }} id="deleteSnowType">
                               <DeleteIcon />
                             </IconButton>
                           </Box>
