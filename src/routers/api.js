@@ -159,6 +159,33 @@ router.get("/lumilaadut", function(req, res) {
     });
 });
 
+
+
+//Arvioinnin lisääminen lumi-informaatioon
+router.post("/review/:id", function(req, res) {
+  
+  if(req.body.Segmentti != req.params.id)
+  {
+    res.json("Segmentti numerot eivät täsmää");
+    res.status(400);
+  }
+  database.query("INSERT INTO KayttajaArviot(Aika, Segmentti, Arvio, Lumilaatu, Kommentti) VALUES(NOW(), ?, ?, ?, ?)",
+    [ 
+      req.body.Segmentti,
+      req.body.Arvio,
+      req.body.Lumilaatu,
+      req.body.Kommentti
+    ],
+    function (err) {
+      if (err) throw err;
+      res.json("Insert was succesfull");
+      res.status(204);
+    });
+});
+
+
+
+
 //Salasanan tarkistus
 
 router.use(function(req, res, next) {

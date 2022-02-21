@@ -444,12 +444,48 @@ function Info(props) {
     setDisabledSnowTypes(newContent2);
   };
 
+
+
+
+  const openReview = () => {
+
+    let datavalues = [];
+    datavalues[0] = props.segmentdata.ID;
+    datavalues[1] = null;
+    datavalues[2] = 6;
+    datavalues[3] = "Hello world";
+
+    const data = {
+      Segmentti: datavalues[0],
+      Arvio: datavalues[1],
+      Lumilaatu: datavalues[2],
+      Kommentti: datavalues[3],
+    };
+
+    const fetchReview = async () => {
+      //setLoading(true);
+      const response = await fetch("api/review/" + props.segmentdata.ID,
+        {
+          method: "POST",
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+      const res = await response.json();
+      console.log(res);
+    };
+    fetchReview();
+  };
+
+
+
+
   // Kun lomake lähetetään, tehdään POST methodin api-kutsu polkuun /api/update/:id
   const sendForm = () => {
 
     const idValues = getSnowRecordContentIDs();
-
-
 
     let datavalues = [];
 
@@ -704,6 +740,13 @@ function Info(props) {
       return (
         <div className="info">
           <SnowRecordView segmentdata={props.segmentdata} close={closeShownSegment}></SnowRecordView>
+          <IconButton
+            className={classes.editButton}
+            onClick={openReview}
+          >
+            <EditIcon />
+            <Typography className={classes.smallHeaders} variant="button">Arvioi</Typography>
+          </IconButton>
         </div>
       );
     }
