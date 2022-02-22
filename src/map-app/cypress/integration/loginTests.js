@@ -1,5 +1,6 @@
-describe("Login as administrator and operator", ()=>{
+describe("Login", () => {
 
+  //Desktop
   it("Administrator login and get access to user managing tab", ()=>{
     const email = "test@test.fi";
     const password = "testi";
@@ -29,5 +30,6 @@ describe("Login as administrator and operator", ()=>{
     cy.findByRole("button", {  name: /käyttäjät/i}).click();
     cy.findByRole("heading", { name: /käyttäjähallinta vaatii admin-oikeudet/i });
   });
+
 
 });

@@ -2,6 +2,8 @@
 describe("Snow information", () => {
 
 
+  //Desktop tests
+
   // eslint-disable-next-line no-undef
   it("Ski resort employee updates main snow type of a segment",() => {
     const email = "test@test.fi";
@@ -77,4 +79,6 @@ describe("Snow information", () => {
     cy.findByText(/Hello world/i).should("not.exist");
   
   });
+
+
 });
