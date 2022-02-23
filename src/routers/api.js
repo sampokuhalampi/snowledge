@@ -149,6 +149,27 @@ router.get("/segments/update", function(req, res) {
 });
 
 
+//arviointien haku
+router.get("/reviews", function(req, res) {
+  database.query(
+    `SELECT ID, Aika, Segmentti, Arvio, Lumilaatu, Kommentti
+  FROM KayttajaArviot
+  WHERE (Segmentti, Aika)
+  IN
+  (SELECT Segmentti, MAX(Aika)
+    FROM KayttajaArviot
+    GROUP BY(Segmentti)
+   )
+   AND Aika > NOW() - INTERVAL 1 WEEK
+   ORDER BY(Segmentti)`,
+    function (err, result, fields) {
+      if (err) throw err;
+      res.json(result);
+      res.status(200);
+    });
+});
+
+
 //lumilaatujen haku
 router.get("/lumilaadut", function(req, res) {
   database.query("Select * FROM Lumilaadut", 

@@ -6,6 +6,9 @@ Luonut: Markku Nirkkonen
 
 Päivityshistoria
 
+23.2.2021 Juho Räisänen
+Created API-calls for user review data
+
 13.12.2021 Juho Kumara
 Updated styling, minor fixes.
 
@@ -445,8 +448,17 @@ function Info(props) {
   };
 
 
+  //Haetaan kaikki review-data tietokannasta
+  const getReviews = async () => {
 
+    const reviews = await fetch("api/reviews");
+    const reviewData = await reviews.json();
 
+    console.log("Reviews: ");
+    console.log(reviewData);
+  };
+
+  //Kun käyttäjä arvioi lumitietoja, lähetetään POST -methodin api- kutsu api/review
   const openReview = () => {
 
     let datavalues = [];
@@ -477,7 +489,9 @@ function Info(props) {
       console.log(res);
     };
     fetchReview();
+    getReviews();
   };
+
 
 
 
@@ -740,6 +754,7 @@ function Info(props) {
       return (
         <div className="info">
           <SnowRecordView segmentdata={props.segmentdata} close={closeShownSegment}></SnowRecordView>
+
           <IconButton
             className={classes.editButton}
             onClick={openReview}
