@@ -72,6 +72,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import SearchIcon from "@material-ui/icons/Search";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import SnowRecordView from "./SnowRecordView";
+import UserReviewView from  "./UserReviewView";
 import { useMediaQuery } from "react-responsive";
 
 // Changes button color palette. Muuttaa nappien väripalettia.
@@ -754,7 +755,7 @@ function Info(props) {
       return (
         <div className="info">
           <SnowRecordView segmentdata={props.segmentdata} close={closeShownSegment}></SnowRecordView>
-
+          <UserReviewView segmentdata={props.segmentdata}></UserReviewView>
           <IconButton
             className={classes.editButton}
             onClick={openReview}
