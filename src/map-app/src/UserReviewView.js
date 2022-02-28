@@ -1,6 +1,6 @@
 import React from "react";
 
-function UserReviewView({segmentdata}) {
+function UserReviewView({segmentdata, writeReviewEnabled}) {
 
   let timeSinceUpdate = "";
   let userTime = null;
@@ -70,7 +70,7 @@ function UserReviewView({segmentdata}) {
 
 
   return (
-    <div>
+    <div style={{display: writeReviewEnabled === true ? "none" : ""}}>
       Käyttäjien arvio
       <p>Käyttäjä Lumilaatu: {userSnowType === null ? "Ei saatavilla" : userSnowType}</p>
       {console.log(userSnowType)}

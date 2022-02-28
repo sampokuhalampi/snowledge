@@ -156,7 +156,7 @@ function getRelativeTimestamp(current, previous) {
   }
 }
 
-function SnowRecordView({ segmentdata, close }) {
+function SnowRecordView({ segmentdata,writeReviewEnabled, close }) {
   const classes = useStyles();
   // Avalanche warning LINK
   const url = "https://www.pallaksenpollot.com/";
@@ -292,42 +292,43 @@ function SnowRecordView({ segmentdata, close }) {
         </Grid>
       </Grid>
 
-      {/* Avalanche warning and icon if needed */}
-      <Grid item xs={12} sm={12} align="center">
-        {segmentdata === null ? null : dangerimage}
-        {segmentdata === null ? null : dangertext}
-      </Grid>
-
-      {/* Forest segment view */}
-      {segmentdata.Nimi === "Metsä" &&
-        <Grid item xs={12} sm={12} container className={classes.addPadding}>
-          <Grid item xs={12} sm={5} container className={classes.snowInfo}>
-            <Grid item xs={4} sm={3}>
-              <CardMedia
-                component={"img"}
-                src={process.env.PUBLIC_URL + "/icons/snowtypes-and-harms/icon_forest.svg"}
-                alt="lumityypin logo"
-              />
-            </Grid>
-            <Grid item container xs={8} sm={9} className={classes.snowInfo}>
-              <Grid item xs={12} sm={12}>
-                <Typography className={classes.smallHeaders} variant="body1" component="p">
-                  Metsäalue
-                </Typography>
+      <div style={{display: writeReviewEnabled === true ? "none" : ""}}>
+        {/* Avalanche warning and icon if needed */}
+        <Grid item xs={12} sm={12} align="center">
+          {segmentdata === null ? null : dangerimage}
+          {segmentdata === null ? null : dangertext}
+        </Grid>
+        
+        {/* Forest segment view */}
+        {segmentdata.Nimi === "Metsä" && 
+          <Grid item xs={12} sm={12} container className={classes.addPadding}>
+            <Grid item xs={12} sm={5} container className={classes.snowInfo}>
+              <Grid item xs={4} sm={3}>
+                <CardMedia 
+                  component={"img"} 
+                  src={process.env.PUBLIC_URL + "/icons/snowtypes-and-harms/icon_forest.svg"} 
+                  alt="lumityypin logo"
+                />
+              </Grid>
+              <Grid item container xs={8} sm={9} className={classes.snowInfo}>
+                <Grid item xs={12} sm={12}>
+                  <Typography className={classes.smallHeaders} variant="body1" component="p">
+                    Metsäalue
+                  </Typography>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        </Grid>}
-
-      {/* Pohjamaasto, kommentoi näkyviin jos halutaan näyttää */}
-      {/* <Typography variant="subtitle1" align="center" component="p">
+          </Grid>}
+        
+        {/* Pohjamaasto, kommentoi näkyviin jos halutaan näyttää */}
+        {/* <Typography variant="subtitle1" align="center" component="p">
           {segmentdata === null ? "Ei tietoa pohjamaastosta" : segmentdata.Maasto}
-      </Typography> */}
-      {(!isEmpty) &&
-        <Grid item xs={12} sm={12} container className={classes.addPadding}>
+          </Typography> */}
+        {(!isEmpty) && 
+          <Grid item xs={12} sm={12} container className={classes.addPadding}>
 
-          {/* Main snowtype info */}
-          {isEnabled(1) &&
+            {/* Main snowtype info */}
+            {isEnabled(1) &&
             <Grid item xs={12} sm={5} container className={classes.snowInfo}>
               <Grid item xs={4} sm={3}>
                 {/* Segmentin logon tulee olla nimetty segmentin ID:n kanssa yhtenevästi */}
@@ -353,8 +354,8 @@ function SnowRecordView({ segmentdata, close }) {
               </Grid>
             </Grid>}
 
-          {/* Main snowtype info 2 */}
-          {isEnabled(2) &&
+            {/* Main snowtype info 2 */}
+            {isEnabled(2) &&
             <Grid item xs={12} sm={5} container className={classes.snowInfo}>
               <Grid item xs={4} sm={3}>
                 {/* Segmentin logon tulee olla nimetty segmentin ID:n kanssa yhtenevästi */}
@@ -380,8 +381,8 @@ function SnowRecordView({ segmentdata, close }) {
               </Grid>
             </Grid>}
 
-          {/* Info about latest update time */}
-          {isXS &&
+            {/* Info about latest update time */}
+            {isXS &&
             <Grid item xs={12} sm={12} container>
               <Grid item xs={12} sm={5}>
                 <Typography className={classes.timeStamp} align="left" variant="body2" component="p">
@@ -389,8 +390,8 @@ function SnowRecordView({ segmentdata, close }) {
                 </Typography>
               </Grid>
             </Grid >
-          }
-          {(isEnabled(3) || isEnabled(4) || description !== "") &&
+            }
+            {(isEnabled(3) || isEnabled(4) || description !== "") &&
             <Grid item xs={12} sm={12}>
               <Collapse in={expanded} timeout="auto" unmountOnExit>
 
@@ -493,20 +494,20 @@ function SnowRecordView({ segmentdata, close }) {
               </Collapse>
             </Grid>}
 
-          {/* Description of segment, this might be changed later */}
-          {!isXS && <Grid item xs={12} sm={12} align="center" style={{ paddingTop: "15px", paddingBottom: "15px" }}>
-            {description !== "" && <InputBase
-              className={classes.normalText}
-              value={description}
-              fullWidth={true}
-              multiline
-              maxRows={6}
-            />
-            }
+            {/* Description of segment, this might be changed later */}
+            {!isXS && <Grid item xs={12} sm={12} align="center" style={{ paddingTop: "15px", paddingBottom: "15px" }}>
+              {description !== "" && <InputBase
+                className={classes.normalText}
+                value={description}
+                fullWidth={true}
+                multiline
+                maxRows={6}
+              />
+              }
 
-          </Grid>}
-          {/* Info about latest update time */}
-          {!isXS &&
+            </Grid>}
+            {/* Info about latest update time */}
+            {!isXS &&
             <Grid item sm={12} container>
               <Grid item sm={5}>
                 <Typography className={classes.timeStamp} variant="body2" component="p">
@@ -514,9 +515,9 @@ function SnowRecordView({ segmentdata, close }) {
                 </Typography>
               </Grid>
             </Grid >
-          }
+            }
 
-          {(isXS && (isEnabled(3) || isEnabled(4) || description !== "")) &&
+            {(isXS && (isEnabled(3) || isEnabled(4) || description !== "")) &&
             <Grid item xs={12} align="center">
               <IconButton
                 className={expanded ? classes.expandOpen : classes.expandClosed}
@@ -528,16 +529,17 @@ function SnowRecordView({ segmentdata, close }) {
                 <img src={`${process.env.PUBLIC_URL}/icons/expand.svg`} width="80%" height="15px" alt="expand" fill="black"></img>
               </IconButton>
             </Grid>
-          }
-        </Grid>}
-      {(isEmpty) &&
-        <Grid item xs={12} sm={12} container className={classes.addPadding}>
-          <Typography className={classes.timeStamp} align="center">
-            Ei havaintoja alueelta.
-          </Typography>
-        </Grid>
-      }
-    </Grid>
+            }
+          </Grid>}
+        {(isEmpty) && 
+          <Grid item xs={12} sm={12} container className={classes.addPadding}>
+            <Typography className={classes.timeStamp} align="center">
+              Ei havaintoja alueelta.
+            </Typography>
+          </Grid>
+        }
+      </div>
+    </Grid> 
   );
 }
 

@@ -73,6 +73,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import SnowRecordView from "./SnowRecordView";
 import UserReviewView from  "./UserReviewView";
+import WriteUserReview from "./WriteUserReview";
 import { useMediaQuery } from "react-responsive";
 
 // Changes button color palette. Muuttaa nappien väripalettia.
@@ -183,6 +184,8 @@ function Info(props) {
   const [disabledSnowTypes, setDisabledSnowTypes] = React.useState([]);
   const [updateEnabled, setUpdateEnabled] = React.useState(false);
 
+  const [writeReviewEnabled, setWriteReviewEnabled] = React.useState(false);
+
   const classes = useStyles();
 
   const isXS = useMediaQuery({ query: "(max-width: 599px)" });
@@ -230,6 +233,7 @@ function Info(props) {
   // Nollataan valittu segmentti sulkiessa
   function closeShownSegment() {
     props.onClose(null);
+    setWriteReviewEnabled(false);
   }
 
   // Hides unnecessary information on snow record entry view, if checkbox is checked.
@@ -449,49 +453,6 @@ function Info(props) {
   };
 
 
-  //Haetaan kaikki review-data tietokannasta
-  const getReviews = async () => {
-
-    const reviews = await fetch("api/reviews");
-    const reviewData = await reviews.json();
-
-    console.log("Reviews: ");
-    console.log(reviewData);
-  };
-
-  //Kun käyttäjä arvioi lumitietoja, lähetetään POST -methodin api- kutsu api/review
-  const openReview = () => {
-
-    let datavalues = [];
-    datavalues[0] = props.segmentdata.ID;
-    datavalues[1] = null;
-    datavalues[2] = 6;
-    datavalues[3] = "Hello world";
-
-    const data = {
-      Segmentti: datavalues[0],
-      Arvio: datavalues[1],
-      Lumilaatu: datavalues[2],
-      Kommentti: datavalues[3],
-    };
-
-    const fetchReview = async () => {
-      //setLoading(true);
-      const response = await fetch("api/review/" + props.segmentdata.ID,
-        {
-          method: "POST",
-          headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        });
-      const res = await response.json();
-      console.log(res);
-    };
-    fetchReview();
-    getReviews();
-  };
 
 
 
@@ -754,14 +715,15 @@ function Info(props) {
       // Kirjautumattoman käyttäjän näkymät (muokkaustoimintoa ei ole)
       return (
         <div className="info">
-          <SnowRecordView segmentdata={props.segmentdata} close={closeShownSegment}></SnowRecordView>
-          <UserReviewView segmentdata={props.segmentdata}></UserReviewView>
+          <SnowRecordView segmentdata={props.segmentdata} writeReviewEnabled ={writeReviewEnabled} close={closeShownSegment}/>
+          <UserReviewView segmentdata={props.segmentdata} writeReviewEnabled ={writeReviewEnabled}/>
+          <WriteUserReview segmentdata={props.segmentdata} writeReviewEnabled ={writeReviewEnabled}/>
           <IconButton
             className={classes.editButton}
-            onClick={openReview}
+            onClick={() => setWriteReviewEnabled(!writeReviewEnabled)}
           >
             <EditIcon />
-            <Typography className={classes.smallHeaders} variant="button">Arvioi</Typography>
+            <Typography className={classes.smallHeaders} variant="button">{writeReviewEnabled === true ? "Takaisin" : "Arvioi"}</Typography>
           </IconButton>
         </div>
       );
