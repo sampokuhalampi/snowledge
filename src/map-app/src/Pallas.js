@@ -5,6 +5,8 @@ Luonut: Markku Nirkkonen
 
 Päivityshistoria
 
+28.2.2022 Jere Pesälä added Lumi5 variable for snow-type of the user review
+
 Juho Kumara 3.12.2021 Lisätty lumityyppien talletus hookiin, ja välitetään se propsina infolle
 
 29.12.2020 Lisätty kirjautuneen käyttäjän tietojen tallentamiseen liittyviä toimintoja
@@ -71,7 +73,7 @@ function App() {
       const updateData = await updates.json();
       const response = await fetch("api/segments");
       const data = await response.json();
-      
+
       setSnowtypes(snowdata);
 
       // Taulukko käytettäville väreille kartassa. Musta väri oletuksena, jos tietoa ei ole
@@ -98,6 +100,9 @@ function App() {
           }
           else if (snow.ID === update.Toissijainen_ID2) {
             update.Lumi4 = snow;
+          }
+          else if (snow.ID === update.Käyttäjä_lumilaatu){
+            update.Lumi5 = snow;
           }
         });
       });
