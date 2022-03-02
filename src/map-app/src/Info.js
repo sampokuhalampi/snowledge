@@ -718,13 +718,8 @@ function Info(props) {
           <SnowRecordView segmentdata={props.segmentdata} writeReviewEnabled ={writeReviewEnabled} close={closeShownSegment}/>
           <UserReviewView segmentdata={props.segmentdata} writeReviewEnabled ={writeReviewEnabled}/>
           <WriteUserReview segmentdata={props.segmentdata} writeReviewEnabled ={writeReviewEnabled}/>
-          <IconButton
-            className={classes.editButton}
-            onClick={() => setWriteReviewEnabled(!writeReviewEnabled)}
-          >
-            <EditIcon />
-            <Typography className={classes.smallHeaders} variant="button">{writeReviewEnabled === true ? "Takaisin" : "Arvioi"}</Typography>
-          </IconButton>
+
+          {/* Siirsin arvioi -buttonin toiminnallisuuden writeUserReview-tiedostoon --Juho */}
         </div>
       );
     }
