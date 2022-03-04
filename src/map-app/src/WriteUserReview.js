@@ -13,9 +13,6 @@ import { TextField } from "@material-ui/core";
 
 // eslint-disable-next-line no-unused-vars
 const useStyles = makeStyles(() => ({
-  
-  root: {
-  },
 
   snowInfo: {
     width: "30px",
@@ -33,7 +30,6 @@ const useStyles = makeStyles(() => ({
   },
 
   smallHeaders: {
-    fontFamily: "Josefin Sans",
     padding: "3px",
     marginTop: "5px",
     marginLeft: "20px",
@@ -42,17 +38,20 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     fontSize: "18px",
     justifyContent: "center",
+    color: "#000",
+    fontFamily: "Josefin Sans",
   },
 
   mediumText: {
-    fontFamily: "Josefin Sans",
     textTransform: "none",
     padding: "3px",
     marginBottom: "5px",
     display: "flex",
     fontSize: "14px",
     color: "#000",
+    fontFamily: "Josefin Sans",
   },
+
 
   buttonsLeft: {
     display: "flex",
@@ -163,10 +162,11 @@ const useStyles = makeStyles(() => ({
   },
 
   part: {
-
+    margin: "20px",
   },
   textFields: {
-
+    borderRadius: "30px",
+    width: "100%",
   },
 }));
 
@@ -179,15 +179,13 @@ function WriteUserReview(props) {
   
   const [view, setView] = React.useState("category");
   const [writeReviewEnabled, setWriteReviewEnabled] = React.useState(false);
+  const [allSnowTypes, setAllSnowTypes] = React.useState([]);
   const [snowData, setSnowData] = React.useState([]);
   const [selectedType, setSelectedType] = React.useState(null);
   const [text, setText] = React.useState("");
 
 
-  console.log(props);
-
-
-  //Haetaan kaikki review-data tietokannasta 
+  //Haetaan kaikki review-data tietokannasta ------ vain debug tarkoituksiin
   
   const getReviews = async () => {
 
@@ -238,37 +236,38 @@ function WriteUserReview(props) {
     clearState();
     props.close();
   };
+
+  
+  async function getSnowTypes() {
+    const snow = await fetch("api/lumilaadut");
+    const data = await snow.json();
+    setAllSnowTypes(data);
+    console.log(data);
+  }
   
 
 
-  async function fetchSnowTypes(category) {
+  function fetchSnowTypes(category) {
 
     setView("selection");
-    const snow = await fetch("api/lumilaadut");
-    const data = await snow.json();
-    console.log(data);
 
     if (category === "1") {
-
-      setSnowData([data[3], data[9], data[8], data[7]]);
+      setSnowData([allSnowTypes[3], allSnowTypes[9], allSnowTypes[8], allSnowTypes[7]]);
 
     } else if (category === "2") {
-
-      setSnowData([data[4], data[11], data[10], data[12]]);
+      setSnowData([allSnowTypes[4], allSnowTypes[11], allSnowTypes[10], allSnowTypes[12]]);
 
     } else if (category === "3") {
-      setSnowData([data[2], data[16]]);
+      setSnowData([allSnowTypes[2], allSnowTypes[16]]);
 
     } else if (category === "4") {
-
-      setSnowData([data[1], data[17], data[18]]);
+      setSnowData([allSnowTypes[1], allSnowTypes[17], allSnowTypes[18]]);
       
     } else if (category === "5") {
-      setSnowData([data[0], data[15], data[13], data[14]]);
+      setSnowData([allSnowTypes[0], allSnowTypes[15], allSnowTypes[13], allSnowTypes[14]]);
 
     } else if (category === "6") {
-      setSnowData([data[5]]);
-
+      setSnowData([allSnowTypes[5]]);
     }
   }
 
@@ -289,11 +288,14 @@ function WriteUserReview(props) {
     clearState();
   };
 
-  function setEnabled() {
+  async function setEnabled() {
     setWriteReviewEnabled(true);
     clearState();
     props.open();
+
+    getSnowTypes();
   }
+
   function setDisabled() {
     setWriteReviewEnabled(false);
     clearState();
@@ -406,7 +408,7 @@ function WriteUserReview(props) {
         )}
 
         { view === "feedback" && (
-          <div>
+          <div> 
             <Typography className={styles.smallHeaders}>Käyttäjäpohjainen palaute </Typography>
             
             <hr style={{backgroundColor: "black", height: 1}}/>
@@ -414,7 +416,7 @@ function WriteUserReview(props) {
             <Typography className={styles.smallHeaders}>Kiitos palautteesta! </Typography>
 
             <Box className={styles.part}>
-              <Typography variant="h5" className={styles.smallHeaders}>Muu huomio tai terveiset Pallaksen Pöllöille: </Typography>
+              <Typography variant="h5" className={styles.mediumText}>Muu huomio tai terveiset Pallaksen Pöllöille: </Typography>
               <TextField className={styles.textFields} value={text} maxRows={6} onChange={updateText} placeholder="Kirjoita..." multiline variant="outlined" />
             </Box>    
 
