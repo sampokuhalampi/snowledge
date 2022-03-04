@@ -1,13 +1,10 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import { useMediaQuery } from "react-responsive";
 import { IconButton } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box } from "@material-ui/core";
 import { CardMedia } from "@material-ui/core";
-import Grid from "@material-ui/core/Grid";
-import CloseIcon from "@material-ui/icons/Close";
 import { TextField } from "@material-ui/core";
 
 
@@ -18,15 +15,6 @@ const useStyles = makeStyles(() => ({
     width: "30px",
     height: "30px",
     marginRight: "5px",
-  },
-
-  bigHeaders: {
-    fontFamily: "Donau",
-    letterSpacing: 4,
-    textTransform: "uppercase",
-    fontWeight: 600,
-    display: "block",
-    color: "white",
   },
 
   smallHeaders: {
@@ -51,7 +39,6 @@ const useStyles = makeStyles(() => ({
     color: "#000",
     fontFamily: "Josefin Sans",
   },
-
 
   buttonsLeft: {
     display: "flex",
@@ -175,7 +162,7 @@ const useStyles = makeStyles(() => ({
 function WriteUserReview(props) {
 
   const styles = useStyles();
-  const isXS = useMediaQuery({ query: "(max-width: 599px)" });
+  //const isXS = useMediaQuery({ query: "(max-width: 599px)" });
   
   const [view, setView] = React.useState("category");
   const [writeReviewEnabled, setWriteReviewEnabled] = React.useState(false);
@@ -273,6 +260,7 @@ function WriteUserReview(props) {
   }
 
   const clearState = () => {
+    setView("category");
     setSelectedType(null);
     setText("");
   };
@@ -319,23 +307,6 @@ function WriteUserReview(props) {
 
     return (
       <>
-        <Grid container item xs={12} sm={12} style={{ backgroundColor: "#000000B3", margin: 0, paddingBottom: "1%" }}>
-          {/* Button for closing snow record view */}
-          <Grid item xs={12} sm={12}>
-            <IconButton aria-label="close" style={isXS ? { color: "white", left: "85%" } : { color: "white", left: "85%", paddingTop: "1%", paddingBottom: 0 }} onClick={() => props.close()}>
-              <CloseIcon />
-            </IconButton>
-          </Grid>
-
-          {/* Segment name */}
-          <Grid item xs={12} sm={12}>
-            <Typography className={styles.bigHeaders} variant="h5" align="center" component="p">
-              {props.segmentdata === null ? "Ei nimitietoa" : props.segmentdata.Nimi}
-            </Typography>
-          </Grid>
-        </Grid>
-
-
         { view === "category" && (
           <div>
             <Typography className={styles.smallHeaders}>Käyttäjäpohjainen palaute </Typography>
@@ -428,7 +399,7 @@ function WriteUserReview(props) {
             </Box>    
 
             <Box className={styles.buttonsRight}>         
-              <Button variant="contained" className={styles.darkGrey} onClick={() => props.close()}>Sulje</Button>
+              <Button variant="contained" className={styles.darkGrey} onClick={setDisabled}>Sulje</Button>
               <Button variant="contained" className={styles.darkGrey} onClick={postReview}>Lähetä</Button>
             </Box>        
           </div>

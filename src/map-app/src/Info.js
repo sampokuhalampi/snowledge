@@ -727,13 +727,9 @@ function Info(props) {
       return (
         <div className="info">
 
-          { writeReviewEnabled === false && 
-            <>
-              <SnowRecordView segmentdata={props.segmentdata} writeReviewEnabled ={writeReviewEnabled} close={closeShownSegment}/>
-              <UserReviewView segmentdata={props.segmentdata} writeReviewEnabled ={writeReviewEnabled}/>
-            </>
-          }
-
+          <SnowRecordView segmentdata={props.segmentdata} writeReviewEnabled ={writeReviewEnabled} close={closeShownSegment}/>
+          <UserReviewView segmentdata={props.segmentdata} writeReviewEnabled ={writeReviewEnabled}/>
+          
           <WriteUserReview segmentdata={props.segmentdata} open={openReview} back={closeReview} close={closeShownSegment}/>
 
           {/* Siirsin arvioi -buttonin toiminnallisuuden writeUserReview-tiedostoon --Juho */}
