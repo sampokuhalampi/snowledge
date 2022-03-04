@@ -236,6 +236,17 @@ function Info(props) {
     setWriteReviewEnabled(false);
   }
 
+
+  //Open user review -options
+  function openReview() {
+    setWriteReviewEnabled(true);
+  }
+  //Close user review -options
+  function closeReview() {
+    setWriteReviewEnabled(false);
+  }
+
+
   // Hides unnecessary information on snow record entry view, if checkbox is checked.
   const updateEntryVisible = (e) => {
     setUpdateEnabled(true);
@@ -715,9 +726,15 @@ function Info(props) {
       // Kirjautumattoman käyttäjän näkymät (muokkaustoimintoa ei ole)
       return (
         <div className="info">
-          <SnowRecordView segmentdata={props.segmentdata} writeReviewEnabled ={writeReviewEnabled} close={closeShownSegment}/>
-          <UserReviewView segmentdata={props.segmentdata} writeReviewEnabled ={writeReviewEnabled}/>
-          <WriteUserReview segmentdata={props.segmentdata} writeReviewEnabled ={writeReviewEnabled}/>
+
+          { writeReviewEnabled === false && 
+            <>
+              <SnowRecordView segmentdata={props.segmentdata} writeReviewEnabled ={writeReviewEnabled} close={closeShownSegment}/>
+              <UserReviewView segmentdata={props.segmentdata} writeReviewEnabled ={writeReviewEnabled}/>
+            </>
+          }
+
+          <WriteUserReview segmentdata={props.segmentdata} open={openReview} back={closeReview} close={closeShownSegment}/>
 
           {/* Siirsin arvioi -buttonin toiminnallisuuden writeUserReview-tiedostoon --Juho */}
         </div>
