@@ -183,6 +183,7 @@ function WriteUserReview(props) {
   const [snowData, setSnowData] = React.useState([]);
   const [selectedType, setSelectedType] = React.useState(null);
   const [text, setText] = React.useState("");
+  //const [onlyFeedback, setOnlyFeedback] = React.useState(false);
 
 
   //Haetaan kaikki review-data tietokannasta ------ vain debug tarkoituksiin
@@ -288,12 +289,18 @@ function WriteUserReview(props) {
     clearState();
   };
 
-  async function setEnabled() {
+  async function setEnabled(snowSelection) {
+
     setWriteReviewEnabled(true);
     clearState();
     props.open();
 
-    getSnowTypes();
+    if(snowSelection === false) {
+      setView("feedback");
+      //setOnlyFeedback(true);
+    } else {
+      getSnowTypes();
+    }
   }
 
   function setDisabled() {
@@ -420,8 +427,8 @@ function WriteUserReview(props) {
               <TextField className={styles.textFields} value={text} maxRows={6} onChange={updateText} placeholder="Kirjoita..." multiline variant="outlined" />
             </Box>    
 
-            <Box className={styles.buttonsRight}>
-              <Button variant="contained" className={styles.darkGrey} onClick={goBack}>Takaisin</Button>
+            <Box className={styles.buttonsRight}>         
+              <Button variant="contained" className={styles.darkGrey} onClick={() => props.close()}>Sulje</Button>
               <Button variant="contained" className={styles.darkGrey} onClick={postReview}>Lähetä</Button>
             </Box>        
           </div>
@@ -436,9 +443,9 @@ function WriteUserReview(props) {
         <Box className={styles.buttonsLeft}>       
           <Typography className={styles.mediumText}>Liikuitko alueella?</Typography> 
 
-          <Button variant="contained" className={styles.blue} onClick={setEnabled}>Kyllä, lisää arvio lumitilanteesta.</Button>
+          <Button variant="contained" className={styles.blue} onClick={() => setEnabled(true)}>Kyllä, lisää arvio lumitilanteesta.</Button>
 
-          <Button variant="contained" className={styles.darkGrey} onClick={setEnabled}>Ei, lisää varoitus tai muu huomio.</Button>
+          <Button variant="contained" className={styles.darkGrey} onClick={() => setEnabled(false)}>Ei, lisää varoitus tai muu huomio.</Button>
         </Box>
 
       </div>
