@@ -152,7 +152,7 @@ router.get("/segments/update", function(req, res) {
 //arviointien haku
 router.get("/reviews", function(req, res) {
   database.query(
-    `SELECT ID, Aika, Segmentti, Arvio, Lumilaatu, Kommentti
+    `SELECT ID, Aika, Segmentti, Arvio, Lumilaatu, Kivia, Oksia, Kommentti
   FROM KayttajaArviot
   WHERE (Segmentti, Aika)
   IN
@@ -190,17 +190,40 @@ router.post("/review/:id", function(req, res) {
     res.json("Segmentti numerot eivät täsmää");
     res.status(400);
   }
-  database.query("INSERT INTO KayttajaArviot(Aika, Segmentti, Arvio, Lumilaatu, Kommentti) VALUES(NOW(), ?, ?, ?, ?)",
+  database.query("INSERT INTO KayttajaArviot(Aika, Segmentti, Arvio, Lumilaatu, Kivia, Oksia, Kommentti) VALUES(NOW(), ?, ?, ?, ?, ?, ?)",
     [ 
       req.body.Segmentti,
       req.body.Arvio,
       req.body.Lumilaatu,
+      req.body.Kivia,
+      req.body.Oksia,
       req.body.Kommentti
     ],
     function (err) {
       if (err) throw err;
-      res.json("Insert was succesfull");
-      res.status(204);
+
+      database.query("SELECT LAST_INSERT_ID()", function (err, result) {
+        if (err) throw err;
+
+        res.json(result);
+        res.status(204);
+      });
+    });
+});
+
+router.post("/updateReview/:id", function(req, res) {
+  database.query(
+  `UPDATE KayttajaArviot 
+    SET Kommentti = ?
+    WHERE ID = ? `,
+    [
+      req.body.Kommentti,
+      req.params.id
+    ],
+    function (err, result) {
+      if (err) throw err;
+      res.json(result);
+      res.status(200);
     });
 });
 

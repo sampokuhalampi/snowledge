@@ -64,6 +64,8 @@ CREATE TABLE KayttajaArviot (
     Segmentti BIGINT UNSIGNED,
     Arvio BIT,
     Lumilaatu BIGINT(20) UNSIGNED DEFAULT NULL,
+    Kivia BOOLEAN,
+    Oksia BOOLEAN,
     Kommentti TEXT,
     FOREIGN KEY(Segmentti) REFERENCES Segmentit(ID) ON DELETE CASCADE,
     CONSTRAINT Lumilaatu FOREIGN KEY (Lumilaatu) REFERENCES Lumilaadut (ID) ON DELETE NO ACTION ON UPDATE NO ACTION

@@ -174,6 +174,7 @@ function WriteUserReview(props) {
   const [stones, setStones] = React.useState(false);
   const [branches, setBranches] = React.useState(false);
   const [text, setText] = React.useState("");
+  const [updateID, setUpdateID] = React.useState(null);
   //const [onlyFeedback, setOnlyFeedback] = React.useState(false);
 
 
@@ -187,44 +188,82 @@ function WriteUserReview(props) {
     console.log("Reviews: ");
     console.log(reviewData);
   };
-  
 
-  //Kun käyttäjä arvioi lumitietoja, lähetetään POST -methodin api- kutsu api/review
-  const postReview = () => {
+  const postData = async (path, data, id) => {
+    const response = await fetch(path + id,
+      {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+    const res = await response.json();
+    return res;
+  };
 
-    let datavalues = [];
-    datavalues[0] = props.segmentdata.ID;
-    datavalues[1] = null;
-    datavalues[2] = null;
 
+  // When a user reviews snowdata, POST-method call is sent to api/review. 
+  // New snow review is added to the database.
+  // The call returns ID number to the new row in the database, so that feedback text can be
+  // later added to it. 
+  const postSnowType = async () => {
+
+    let snowID = null;
     if (selectedType !== null) {
-      datavalues[2] = selectedType.ID;
+      snowID = selectedType.ID;
     }
-    datavalues[3] = text;
 
     const data = {
-      Segmentti: datavalues[0],
-      Arvio: datavalues[1],
-      Lumilaatu: datavalues[2],
-      Kommentti: datavalues[3],
+      Segmentti: props.segmentdata.ID,
+      Arvio: null,
+      Lumilaatu: snowID,
+      Kivia: stones,
+      Oksia: branches,
+      Kommentti: null,
     };
 
-    const fetchReview = async () => {
-      const response = await fetch("api/review/" + props.segmentdata.ID,
-        {
-          method: "POST",
-          headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        });
-      const res = await response.json();
+    let res = postData("api/review/", data, props.segmentdata.ID);
+    console.log("New snow type");
+    console.log(res);
+
+    // Parse the ID to our snow review
+    res.then(item => {
+      let row = JSON.stringify(item[0]);
+      JSON.parse(row, (key, value) => {
+        if(Number.isInteger(value)) {
+          setUpdateID(value);
+        }
+      });
+    });
+    //Move to the next view
+    setView("feedback");
+  };
+
+
+  // Post the feedback text to the database. If continuing from the snow type selection, 
+  // we update the existing row with ID. Otherwise, post new row to the database. 
+  const postFeedback = async () => {
+    const data = {
+      Segmentti: props.segmentdata.ID,
+      Arvio: null,
+      Lumilaatu: null,
+      Kivia: null,
+      Oksia: null,
+      Kommentti: text,
+    };
+
+    if(updateID === null) {
+      console.log("Regular description");
+      let res = postData("api/review/", data, props.segmentdata.ID);
       console.log(res);
-    };
-
+    } else {     
+      console.log("Description with ID ");
+      let res = postData("api/updateReview/", data, updateID);
+      console.log(res);
+    }
     getReviews();
-    fetchReview();
     clearState();
     props.close();
   };
@@ -276,6 +315,7 @@ function WriteUserReview(props) {
     setStones(false);
     setBranches(false);
     setText("");
+    setUpdateID(null);
   };
 
   const goBack = () => {
@@ -459,7 +499,7 @@ function WriteUserReview(props) {
 
             <Box className={styles.buttonsRight}>
               <Button variant="contained" className={styles.darkGrey} onClick={goBack}>Takaisin</Button>
-              <Button variant="contained" className={styles.darkGrey} onClick={() => setView("feedback")}>Lähetä</Button>
+              <Button variant="contained" className={styles.darkGrey} onClick={postSnowType}>Lähetä</Button>
             </Box>
           </div>
         )}
@@ -479,7 +519,7 @@ function WriteUserReview(props) {
 
             <Box className={styles.buttonsRight}>         
               <Button variant="contained" className={styles.darkGrey} onClick={setDisabled}>Sulje</Button>
-              <Button variant="contained" className={styles.darkGrey} onClick={postReview}>Lähetä</Button>
+              <Button variant="contained" className={styles.darkGrey} onClick={postFeedback}>Lähetä</Button>
             </Box>        
           </div>
         )}
