@@ -159,7 +159,8 @@ function UserReviewView({segmentdata, writeReviewEnabled}) {
 
 
   return (
-    <div style={{display: writeReviewEnabled  === true  || userSnowData.name === null ? "none" : ""}}>
+
+    <div style={{display: writeReviewEnabled  === true  || userSnowData.name === null ? "none" : ""}} className={classes.addPadding}>
       <Grid item xs={12} sm={12}>
         <Typography className={classes.smallHeaders} style={{ paddingLeft: "5px", paddingTop: (isXS ? "0px" : "5px") }} variant="body1" component="p" display="inline">Käyttäjäarvio</Typography>
       </Grid>
@@ -167,7 +168,7 @@ function UserReviewView({segmentdata, writeReviewEnabled}) {
         <Divider className={classes.divider} />
       </Grid>
 
-      {userSnowData.name !== null && <Grid item xs={12} sm={4} style={{ paddingTop: (isXS ? "0px" : "10px") }} container>
+      {userSnowData.name !== null && <Grid item xs={12} sm={4} style={{ paddingTop: (isXS ? "0px" : "10px") }} className={classes.addPadding} container>
         <Grid item xs={3} sm={3}>
           {
             <CardMedia
