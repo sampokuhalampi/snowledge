@@ -1,13 +1,13 @@
 // eslint-disable-next-line no-undef
 describe("Snow information", () => {
 
+  const email = "test@test.fi";
+  const password = "testi";
 
   //Desktop tests
 
   // eslint-disable-next-line no-undef
   it("Ski resort employee updates main snow type of a segment",() => {
-    const email = "test@test.fi";
-    const password = "testi";
 
     cy.visit("/");
     cy.findByRole("button", {  name: /openloginwindow/i}).click();
@@ -28,6 +28,13 @@ describe("Snow information", () => {
 
   it("Ski resort employee updates main and secondary snow type of a segment",() => {
 
+    cy.visit("/");
+    cy.findByRole("button", {  name: /openloginwindow/i}).click();
+    cy.findByRole("textbox", {  name: /email/i}).type(email);
+    cy.findByLabelText(/salasana/i).type(password);
+    cy.findByRole("button", { name: /kirjaudu/i }).click();
+    cy.findByRole("button", { name: /hallitse/i },{timeout: 15000}).should("be.visible");
+
     cy.findByRole("region", {name: /map/i}).click(500, 500);
     cy.findByRole("button", {  name: /päivitä/i}).click();
     cy.findByRole("button", {  name: /lisää/i}).click();
@@ -46,9 +53,6 @@ describe("Snow information", () => {
 
 
   it("Refresh page and do login",() => {
-
-    const email = "test@test.fi";
-    const password = "testi";
 
     cy.reload();
     cy.findByRole("button", {  name: /openloginwindow/i}).click();

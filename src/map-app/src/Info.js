@@ -72,7 +72,6 @@ import EditIcon from "@material-ui/icons/Edit";
 import SearchIcon from "@material-ui/icons/Search";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import SnowRecordView from "./SnowRecordView";
-import UserReviewView from  "./UserReviewView";
 import WriteUserReview from "./WriteUserReview";
 import { useMediaQuery } from "react-responsive";
 
@@ -728,8 +727,7 @@ function Info(props) {
         <div className="info">
 
           <SnowRecordView segmentdata={props.segmentdata} writeReviewEnabled ={writeReviewEnabled} close={closeShownSegment}/>
-          <UserReviewView segmentdata={props.segmentdata} writeReviewEnabled ={writeReviewEnabled}/>
-          
+
           <WriteUserReview segmentdata={props.segmentdata} open={openReview} back={closeReview} close={closeShownSegment}/>
 
           {/* Siirsin arvioi -buttonin toiminnallisuuden writeUserReview-tiedostoon --Juho */}

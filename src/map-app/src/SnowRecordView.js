@@ -36,6 +36,7 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import InputBase from "@material-ui/core/InputBase";
 import Link from "@material-ui/core/Link";
+import UserReviewView from "./UserReviewView";
 
 
 const useStyles = makeStyles(() => ({
@@ -327,6 +328,14 @@ function SnowRecordView({ segmentdata,writeReviewEnabled, close }) {
         {(!isEmpty) && 
           <Grid item xs={12} sm={12} container className={classes.addPadding}>
 
+            <Grid item xs={12} sm={12}>
+              <Typography className={classes.smallHeaders} style={{ paddingLeft: "5px", paddingTop: (isXS ? "0px" : "5px") }} variant="body1" component="p" display="inline">Oppaiden arvio</Typography>
+            </Grid>
+
+            <Grid item xs={12} sm={12}>
+              <Divider className={classes.divider} />
+            </Grid>
+
             {/* Main snowtype info */}
             {isEnabled(1) &&
             <Grid item xs={12} sm={5} container className={classes.snowInfo}>
@@ -491,6 +500,7 @@ function SnowRecordView({ segmentdata,writeReviewEnabled, close }) {
                   </Grid>*/}
                 </Grid>}
 
+                <UserReviewView segmentdata={segmentdata} writeReviewEnabled ={writeReviewEnabled}/>
               </Collapse>
             </Grid>}
 
