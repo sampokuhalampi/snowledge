@@ -531,13 +531,23 @@ function WriteUserReview(props) {
   } else {
     return (
       <div>
-        <Box className={styles.buttonsLeft}>       
-          <Typography className={styles.mediumText}>Liikuitko alueella?</Typography> 
+        { props.segmentdata.update === null ? (
+          <Box className={styles.buttonsLeft}>       
+            <Typography className={styles.mediumText}>Liikuitko alueella?</Typography> 
 
-          <Button variant="contained" className={styles.blue} onClick={() => setEnabled(true)}>Kyllä, lisää arvio lumitilanteesta.</Button>
+            <Button variant="contained" className={styles.blue} onClick={() => setEnabled(true)}>Kyllä, lisää arvio lumitilanteesta.</Button>
+            <Button variant="contained" className={styles.darkGrey} onClick={() => setEnabled(false)}>Lisää muu havainto.</Button>
+          </Box>
+        ) :
+          <div>
+            <Box className={styles.buttonsLeft}>       
+              <Typography className={styles.mediumText}>Arvioi, olivatko havainnot ajan tasalla:</Typography> 
 
-          <Button variant="contained" className={styles.darkGrey} onClick={() => setEnabled(false)}>Ei, lisää varoitus tai muu huomio.</Button>
-        </Box>
+              <Button variant="contained" className={styles.blue} onClick={() => setEnabled(true)}>Lisää arvio lumitilanteesta.</Button>
+              <Button variant="contained" className={styles.darkGrey} onClick={() => setEnabled(false)}>Lisää muu havainto.</Button>
+            </Box>
+          </div>     
+        }
 
       </div>
     );

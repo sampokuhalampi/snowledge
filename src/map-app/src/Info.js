@@ -730,7 +730,6 @@ function Info(props) {
 
           <WriteUserReview segmentdata={props.segmentdata} open={openReview} back={closeReview} close={closeShownSegment}/>
 
-          {/* Siirsin arvioi -buttonin toiminnallisuuden writeUserReview-tiedostoon --Juho */}
         </div>
       );
     }
