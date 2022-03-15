@@ -595,7 +595,7 @@ function Info(props) {
 
       // Nämä renderöidään, kun käyttäjä on kirjautunut (muokkaustoiminto lisänä)
       return (
-        <div className="info">
+        <div className={isXS ? "mobileInfo" : "info"}>
 
           <SnowRecordView segmentdata={props.segmentdata} close={closeShownSegment} snowtypes={props.snowtypes}></SnowRecordView>
           <IconButton
@@ -724,7 +724,7 @@ function Info(props) {
     else {
       // Kirjautumattoman käyttäjän näkymät (muokkaustoimintoa ei ole)
       return (
-        <div className="info">
+        <div className={isXS ? "mobileInfo" : "info"}>
 
           <SnowRecordView segmentdata={props.segmentdata} writeReviewEnabled ={writeReviewEnabled} close={closeShownSegment}/>
 
@@ -736,7 +736,7 @@ function Info(props) {
     }
     // mikäli segmenttidataa ei ole saatavilla, ei yritetä renderöidä mitään näkyvää
   } else {
-    return <div className="info" />;
+    return <div className={isXS ? "mobileInfo" : "info"} />;
   }
 }
 

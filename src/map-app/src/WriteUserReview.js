@@ -441,7 +441,7 @@ function WriteUserReview(props) {
                 <Grid item xs={12} sm={12} align="center">
                   <InputBase
                     className={styles.mediumText}
-                    style={{marginLeft: "20px"}}
+                    style={{marginLeft: "20px", marginRight: "20px"}}
                     value={selectedType.Lumityyppi_selite}
                     fullWidth={true}
                     multiline
@@ -519,7 +519,8 @@ function WriteUserReview(props) {
 
             <Box className={styles.buttonsRight}>         
               <Button variant="contained" className={styles.darkGrey} onClick={setDisabled}>Sulje</Button>
-              <Button variant="contained" className={styles.darkGrey} onClick={postFeedback}>Lähetä</Button>
+              <Button variant="contained" className={styles.darkGrey} 
+                disabled={ text === "" ? true : false } onClick={postFeedback}>Lähetä</Button>
             </Box>        
           </div>
         )}
