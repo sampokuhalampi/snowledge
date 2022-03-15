@@ -38,6 +38,8 @@ import InputBase from "@material-ui/core/InputBase";
 import Link from "@material-ui/core/Link";
 {/*import UserReviewView from "./UserReviewView";*/}
 import DisplaySnowType from "./DisplaySnowType";
+import { Box } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 
 
 const useStyles = makeStyles(() => ({
@@ -81,6 +83,15 @@ const useStyles = makeStyles(() => ({
     fontWeight: 300,
     fontSize: "medium",
   },
+  mediumText: {
+    textTransform: "none",
+    padding: "3px",
+    marginBottom: "5px",
+    display: "flex",
+    fontSize: "14px",
+    color: "#000",
+    fontFamily: "Josefin Sans",
+  },
   timeStamp: {
     fontFamily: "Donau",
     letterSpacing: 2,
@@ -108,6 +119,32 @@ const useStyles = makeStyles(() => ({
     width: "100px",
     height: "100px",
     padding: "10px"
+  },
+  buttonsLeft: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "left",
+    alignItems: "left",
+    marginTop: "20px",
+    marginBottom: "20px",
+    marginLeft: "10px",
+
+    "& Button": {
+      borderRadius: "30px",
+      textTransform: "none",
+      width: "266px",
+      height: "37px",
+      fontSize: "14px",
+      marginBottom: "5px",
+      fontFamily: "Josefin Sans",
+      color: "#FFF",
+    },
+  },
+  blue: {
+    backgroundColor: "#204376",
+  },
+  darkGrey: {
+    backgroundColor: "#4C4C4C",
   },
 }));
 
@@ -153,7 +190,7 @@ function getRelativeTimestamp(current, previous) {
   }
 }
 
-function SnowRecordView({ segmentdata,writeReviewEnabled, close }) {
+function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedback, close }) {
   const classes = useStyles();
   // Avalanche warning LINK
   const url = "https://www.pallaksenpollot.com/";
@@ -404,7 +441,7 @@ function SnowRecordView({ segmentdata,writeReviewEnabled, close }) {
                 </Grid>}
 
                 {/* Sponsor logos */}
-                {(isXS && segmentdata.Nimi !== "Metsä") && <Grid container xs={12} className={classes.sponsorContainer} >
+                {(isXS && segmentdata.Nimi !== "Metsä") && <Grid container item xs={12} className={classes.sponsorContainer} >
                   {/*<Grid item xs={6}>
                     <a href="https://www.google.com/" target="_blank" rel="noopener noreferrer">
                       <img src="sponsor.png" alt="Sponsor logo" className={classes.sponsor} />
@@ -444,6 +481,17 @@ function SnowRecordView({ segmentdata,writeReviewEnabled, close }) {
             </Grid >
             }
 
+
+            {/* Snow review buttons */}
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+              <Box className={classes.buttonsLeft}>       
+                <Typography className={classes.mediumText}>Liikuitko alueella?</Typography> 
+
+                <Button variant="contained" className={classes.blue} onClick={openForm}>Kyllä, lisää arvio lumitilanteesta.</Button>
+                <Button variant="contained" className={classes.darkGrey} onClick={openFeedback}>Lisää muu havainto.</Button>
+              </Box>
+            </Collapse>
+
             {(isXS && (isEnabled(3) || isEnabled(4) || isEnabled(5) || description !== "")) &&
             <Grid item xs={12} align="center">
               <IconButton
@@ -459,11 +507,18 @@ function SnowRecordView({ segmentdata,writeReviewEnabled, close }) {
             }
           </Grid>}
         {(isEmpty) && 
-          <Grid item xs={12} sm={12} container className={classes.addPadding}>
-            <Typography className={classes.timeStamp} align="center">
+          <div className={classes.addPadding}>
+            <Typography className={classes.timeStamp}>
               Ei havaintoja alueelta.
             </Typography>
-          </Grid>
+
+            <Box className={classes.buttonsLeft}>       
+              <Typography className={classes.mediumText}>Liikuitko alueella?</Typography> 
+
+              <Button variant="contained" className={classes.blue} onClick={openForm}>Kyllä, lisää arvio lumitilanteesta.</Button>
+              <Button variant="contained" className={classes.darkGrey} onClick={openFeedback}>Lisää muu havainto.</Button>
+            </Box>
+          </div>
         }
       </div>
     </Grid> 

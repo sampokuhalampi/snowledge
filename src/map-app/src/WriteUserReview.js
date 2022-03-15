@@ -49,27 +49,6 @@ const useStyles = makeStyles(() => ({
     fontFamily: "Josefin Sans",
   },
 
-  buttonsLeft: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "left",
-    alignItems: "left",
-    marginTop: "20px",
-    marginBottom: "20px",
-    marginLeft: "10px",
-
-    "& Button": {
-      borderRadius: "30px",
-      textTransform: "none",
-      width: "266px",
-      height: "37px",
-      fontSize: "14px",
-      marginBottom: "5px",
-      fontFamily: "Josefin Sans",
-      color: "#FFF",
-    },
-  },
-
   buttonsRight: {
     display: "flex",
     flexDirection: "row",
@@ -165,8 +144,7 @@ function WriteUserReview(props) {
   const styles = useStyles();
   const isXS = useMediaQuery({ query: "(max-width: 599px)" });
   
-  const [view, setView] = React.useState("category");
-  const [writeReviewEnabled, setWriteReviewEnabled] = React.useState(false);
+  const [view, setView] = React.useState(props.mode);
   const [allSnowTypes, setAllSnowTypes] = React.useState([]);
   const [snowData, setSnowData] = React.useState([]);
   const [selectedType, setSelectedType] = React.useState(null);
@@ -176,6 +154,10 @@ function WriteUserReview(props) {
   const [text, setText] = React.useState("");
   const [updateID, setUpdateID] = React.useState(null);
   //const [onlyFeedback, setOnlyFeedback] = React.useState(false);
+
+  React.useMemo(() => {
+    getSnowTypes();
+  }, []);
 
 
   //Haetaan kaikki review-data tietokannasta ------ vain debug tarkoituksiin
@@ -273,6 +255,7 @@ function WriteUserReview(props) {
     const snow = await fetch("api/lumilaadut");
     const data = await snow.json();
     setAllSnowTypes(data);
+    console.log("Got data!");
     console.log(data);
   }
   
@@ -320,7 +303,8 @@ function WriteUserReview(props) {
 
   const goBack = () => {
     if(view === "category") {
-      setDisabled();
+      clearState();
+      props.back();
     } else if (view === "selection") {
       setView("category");
     } else if (view === "feedback") {
@@ -335,224 +319,175 @@ function WriteUserReview(props) {
     setSelectedType(data);
   };
 
-  async function setEnabled(snowSelection) {
-
-    setWriteReviewEnabled(true);
-    clearState();
-    props.open();
-
-    if(snowSelection === false) {
-      setView("feedback");
-      //setOnlyFeedback(true);
-    } else {
-      getSnowTypes();
-    }
-  }
-
-  function setDisabled() {
-    setWriteReviewEnabled(false);
-    clearState();
-    props.back();
-  }
-
   //Feedback text updating
   const updateText = (e) => {
     setText(e.target.value);
   };
 
 
-  if(writeReviewEnabled === true) {
-
-    return (
-      <>
-        { view === "category" && (
-          <div>
-            <Typography className={styles.smallHeaders}>Käyttäjäpohjainen palaute </Typography>
-      
-            <hr style={{backgroundColor: "#949494", height: 1, width: "95%", justifySelf: "center"}}/>
-      
-            <Typography className={styles.smallHeaders}>Kertoisitko, oliko lumi </Typography>
-      
-            <Box className={styles.buttonsCenter}>
+  return (
+    <>
+      { view === "category" && (
+        <div>
+          <Typography className={styles.smallHeaders}>Käyttäjäpohjainen palaute </Typography>
+    
+          <hr style={{backgroundColor: "#949494", height: 1, width: "95%", justifySelf: "center"}}/>
+    
+          <Typography className={styles.smallHeaders}>Kertoisitko, oliko lumi </Typography>
+    
+          <Box className={styles.buttonsCenter}>
+          
+            <Button variant="contained" className={styles.lightBlue} onClick={() => {fetchSnowTypes("1");}}>uutta/vastasatanutta</Button>
             
-              <Button variant="contained" className={styles.lightBlue} onClick={() => {fetchSnowTypes("1");}}>uutta/vastasatanutta</Button>
-              
-              <Button variant="contained" className={styles.purple} onClick={() => {fetchSnowTypes("2");}}>tuulen muovaamaa</Button>
-              
-              <Button variant="contained" className={styles.lime} onClick={() => {fetchSnowTypes("3");}}>jäistä</Button>
-              
-              <Button variant="contained" className={styles.grey} onClick={() => {fetchSnowTypes("4");}}>märkää</Button>
-              
-              <Button variant="contained" className={styles.blue} onClick={() => {fetchSnowTypes("5");}}>korppua</Button>
-              
-              <Button variant="contained" className={styles.brown} onClick={() => {fetchSnowTypes("6");}}>vähäistä</Button>
+            <Button variant="contained" className={styles.purple} onClick={() => {fetchSnowTypes("2");}}>tuulen muovaamaa</Button>
             
-            </Box>
-
-            <hr style={{backgroundColor: "#949494", height: 1, width: "95%", justifySelf: "center"}}/>
-
-            <Box className={styles.buttonsRight}>
-              <Button variant="contained" className={styles.darkGrey} onClick={goBack}>Takaisin</Button>
-            </Box>
-          </div>        
-        )}
-
-
-
-        { view === "selection" && (
-          <div>
-            <Typography className={styles.smallHeaders}>Käyttäjäpohjainen palaute </Typography>
+            <Button variant="contained" className={styles.lime} onClick={() => {fetchSnowTypes("3");}}>jäistä</Button>
             
-            <hr style={{backgroundColor: "#949494", height: 1, width: "95%", justifySelf: "center"}}/>
-
-            <Typography className={styles.mediumText} style={{justifyContent: "center"}}>Lumityypin tarkennus: </Typography>
-
-            <Grid container className={styles.grid}>
-              {
-                snowData.map((data, index) => {
-                  return (
-                    <Grid key={index} item xs={6} sm={6}>      
-                      <IconButton
-                        onClick={() => selectButton(index, data)}
-                        className={styles.white}
-                        style={{ 
-                          width: (isXS ? "90%" : "70%"), 
-                          border: (index === selectedButton ? "3px solid #4F81CD" : "1px solid #62A1FF") }}
-                      >
-                        <CardMedia
-                          component={"img"}
-                          src={process.env.PUBLIC_URL + "/icons/snowtypes-and-harms/" + data.ID + ".svg"}
-                          alt="lumityypin logo"
-                          className={styles.snowInfo}
-                        />
-                        <Typography className={styles.mediumText}>{data.Nimi}</Typography>                 
-                      </IconButton>  
-                    </Grid>                
-                  );
-                })
-              }
-            </Grid>
-
+            <Button variant="contained" className={styles.grey} onClick={() => {fetchSnowTypes("4");}}>märkää</Button>
             
-            {/* Lumitiedon kuvausteksti */}
-            { selectedType !== null && (
-              <Box className={styles.description}>
-                <Typography className={styles.smallHeaders} style={{justifyContent: "left"}}>{selectedType.Nimi}</Typography>
-                <Grid item xs={12} sm={12} align="center">
-                  <InputBase
-                    className={styles.mediumText}
-                    style={{marginLeft: "20px", marginRight: "20px"}}
-                    value={selectedType.Lumityyppi_selite}
-                    fullWidth={true}
-                    multiline
-                    maxRows={6}
-                  />
-                
-                </Grid>
-
-                { selectedType.Hiihdettavyys > 0 && (
-                  <img className={styles.skiabilityIcon} src={process.env.PUBLIC_URL + "/icons/skiability/" + selectedType.Hiihdettavyys + ".svg"} alt="skiability" />
-                )}
-              </Box> 
-            )}
-
-            <hr style={{backgroundColor: "#949494", height: 1, width: "95%", justifySelf: "center"}}/>
-
-
-            <Typography className={styles.smallHeaders}>Voit vielä lisätä, jos alueella oli: </Typography>
-            <Grid container>
-              <Grid item xs={6} sm={6} align="center">
-                <IconButton
-                  onClick={() => setStones(!stones)}
-                  className={styles.white}
-                  style={{ 
-                    width: (isXS ? "90%" : "70%"), 
-                    border: (stones ? "3px solid #4F81CD" : "1px solid #62A1FF") }}
-                >
-                  <CardMedia
-                    component={"img"}
-                    src={process.env.PUBLIC_URL + "/icons/snowtypes-and-harms/" + 21 + ".svg"}
-                    alt="lumityypin logo"
-                    className={styles.snowInfo}
-                  />
-                  <Typography className={styles.mediumText}>Kiviä</Typography>                 
-                </IconButton> 
-              </Grid> 
-              <Grid item xs={6} sm={6} align="center">
-                <IconButton
-                  onClick={() => setBranches(!branches)}
-                  className={styles.white}
-                  style={{ 
-                    width: (isXS ? "90%" : "70%"), 
-                    border: (branches ? "3px solid #4F81CD" : "1px solid #62A1FF") }}
-                >
-                  <CardMedia
-                    component={"img"}
-                    src={process.env.PUBLIC_URL + "/icons/snowtypes-and-harms/" + 22 + ".svg"}
-                    alt="lumityypin logo"
-                    className={styles.snowInfo}
-                  />
-                  <Typography className={styles.mediumText}>Oksia</Typography>                 
-                </IconButton> 
-              </Grid>
-            </Grid>
-
-            <Box className={styles.buttonsRight}>
-              <Button variant="contained" className={styles.darkGrey} onClick={goBack}>Takaisin</Button>
-              <Button variant="contained" className={styles.darkGrey} onClick={postSnowType}>Lähetä</Button>
-            </Box>
-          </div>
-        )}
-
-        { view === "feedback" && (
-          <div> 
-            <Typography className={styles.smallHeaders}>Käyttäjäpohjainen palaute </Typography>
+            <Button variant="contained" className={styles.blue} onClick={() => {fetchSnowTypes("5");}}>korppua</Button>
             
-            <hr style={{backgroundColor: "#949494", height: 1, width: "95%", justifySelf: "center"}}/>
-
-            <Typography className={styles.smallHeaders}>Kiitos palautteesta! </Typography>
-
-            <Box className={styles.part}>
-              <Typography variant="h5" className={styles.mediumText}>Muu huomio tai terveiset Pallaksen Pöllöille: </Typography>
-              <TextField className={styles.textFields} value={text} maxRows={6} onChange={updateText} placeholder="Kirjoita..." multiline variant="outlined" />
-            </Box>    
-
-            <Box className={styles.buttonsRight}>         
-              <Button variant="contained" className={styles.darkGrey} onClick={setDisabled}>Sulje</Button>
-              <Button variant="contained" className={styles.darkGrey} 
-                disabled={ text === "" ? true : false } onClick={postFeedback}>Lähetä</Button>
-            </Box>        
-          </div>
-        )}
-      </>
-    );
-  
-  //Render review-buttons
-  } else {
-    return (
-      <div>
-        { props.segmentdata.update === null ? (
-          <Box className={styles.buttonsLeft}>       
-            <Typography className={styles.mediumText}>Liikuitko alueella?</Typography> 
-
-            <Button variant="contained" className={styles.blue} onClick={() => setEnabled(true)}>Kyllä, lisää arvio lumitilanteesta.</Button>
-            <Button variant="contained" className={styles.darkGrey} onClick={() => setEnabled(false)}>Lisää muu havainto.</Button>
+            <Button variant="contained" className={styles.brown} onClick={() => {fetchSnowTypes("6");}}>vähäistä</Button>
+          
           </Box>
-        ) :
-          <div>
-            <Box className={styles.buttonsLeft}>       
-              <Typography className={styles.mediumText}>Arvioi, olivatko havainnot ajan tasalla:</Typography> 
 
-              <Button variant="contained" className={styles.blue} onClick={() => setEnabled(true)}>Lisää arvio lumitilanteesta.</Button>
-              <Button variant="contained" className={styles.darkGrey} onClick={() => setEnabled(false)}>Lisää muu havainto.</Button>
-            </Box>
-          </div>     
-        }
+          <hr style={{backgroundColor: "#949494", height: 1, width: "95%", justifySelf: "center"}}/>
 
-      </div>
-    );
-  }
-  
+          <Box className={styles.buttonsRight}>
+            <Button variant="contained" className={styles.darkGrey} onClick={goBack}>Takaisin</Button>
+          </Box>
+        </div>        
+      )}
+
+
+
+      { view === "selection" && (
+        <div>
+          <Typography className={styles.smallHeaders}>Käyttäjäpohjainen palaute </Typography>
+          
+          <hr style={{backgroundColor: "#949494", height: 1, width: "95%", justifySelf: "center"}}/>
+
+          <Typography className={styles.mediumText} style={{justifyContent: "center"}}>Lumityypin tarkennus: </Typography>
+
+          <Grid container className={styles.grid}>
+            {
+              snowData.map((data, index) => {
+                return (
+                  <Grid key={index} item xs={6} sm={6}>      
+                    <IconButton
+                      onClick={() => selectButton(index, data)}
+                      className={styles.white}
+                      style={{ 
+                        width: (isXS ? "90%" : "70%"), 
+                        border: (index === selectedButton ? "3px solid #4F81CD" : "1px solid #62A1FF") }}
+                    >
+                      <CardMedia
+                        component={"img"}
+                        src={process.env.PUBLIC_URL + "/icons/snowtypes-and-harms/" + data.ID + ".svg"}
+                        alt="lumityypin logo"
+                        className={styles.snowInfo}
+                      />
+                      <Typography className={styles.mediumText}>{data.Nimi}</Typography>                 
+                    </IconButton>  
+                  </Grid>                
+                );
+              })
+            }
+          </Grid>
+
+          
+          {/* Lumitiedon kuvausteksti */}
+          { selectedType !== null && (
+            <Box className={styles.description}>
+              <Typography className={styles.smallHeaders} style={{justifyContent: "left"}}>{selectedType.Nimi}</Typography>
+              <Grid item xs={12} sm={12} align="center">
+                <InputBase
+                  className={styles.mediumText}
+                  style={{marginLeft: "20px", marginRight: "20px"}}
+                  value={selectedType.Lumityyppi_selite}
+                  fullWidth={true}
+                  multiline
+                  maxRows={6}
+                />
+              
+              </Grid>
+
+              { selectedType.Hiihdettavyys > 0 && (
+                <img className={styles.skiabilityIcon} src={process.env.PUBLIC_URL + "/icons/skiability/" + selectedType.Hiihdettavyys + ".svg"} alt="skiability" />
+              )}
+            </Box> 
+          )}
+
+          <hr style={{backgroundColor: "#949494", height: 1, width: "95%", justifySelf: "center"}}/>
+
+
+          <Typography className={styles.smallHeaders}>Voit vielä lisätä, jos alueella oli: </Typography>
+          <Grid container>
+            <Grid item xs={6} sm={6} align="center">
+              <IconButton
+                onClick={() => setStones(!stones)}
+                className={styles.white}
+                style={{ 
+                  width: (isXS ? "90%" : "70%"), 
+                  border: (stones ? "3px solid #4F81CD" : "1px solid #62A1FF") }}
+              >
+                <CardMedia
+                  component={"img"}
+                  src={process.env.PUBLIC_URL + "/icons/snowtypes-and-harms/" + 21 + ".svg"}
+                  alt="lumityypin logo"
+                  className={styles.snowInfo}
+                />
+                <Typography className={styles.mediumText}>Kiviä</Typography>                 
+              </IconButton> 
+            </Grid> 
+            <Grid item xs={6} sm={6} align="center">
+              <IconButton
+                onClick={() => setBranches(!branches)}
+                className={styles.white}
+                style={{ 
+                  width: (isXS ? "90%" : "70%"), 
+                  border: (branches ? "3px solid #4F81CD" : "1px solid #62A1FF") }}
+              >
+                <CardMedia
+                  component={"img"}
+                  src={process.env.PUBLIC_URL + "/icons/snowtypes-and-harms/" + 22 + ".svg"}
+                  alt="lumityypin logo"
+                  className={styles.snowInfo}
+                />
+                <Typography className={styles.mediumText}>Oksia</Typography>                 
+              </IconButton> 
+            </Grid>
+          </Grid>
+
+          <Box className={styles.buttonsRight}>
+            <Button variant="contained" className={styles.darkGrey} onClick={goBack}>Takaisin</Button>
+            <Button variant="contained" className={styles.darkGrey} onClick={postSnowType}>Lähetä</Button>
+          </Box>
+        </div>
+      )}
+
+      { view === "feedback" && (
+        <div> 
+          <Typography className={styles.smallHeaders}>Käyttäjäpohjainen palaute </Typography>
+          
+          <hr style={{backgroundColor: "#949494", height: 1, width: "95%", justifySelf: "center"}}/>
+
+          <Typography className={styles.smallHeaders}>Kiitos palautteesta! </Typography>
+
+          <Box className={styles.part}>
+            <Typography variant="h5" className={styles.mediumText}>Muu huomio tai terveiset Pallaksen Pöllöille: </Typography>
+            <TextField className={styles.textFields} value={text} maxRows={6} onChange={updateText} placeholder="Kirjoita..." multiline variant="outlined" />
+          </Box>    
+
+          <Box className={styles.buttonsRight}>         
+            <Button variant="contained" className={styles.darkGrey} onClick={props.close}>Sulje</Button>
+            <Button variant="contained" className={styles.darkGrey} 
+              disabled={ text === "" ? true : false } onClick={postFeedback}>Lähetä</Button>
+          </Box>        
+        </div>
+      )}
+    </>
+  );
 }
 
 export default WriteUserReview;

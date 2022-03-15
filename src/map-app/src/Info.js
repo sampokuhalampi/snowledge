@@ -184,6 +184,7 @@ function Info(props) {
   const [updateEnabled, setUpdateEnabled] = React.useState(false);
 
   const [writeReviewEnabled, setWriteReviewEnabled] = React.useState(false);
+  const [reviewMode, setReviewMode] = React.useState("category");
 
   const classes = useStyles();
 
@@ -237,8 +238,13 @@ function Info(props) {
 
 
   //Open user review -options
-  function openReview() {
+  function openForm() {
     setWriteReviewEnabled(true);
+    setReviewMode("category");
+  }
+  function openFeedback() {
+    setWriteReviewEnabled(true);
+    setReviewMode("feedback");
   }
   //Close user review -options
   function closeReview() {
@@ -726,10 +732,17 @@ function Info(props) {
       return (
         <div className={isXS ? "mobileInfo" : "info"}>
 
-          <SnowRecordView segmentdata={props.segmentdata} writeReviewEnabled ={writeReviewEnabled} close={closeShownSegment}/>
+          <SnowRecordView 
+            segmentdata={props.segmentdata} 
+            writeReviewEnabled={writeReviewEnabled} 
+            openForm={openForm} 
+            openFeedback={openFeedback} 
+            close={closeShownSegment}
+          />
 
-          <WriteUserReview segmentdata={props.segmentdata} open={openReview} back={closeReview} close={closeShownSegment}/>
-
+          { writeReviewEnabled && (
+            <WriteUserReview segmentdata={props.segmentdata} mode={reviewMode} back={closeReview} close={closeShownSegment}/>
+          )}
         </div>
       );
     }
