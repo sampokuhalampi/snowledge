@@ -46,6 +46,7 @@ CREATE TABLE Paivitykset (
     Toissijainen_ID2 BIGINT(20) UNSIGNED DEFAULT NULL,
     Käyttäjä_Aika DATETIME,
     Käyttäjä_lumilaatu BIGINT(20) UNSIGNED DEFAULT NULL,
+    Käyttäjä_lisätiedot INT(10) DEFAULT NULL,
     Käyttäjä_Arviointi FLOAT(10) UNSIGNED,
     FOREIGN KEY(Tekija) REFERENCES Kayttajat(ID) ON DELETE CASCADE,
     FOREIGN KEY(Segmentti) REFERENCES Segmentit(ID) ON DELETE CASCADE,
@@ -64,8 +65,7 @@ CREATE TABLE KayttajaArviot (
     Segmentti BIGINT UNSIGNED,
     Arvio BIT,
     Lumilaatu BIGINT(20) UNSIGNED DEFAULT NULL,
-    Kivia BOOLEAN,
-    Oksia BOOLEAN,
+    Lisätiedot INT(10) DEFAULT NULL,
     Kommentti TEXT,
     FOREIGN KEY(Segmentti) REFERENCES Segmentit(ID) ON DELETE CASCADE,
     CONSTRAINT Lumilaatu FOREIGN KEY (Lumilaatu) REFERENCES Lumilaadut (ID) ON DELETE NO ACTION ON UPDATE NO ACTION

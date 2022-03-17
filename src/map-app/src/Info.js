@@ -560,6 +560,9 @@ function Info(props) {
           else if (snow.ID === update.Toissijainen_ID2) {
             update.Lumi4 = snow;
           }
+          else if (snow.ID === update.Käyttäjä_lumilaatu) {
+            update.Lumi5 = snow;
+          }
         });
       });
 
@@ -603,7 +606,7 @@ function Info(props) {
       return (
         <div className={isXS ? "mobileInfo" : "info"}>
 
-          <SnowRecordView segmentdata={props.segmentdata} close={closeShownSegment} snowtypes={props.snowtypes}></SnowRecordView>
+          <SnowRecordView segmentdata={props.segmentdata} close={closeShownSegment} signedUser={true}></SnowRecordView>
           <IconButton
             className={classes.editButton}
             onClick={openUpdate}
@@ -738,6 +741,7 @@ function Info(props) {
             openForm={openForm} 
             openFeedback={openFeedback} 
             close={closeShownSegment}
+            signedUser={false}
           />
 
           { writeReviewEnabled && (

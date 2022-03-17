@@ -107,7 +107,7 @@ router.get("/segments", function(req, res) {
 //segmentin tuoreimman päivityksen haku
 router.get("/segments/update/:id", function(req, res) {
   database.query(
-    `SELECT Tekija, Segmentti, Aika, Kuvaus, Lumen_kuva, Lumilaatu_ID1, Lumilaatu_ID2,Toissijainen_ID1 ,Toissijainen_ID2, Käyttäjä_Aika, Käyttäjä_lumilaatu, Käyttäjä_Arviointi
+    `SELECT Tekija, Segmentti, Aika, Kuvaus, Lumen_kuva, Lumilaatu_ID1, Lumilaatu_ID2,Toissijainen_ID1 ,Toissijainen_ID2, Käyttäjä_Aika, Käyttäjä_lumilaatu, Käyttäjä_lisätiedot, Käyttäjä_Arviointi
   FROM Paivitykset
   WHERE (Segmentti, Aika)
   IN
@@ -131,7 +131,7 @@ router.get("/segments/update/:id", function(req, res) {
 //päivitysten haku
 router.get("/segments/update", function(req, res) {
   database.query(
-    `SELECT Tekija, Segmentti, Aika, Kuvaus, Lumen_kuva, Lumilaatu_ID1, Lumilaatu_ID2,Toissijainen_ID1 ,Toissijainen_ID2, Käyttäjä_Aika, Käyttäjä_lumilaatu, Käyttäjä_Arviointi
+    `SELECT Tekija, Segmentti, Aika, Kuvaus, Lumen_kuva, Lumilaatu_ID1, Lumilaatu_ID2,Toissijainen_ID1 ,Toissijainen_ID2, Käyttäjä_Aika, Käyttäjä_lumilaatu, Käyttäjä_lisätiedot, Käyttäjä_Arviointi
   FROM Paivitykset
   WHERE (Segmentti, Aika)
   IN
@@ -152,7 +152,7 @@ router.get("/segments/update", function(req, res) {
 //arviointien haku
 router.get("/reviews", function(req, res) {
   database.query(
-    `SELECT ID, Aika, Segmentti, Arvio, Lumilaatu, Kivia, Oksia, Kommentti
+    `SELECT ID, Aika, Segmentti, Arvio, Lumilaatu, Lisätiedot, Kommentti
   FROM KayttajaArviot
   WHERE (Segmentti, Aika)
   IN
@@ -190,13 +190,12 @@ router.post("/review/:id", function(req, res) {
     res.json("Segmentti numerot eivät täsmää");
     res.status(400);
   }
-  database.query("INSERT INTO KayttajaArviot(Aika, Segmentti, Arvio, Lumilaatu, Kivia, Oksia, Kommentti) VALUES(NOW(), ?, ?, ?, ?, ?, ?)",
+  database.query("INSERT INTO KayttajaArviot(Aika, Segmentti, Arvio, Lumilaatu, Lisätiedot, Kommentti) VALUES(NOW(), ?, ?, ?, ?, ?)",
     [ 
       req.body.Segmentti,
       req.body.Arvio,
       req.body.Lumilaatu,
-      req.body.Kivia,
-      req.body.Oksia,
+      req.body.Lisätiedot,
       req.body.Kommentti
     ],
     function (err) {

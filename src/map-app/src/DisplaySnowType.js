@@ -31,18 +31,37 @@ const useStyles = makeStyles(() => ({
     width: "90px",
     display: "block",
   },
+  authorTag: {
+    padding: "2px",
+    fontFamily: "Josefin Sans",
+    fontSize: "12px",
+    color: "black",
+    backgroundColor: "#C4C4C4",
+    justifyContent: "center",
+    borderRadius: "7px",
+  },
 }));
   
-
 
 function DisplaySnowType(props) {
 
   const classes = useStyles();
   const isXS = useMediaQuery({ query: "(max-width: 599px)" });
 
+  const inline = isStonesOrBranches();
+
+  function isStonesOrBranches () {
+    if (props.Lumilaatu === 21 || props.Lumilaatu === 22) {
+      return true;
+    }
+    return false;
+  }
+
+
+
   return (
-    <Grid item xs={12} sm={4} style={{ paddingTop: (isXS ? "0px" : "10px") }} container>                 
-      <Grid item xs={3} sm={3}>
+    <Grid item xs={inline ? 6 : 12} sm={props.Main ? 5 : 4} style={{ paddingTop: (isXS ? "0px" : "10px") }} container>                 
+      <Grid item xs={inline ? 6 : (props.Main ? 4 : 3)} sm={3}>
         {
           <CardMedia
             component={"img"}
@@ -52,7 +71,7 @@ function DisplaySnowType(props) {
         }
       </Grid>
 
-      <Grid item container xs={9} sm={9} className={classes.snowInfo}>
+      <Grid item container xs={inline ? 6 : (props.Main ? 8 : 9)} sm={9} className={classes.snowInfo}>
         <Grid item xs={12} sm={12}>
           <Typography className={classes.smallHeaders} variant="body1" component="p">
             {props.Nimi}
@@ -66,6 +85,8 @@ function DisplaySnowType(props) {
             <img className={classes.skiabilityIcon} src={process.env.PUBLIC_URL + "/icons/skiability/" + props.Hiihdettavyys + ".svg"} alt="skiability" />
           </Typography>
         </Grid>}
+
+        {/*<Typography className={classes.authorTag}>Oppaan lumitieto</Typography>*/}
       </Grid>
     </Grid>
   );

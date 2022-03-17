@@ -8,7 +8,6 @@ import { CardMedia } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { useMediaQuery } from "react-responsive";
-import InputBase from "@material-ui/core/InputBase";
 
 
 // eslint-disable-next-line no-unused-vars
@@ -197,12 +196,13 @@ function WriteUserReview(props) {
       snowID = selectedType.ID;
     }
 
+    let stonesOrBranches = getStonesOrBranches();
+
     const data = {
       Segmentti: props.segmentdata.ID,
       Arvio: null,
       Lumilaatu: snowID,
-      Kivia: stones,
-      Oksia: branches,
+      Lisätiedot: stonesOrBranches,
       Kommentti: null,
     };
 
@@ -231,8 +231,7 @@ function WriteUserReview(props) {
       Segmentti: props.segmentdata.ID,
       Arvio: null,
       Lumilaatu: null,
-      Kivia: null,
-      Oksia: null,
+      Lisätiedot: null,
       Kommentti: text,
     };
 
@@ -324,6 +323,17 @@ function WriteUserReview(props) {
     setText(e.target.value);
   };
 
+  const getStonesOrBranches = () => {
+    let result = 0;
+    if (stones) {
+      result += 1;
+    }
+    if (branches) {
+      result += 2;
+    }
+    return result;
+  };
+
 
   return (
     <>
@@ -400,17 +410,10 @@ function WriteUserReview(props) {
           { selectedType !== null && (
             <Box className={styles.description}>
               <Typography className={styles.smallHeaders} style={{justifyContent: "left"}}>{selectedType.Nimi}</Typography>
-              <Grid item xs={12} sm={12} align="center">
-                <InputBase
-                  className={styles.mediumText}
-                  style={{marginLeft: "20px", marginRight: "20px"}}
-                  value={selectedType.Lumityyppi_selite}
-                  fullWidth={true}
-                  multiline
-                  maxRows={6}
-                />
-              
-              </Grid>
+              <p 
+                className={styles.mediumText}
+                style={{marginLeft: "17px", marginRight: "1px"}}
+              >{selectedType.Lumityyppi_selite}</p>
 
               { selectedType.Hiihdettavyys > 0 && (
                 <img className={styles.skiabilityIcon} src={process.env.PUBLIC_URL + "/icons/skiability/" + selectedType.Hiihdettavyys + ".svg"} alt="skiability" />
