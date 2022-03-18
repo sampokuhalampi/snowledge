@@ -2,6 +2,7 @@ const cron = require("node-cron");
 const date = require("date-and-time");
 const database = require("./routers/objectRouters/database");
 
+//SQL Functions to read and modify database
 const sqlQuery = (query) => {
   return new Promise (function (resolve, reject){
     database.query(query, function (err, results){
@@ -27,12 +28,30 @@ const sqlInsert = (userTime, userSnowType, userInformation, segment) => {
   });
 };
 
+const sqlUpdate = (userTime, userSnowType, userInformation, segment) => {
+  return new Promise (function (resolve, reject){
+    database.query("INSERT INTO Paivitykset (Aika, Käyttäjä_Aika, Käyttäjä_lumilaatu, Käyttäjä_lisätiedot, Segmentti)  VALUES (?, ?, ?, ?, ? );",
+      [
+        userTime,
+        userTime,
+        userSnowType,
+        userInformation,
+        segment
+      ],
+      function (err,results){
+        if (err) {reject(err);}
+        resolve(results);
+      });
+  });
+};
+
+
 function isObjectEmpty(obj) {
   return Object.keys(obj).length;
-
 }
 
 
+//
 const userReviewUpdater = cron.schedule("*/5 * * * * *", async () => {
   console.log("Updating user reviews...");
 
@@ -43,19 +62,34 @@ const userReviewUpdater = cron.schedule("*/5 * * * * *", async () => {
 
   for (let i=0; i<segmentCount; i++){
     const userReviewQuery = "SELECT Segmentti, Lumilaatu, Lisätiedot, Aika FROM KayttajaArviot WHERE Segmentti = " + (i + 1) + " order by Aika desc limit 1;";
+    const segmentQuery = "SELECT Segmentti FROM Paivitykset WHERE Segmentti = " + (i + 1) + " ORDER BY Aika DESC LIMIT 1;";
 
     const userReview = await sqlQuery(userReviewQuery).then(function (results){
       results=JSON.parse(JSON.stringify(results));
       return results;
     });
 
-    if (isObjectEmpty(userReview) !== 0){
-      const timeString = date.format(new Date(userReview[0].Aika), "YYYY-MM-DD HH:mm:ss", true);
-      console.log("Updating segment " + (i+1) + "...");
-      await sqlInsert(timeString, userReview[0].Lumilaatu, userReview[0].Lisätiedot, userReview[0].Segmentti).then(function (){
-        console.log("Segment updated");
-      });
+    const segment = await sqlQuery(segmentQuery).then(function (results){
+      results=JSON.parse(JSON.stringify(results));
+      return results;
+    });
 
+    if (isObjectEmpty(userReview) !== 0){
+      console.log(isObjectEmpty(segment));
+      console.log("Updating segment " + (i+1) + "...");
+      const timeString = date.format(new Date(userReview[0].Aika), "YYYY-MM-DD HH:mm:ss", true);
+
+      if(isObjectEmpty(segment) !==0){
+        await sqlInsert(timeString, userReview[0].Lumilaatu, userReview[0].Lisätiedot, userReview[0].Segmentti).then(function (){
+          console.log("Segment updated");
+        });
+      }
+
+      else {
+        await sqlUpdate(timeString, userReview[0].Lumilaatu, userReview[0].Lisätiedot, userReview[0].Segmentti).then(function (){
+          console.log("Segment added");
+        });
+      }
     }
   }
 
