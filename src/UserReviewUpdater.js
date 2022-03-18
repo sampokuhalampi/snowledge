@@ -54,32 +54,41 @@ function isObjectEmpty(obj) {
 //
 const userReviewUpdater = cron.schedule("*/5 * * * * *", async () => {
   console.log("Updating user reviews...");
+  let newestUpdate;
 
   const segmentCount = await sqlQuery("SELECT ID FROM Segmentit order by ID desc limit 1;").then(function (results) {
     results = JSON.parse(JSON.stringify(results));
     return results[0].ID;
   });
 
+
   for (let i=0; i<segmentCount; i++){
-    const userReviewQuery = "SELECT Segmentti, Lumilaatu, Lisätiedot, Aika FROM KayttajaArviot WHERE Segmentti = " + (i + 1) + " order by Aika desc limit 1;";
-    const segmentQuery = "SELECT Segmentti FROM Paivitykset WHERE Segmentti = " + (i + 1) + " ORDER BY Aika DESC LIMIT 1;";
+    const segmentQuery = "SELECT Aika, Segmentti FROM Paivitykset WHERE Segmentti = " + (i + 1) + " ORDER BY Aika DESC LIMIT 1;";
+
+    const segmentUpdate = await sqlQuery(segmentQuery).then(function (results){
+      results=JSON.parse(JSON.stringify(results));
+      return results;
+    });
+
+    if(isObjectEmpty(segmentUpdate) !== 0) {
+      newestUpdate = date.format(new Date(segmentUpdate[0].Aika), "YYYY-MM-DD HH:mm:ss", true);
+    } else {
+      newestUpdate = "1601-01-01 00:00:00";
+    }
+
+    const userReviewQuery = "SELECT Segmentti, Lumilaatu, Lisätiedot, Aika FROM KayttajaArviot WHERE Segmentti = " + (i + 1) + " AND Aika > \"" + newestUpdate + "\" order by Aika desc limit 1;";
 
     const userReview = await sqlQuery(userReviewQuery).then(function (results){
       results=JSON.parse(JSON.stringify(results));
       return results;
     });
 
-    const segment = await sqlQuery(segmentQuery).then(function (results){
-      results=JSON.parse(JSON.stringify(results));
-      return results;
-    });
 
     if (isObjectEmpty(userReview) !== 0){
-      console.log(isObjectEmpty(segment));
       console.log("Updating segment " + (i+1) + "...");
       const timeString = date.format(new Date(userReview[0].Aika), "YYYY-MM-DD HH:mm:ss", true);
 
-      if(isObjectEmpty(segment) !==0){
+      if(isObjectEmpty(segmentUpdate) !==0){
         await sqlInsert(timeString, userReview[0].Lumilaatu, userReview[0].Lisätiedot, userReview[0].Segmentti).then(function (){
           console.log("Segment updated");
         });
