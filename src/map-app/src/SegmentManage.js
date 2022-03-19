@@ -107,16 +107,16 @@ function SegmentManage(props) {
         if (snow.ID === update.Lumilaatu_ID1) {
           update.Lumi1 = snow;
         }
-        else if (snow.ID === update.Lumilaatu_ID2) {
+        if (snow.ID === update.Lumilaatu_ID2) {
           update.Lumi2 = snow;
         }
-        else if (snow.ID === update.Toissijainen_ID1) {
+        if (snow.ID === update.Toissijainen_ID1) {
           update.Lumi3 = snow;
         }
-        else if (snow.ID === update.Toissijainen_ID2) {
+        if (snow.ID === update.Toissijainen_ID2) {
           update.Lumi4 = snow;
         }
-        else if (snow.ID === update.Käyttäjä_lumilaatu) {
+        if (snow.ID === update.Käyttäjä_lumilaatu) {
           update.Lumi5 = snow;
         }
       });
