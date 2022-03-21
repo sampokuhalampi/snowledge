@@ -31,7 +31,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import SegmentManage from "./SegmentManage";
+// eslint-disable-next-line no-unused-vars
 import UserManage from "./UserManage";
+import ReviewManage from "./reviewManage";
 
 
 const useStyles = makeStyles(() => ({
@@ -49,20 +51,36 @@ function Manage(props) {
 
   // Hooks
   const [showSegments, setShowSegments] = React.useState(true);
-  const disabled = Boolean(showSegments);
+  const [showUsers, setShowUsers] = React.useState(false);
+  const [showReviews, setShowReviews] = React.useState(false);
+
+  const segmentDisabled = Boolean(showSegments);
+  const usersDisabled = Boolean(showUsers);
+  const reviewsDisabled = Boolean(showReviews);
   
   /*
    * Event handlers
    */
 
   // Näkymän vaihto käyttäjähallintaan
-  const handleUser = () => {
+  const openUser = () => {
     setShowSegments(false);
+    setShowReviews(false);
+    setShowUsers(true);
   };
 
   // Näkymän vaihto segmenttihallintaan
-  const handleSegment = () => {
+  const openSegment = () => {
     setShowSegments(true);
+    setShowReviews(false);
+    setShowUsers(false);
+  };
+
+  // Näkymän vaihto arviointihallintaan
+  const openReview = () => {
+    setShowSegments(false);
+    setShowReviews(true);
+    setShowUsers(false);
   };
 
   // Renderöinti
@@ -70,26 +88,32 @@ function Manage(props) {
     <div>
       {/* Hallintanäkymän valinta käyttäjät / segmentit */}
       <Box className={classes.tabs}>
-        <Button className={classes.tabLinks} disabled={disabled} onClick={handleSegment}>Segmentit</Button>
-        <Button className={classes.tabLinks} disabled={!disabled} onClick={handleUser}>Käyttäjät</Button>      
+        <Button className={classes.tabLinks} disabled={segmentDisabled} onClick={openSegment}>Segmentit</Button>
+        <Button className={classes.tabLinks} disabled={usersDisabled} onClick={openUser}>Käyttäjät</Button> 
+        <Button className={classes.tabLinks} disabled={reviewsDisabled} onClick={openReview}>Palautteet</Button>      
       </Box>
       <Divider />
 
       {/* Näytetään muuttujan showSegments (boolean) mukaan joko segmenttienhallinta tai käyttäjienhallinta */}
-      {
-        showSegments 
-          ? 
-          <SegmentManage 
-            segments={props.segments}
-            token={props.token}
-            onUpdate={props.onUpdate}
-            updateSegments={props.updateSegments}
-            shownSegment={props.shownSegment}
-            updateWoods={props.updateWoods}
-          /> 
-          : 
-          <UserManage token={props.token} role={props.role} />
+      { showSegments &&
+        <SegmentManage 
+          segments={props.segments}
+          token={props.token}
+          onUpdate={props.onUpdate}
+          updateSegments={props.updateSegments}
+          shownSegment={props.shownSegment}
+          updateWoods={props.updateWoods}
+        /> 
       }
+
+      {showUsers && 
+        <UserManage token={props.token} role={props.role}/>
+      }
+
+      {showReviews && 
+        <ReviewManage token={props.token} role={props.role}/>     
+      }
+      
       <div style={{height: "60px"}}></div>
     </div>
   );

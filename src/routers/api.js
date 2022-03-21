@@ -149,7 +149,7 @@ router.get("/segments/update", function(req, res) {
 });
 
 
-//arviointien haku
+//segmentin uusimman arvion haku
 router.get("/reviews", function(req, res) {
   database.query(
     `SELECT ID, Aika, Segmentti, Arvio, Lumilaatu, Lisätiedot, Kommentti
@@ -162,6 +162,22 @@ router.get("/reviews", function(req, res) {
    )
    AND Aika > NOW() - INTERVAL 1 WEEK
    ORDER BY(Segmentti)`,
+    function (err, result, fields) {
+      if (err) throw err;
+      res.json(result);
+      res.status(200);
+    });
+});
+
+//Kaikkien arvioiden haku
+router.get("/allReviews", function(req, res) {
+  database.query(
+    `SELECT KayttajaArviot.Aika, KayttajaArviot.Lisätiedot, KayttajaArviot.Kommentti, Lumilaadut.Nimi AS Lumi, Segmentit.Nimi AS Segmentti
+    FROM KayttajaArviot
+    LEFT JOIN Lumilaadut ON KayttajaArviot.Lumilaatu=Lumilaadut.ID
+    LEFT JOIN Segmentit ON KayttajaArviot.Segmentti=Segmentit.ID
+    WHERE Aika > NOW() - INTERVAL 1 WEEK
+    ORDER BY (Aika) DESC`,
     function (err, result, fields) {
       if (err) throw err;
       res.json(result);

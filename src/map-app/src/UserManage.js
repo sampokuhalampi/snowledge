@@ -87,7 +87,7 @@ function UserManage(props) {
   // Käyttäjätietojen automaattinen haku, kun komponentti on renderöity
   useEffect(() => {
     fetchUsers();
-  });
+  }, []);
   
   /*
    * Event handlers
