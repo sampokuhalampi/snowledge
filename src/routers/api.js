@@ -172,7 +172,7 @@ router.get("/reviews", function(req, res) {
 //Kaikkien arvioiden haku
 router.get("/allReviews", function(req, res) {
   database.query(
-    `SELECT KayttajaArviot.Aika, KayttajaArviot.Lisätiedot, KayttajaArviot.Kommentti, Lumilaadut.Nimi AS Lumi, Segmentit.Nimi AS Segmentti
+    `SELECT KayttajaArviot.Aika, KayttajaArviot.Lisätiedot, KayttajaArviot.Lumilaatu, KayttajaArviot.Kommentti, Lumilaadut.Nimi AS Lumi, Segmentit.Nimi AS Segmentti
     FROM KayttajaArviot
     LEFT JOIN Lumilaadut ON KayttajaArviot.Lumilaatu=Lumilaadut.ID
     LEFT JOIN Segmentit ON KayttajaArviot.Segmentti=Segmentit.ID

@@ -1,21 +1,17 @@
 import * as React from "react";
-import IconButton from "@material-ui/core/IconButton";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { Typography } from "@material-ui/core";
 import { CardMedia } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   userCard: {
-    padding: theme.spacing(1),
-    maxWidth: 400,
-    margin: "auto",
-    marginTop: 10
+    widht: "90%",
+    margin: "10px",
   },
   cardContainer: {
     flexGrow: 1,
@@ -40,6 +36,13 @@ const useStyles = makeStyles((theme) => ({
   },
   snowInfo: {
     alignContent: "center",
+  },
+  timeStamp: {
+    paddingTop: "10px",
+    fontFamily: "Donau",
+    letterSpacing: 2,
+    fontWeight: 600,
+    fontSize: "medium",
   },
 }));
 
@@ -103,14 +106,8 @@ function ReviewManage(props) {
 
   // Arvioinnit haetaan
   const fetchReviews = async () => {
-    const snow = await fetch("api/lumilaadut");
-    // eslint-disable-next-line no-unused-vars
-    const snowdata = await snow.json();
     const reviews = await fetch("api/allReviews");
     const data = await reviews.json();
-    const segments = await fetch("api/segments");
-    // eslint-disable-next-line no-unused-vars
-    const segmentdata = await segments.json();
 
     let currentTime = new Date();
 
@@ -118,26 +115,6 @@ function ReviewManage(props) {
 
       let latestUpdateTime = new Date(item.Aika);
       item.TimeString = `${getRelativeTimestamp(currentTime, latestUpdateTime)}`;
-
-      {/* 
-      item.Snow = null;
-      item.SegmentName = "";
-
-      
-      for (let snowItem of snowdata) {
-        if(item.Lumilaatu === snowItem.ID) {
-          item.Snow = snowItem;
-          break;
-        }
-      }
-
-      for(let s of segmentdata) {
-        if(item.Segmentti === s.ID) {
-          item.SegmentName = s.Nimi;
-          break;
-        }
-      }
-      */}
     });
     setReviewData(data);
     console.log("got reviewData!!");
@@ -163,36 +140,32 @@ function ReviewManage(props) {
               :
               reviewData.map((item, index) => {
                 return (
-                  <Grid key={index} item xs={12} sm={4}>
+                  <Grid key={index} item xs={12} sm={12}>
                     <Card className={classes.userCard}>
                       <CardHeader 
-                        title={item.Nimi === null ? "" : item.Nimi}
-                        action={
-                          <IconButton id={item.ID} aria-label="close">
-                            <MoreVertIcon />
-                          </IconButton>
-                        }
+                        title={item.Segmentti === null ? "" : item.Segmentti}
+                        className={classes.normalText}
                       />
                   
 
                       <CardContent>
 
-                        {item.Lumi !== null &&
+                        {item.Lumilaatu !== null &&
                           <Grid item xs={10} sm={10} spacing={2} container>                 
-                            <Grid item xs={6} sm={3}>
+                            <Grid item xs={6} sm={1}>
                               {
                                 <CardMedia
                                   component={"img"}
-                                  src={process.env.PUBLIC_URL + "/icons/snowtypes-and-harms/" + item.ID + ".svg"}
+                                  src={process.env.PUBLIC_URL + "/icons/snowtypes-and-harms/" + item.Lumilaatu + ".svg"}
                                   alt="lumityypin logo"
                                 />
                               }
                             </Grid>
 
-                            <Grid item container xs={6} sm={9} className={classes.snowInfo}>
+                            <Grid item container xs={6} sm={11} className={classes.snowInfo}>
                               <Grid item xs={12} sm={12}>
                                 <Typography className={classes.smallHeaders} variant="body1" component="p">
-                                  {item.Lumilaatu}
+                                  {item.Lumi}
                                 </Typography>
                               </Grid>
                             </Grid>
@@ -204,7 +177,7 @@ function ReviewManage(props) {
                         }
 
 
-                        <Typography>{item.TimeString}</Typography>
+                        <Typography className={classes.timeStamp}>{item.TimeString}</Typography>
 
 
                       </CardContent>

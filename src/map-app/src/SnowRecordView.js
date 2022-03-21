@@ -204,62 +204,26 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
   // eslint-disable-next-line no-unused-vars
   const [expanded, setExpanded] = React.useState(isXS ? false : true);
 
-  function checkIfEmpty() {
-    let returnvalue = true;
 
-    if (segmentdata.update.Lumi1 !== undefined) {
-      returnvalue = false;
-    }
-    else if (segmentdata.update.Lumi2 !== undefined) {
-      returnvalue = false;
-    }
-    else if (segmentdata.update.Lumi3 !== undefined) {
-      returnvalue = false;
-    }
-    else if (segmentdata.update.Lumi4 !== undefined) {
-      returnvalue = false;
-    } 
-    else if (segmentdata.update.Lumi5 !== undefined) {
-      returnvalue = false;
-    }
-    else if (description !== "") {
-      returnvalue = false;
-    }
-    else {
-      returnvalue = true;
-    }
-
-    return returnvalue;
-  }
   // Gets boolean value of snowtype visibility, by given index (indices 1&2 are primary types, 3&4 are secondary types, 5 user type)
-  const isEnabled = (index) => {
+  function isEnabled(index) {
     if (segmentdata.update !== null && segmentdata.update !== undefined) {
 
       switch (index) {
       case 1:
-        if (segmentdata.update.Lumi1 !== undefined) {
-          return true;
-        }
+        if (segmentdata.update.Lumi1 !== undefined) return true;
         break;
       case 2:
-        if (segmentdata.update.Lumi2 !== undefined) {
-          return true;
-        }
+        if (segmentdata.update.Lumi2 !== undefined) return true;
         break;
       case 3:
-        if (segmentdata.update.Lumi3 !== undefined) {
-          return true;
-        }
+        if (segmentdata.update.Lumi3 !== undefined) return true;
         break;
       case 4:
-        if (segmentdata.update.Lumi4 !== undefined) {
-          return true;
-        }
+        if (segmentdata.update.Lumi4 !== undefined) return true;
         break;
       case 5:
-        if (segmentdata.update.Lumi5 !== undefined) {
-          return true;
-        }
+        if (segmentdata.update.Lumi5 !== undefined) return true;
         break;
       default:
         break;
@@ -267,21 +231,28 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
 
       return false;
     }
-  };
+  }
 
-  const ifGuideInfoExists = () => {
+  function ifGuideInfoExists() {
     if(isEnabled(1) || isEnabled(2) || isEnabled(3) || isEnabled(4)) {
       return true;
     }
     return false;
-  };
+  }
 
-  const ifUserInfoExists = () => {
+  function ifUserInfoExists() {
     if(isEnabled(5)) {
       return true;
     }
     return false;
-  };
+  }
+
+  function checkIfEmpty() {
+    if(ifGuideInfoExists() || ifUserInfoExists()) {
+      return false;
+    }
+    return true;
+  }
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
