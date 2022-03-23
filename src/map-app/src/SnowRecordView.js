@@ -34,9 +34,7 @@ import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
-import InputBase from "@material-ui/core/InputBase";
 import Link from "@material-ui/core/Link";
-{/*import UserReviewView from "./UserReviewView";*/}
 import DisplaySnowType from "./DisplaySnowType";
 import { Box } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
@@ -82,6 +80,12 @@ const useStyles = makeStyles(() => ({
     letterSpacing: 2,
     fontWeight: 300,
     fontSize: "medium",
+  },
+  textContainer: {
+    overflowY: "scroll",
+    paddingTop: "10px",
+    padding: "5px",
+    maxHeight: "140px",
   },
   mediumText: {
     textTransform: "none",
@@ -384,7 +388,7 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
 
               {ifGuideInfoExists() && <>
                 {/* Description of segment, this might be changed later */}
-                <Grid item xs={12} sm={12} align="start" style={{ padding: "15px 10px"}}>
+                <Grid item xs={12} sm={12} align="start" className={classes.textContainer}>
                   {description !== "" &&
                     <text className={classes.normalText}>
                       {description}
@@ -483,15 +487,11 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
 
                   {ifGuideInfoExists() && <>
                     {/* Description of segment, this might be changed later */}
-                    <Grid item xs={12} style={{ paddingTop: "10px"}}>
-                      {description !== "" && <InputBase
-                        className={classes.normalText}
-                        value={description}
-                        multiline
-                        fullWidth={true}
-                        maxRows={6}
-                        disabled={true}
-                      />}
+                    <Grid item xs={12} sm={12} align="start" className={classes.textContainer}>
+                      {description !== "" &&
+                        <text className={classes.normalText}>
+                          {description}
+                        </text>}
                     </Grid>
 
                     {/* Info about latest update time */}
