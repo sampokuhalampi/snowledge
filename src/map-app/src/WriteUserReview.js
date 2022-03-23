@@ -8,6 +8,7 @@ import { CardMedia } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { useMediaQuery } from "react-responsive";
+import Divider from "@material-ui/core/Divider";
 
 
 // eslint-disable-next-line no-unused-vars
@@ -121,7 +122,7 @@ const useStyles = makeStyles(() => ({
   },
 
   description: {
-    margin: "10px",
+    margin: "0px 35px",
     display: "flex",
     flexDirection: "column",
     alignItems: "left",
@@ -133,6 +134,14 @@ const useStyles = makeStyles(() => ({
   textFields: {
     borderRadius: "30px",
     width: "100%",
+  },
+  divider: {
+    height: "1px",
+    background: "#707070",
+    margin: "5px 15px",
+  },
+  div: {
+    padding: "5px 15px"
   },
 }));
 
@@ -338,12 +347,11 @@ function WriteUserReview(props) {
   return (
     <>
       { view === "category" && (
-        <div>
-          <Typography className={styles.smallHeaders}>Käyttäjäpohjainen palaute </Typography>
-    
-          <hr style={{backgroundColor: "#949494", height: 1, width: "95%", justifySelf: "center"}}/>
+        <div className={styles.div}>
     
           <Typography className={styles.smallHeaders}>Kertoisitko, oliko lumi </Typography>
+
+          <Divider className={styles.divider} />
     
           <Box className={styles.buttonsCenter}>
           
@@ -361,7 +369,7 @@ function WriteUserReview(props) {
           
           </Box>
 
-          <hr style={{backgroundColor: "#949494", height: 1, width: "95%", justifySelf: "center"}}/>
+          <Divider className={styles.divider} />
 
           <Box className={styles.buttonsRight}>
             <Button variant="contained" className={styles.darkGrey} onClick={goBack}>Takaisin</Button>
@@ -372,18 +380,15 @@ function WriteUserReview(props) {
 
 
       { view === "selection" && (
-        <div>
-          <Typography className={styles.smallHeaders}>Käyttäjäpohjainen palaute </Typography>
-          
-          <hr style={{backgroundColor: "#949494", height: 1, width: "95%", justifySelf: "center"}}/>
+        <div className={styles.div}>
 
-          <Typography className={styles.mediumText} style={{justifyContent: "center"}}>Lumityypin tarkennus: </Typography>
+          <Typography className={styles.smallHeaders} style={{justifyContent: "center"}}>Lumityypin tarkennus: </Typography>
 
           <Grid container className={styles.grid}>
             {
               snowData.map((data, index) => {
                 return (
-                  <Grid key={index} item xs={6} sm={6}>      
+                  <Grid key={index} item xs={6} sm={6} align="center">
                     <IconButton
                       onClick={() => selectButton(index, data)}
                       className={styles.white}
@@ -421,7 +426,7 @@ function WriteUserReview(props) {
             </Box> 
           )}
 
-          <hr style={{backgroundColor: "#949494", height: 1, width: "95%", justifySelf: "center"}}/>
+          <Divider className={styles.divider} />
 
 
           <Typography className={styles.smallHeaders}>Voit vielä lisätä, jos alueella oli: </Typography>
@@ -470,10 +475,7 @@ function WriteUserReview(props) {
       )}
 
       { view === "feedback" && (
-        <div> 
-          <Typography className={styles.smallHeaders}>Käyttäjäpohjainen palaute </Typography>
-          
-          <hr style={{backgroundColor: "#949494", height: 1, width: "95%", justifySelf: "center"}}/>
+        <div className={styles.div}>
 
           <Typography className={styles.smallHeaders}>Kiitos palautteesta! </Typography>
 

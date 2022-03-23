@@ -47,7 +47,7 @@ const useStyles = makeStyles(() => ({
     flexGrow: 1,
   },
   addPadding: {
-    padding: "15px",
+    padding: "5px 15px",
   },
   close: {
     color: "white",
@@ -126,10 +126,8 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "left",
-    alignItems: "left",
     marginTop: "20px",
-    marginBottom: "20px",
-    marginLeft: "10px",
+    marginBottom: "10px",
 
     "& Button": {
       borderRadius: "30px",
@@ -386,14 +384,11 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
 
               {ifGuideInfoExists() && <>
                 {/* Description of segment, this might be changed later */}
-                <Grid item xs={12} sm={12} align="center" style={{ paddingTop: "15px"}}>
-                  {description !== "" && <InputBase
-                    className={classes.normalText}
-                    value={description}
-                    fullWidth={true}
-                    multiline
-                    maxRows={6}
-                  />}
+                <Grid item xs={12} sm={12} align="start" style={{ padding: "15px 10px"}}>
+                  {description !== "" &&
+                    <text className={classes.normalText}>
+                      {description}
+                    </text>}
                 </Grid>
 
                 {/* Info about latest update time */}
@@ -495,6 +490,7 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                         multiline
                         fullWidth={true}
                         maxRows={6}
+                        disabled={true}
                       />}
                     </Grid>
 
@@ -522,18 +518,20 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                       <DisplaySnowType Lumilaatu={segmentdata.update.Käyttäjä_lumilaatu} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true}/>
                     </> }
                     
-                    {segmentdata.update.Käyttäjä_lisätiedot === 1 && (
-                      <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false}/>
-                    )}
-                    {segmentdata.update.Käyttäjä_lisätiedot === 2 && (
-                      <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false}/>
-                    )}
-                    {segmentdata.update.Käyttäjä_lisätiedot === 3 && (
-                      <>
+                    <div>
+                      {segmentdata.update.Käyttäjä_lisätiedot === 1 && (
                         <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false}/>
+                      )}
+                      {segmentdata.update.Käyttäjä_lisätiedot === 2 && (
                         <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false}/>
-                      </>
-                    )}
+                      )}
+                      {segmentdata.update.Käyttäjä_lisätiedot === 3 && (
+                        <Grid style={{display: "flex", padding: "0px 15px"}}>
+                          <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false}/>
+                          <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false}/>
+                        </Grid>
+                      )}
+                    </div>
 
                     <Grid item xs={12} sm={12} container>
                       <Grid item xs={12} sm={5}>

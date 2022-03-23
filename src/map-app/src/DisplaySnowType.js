@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => ({
   snowInfo: {
     alignContent: "center",
   },
-  smallHeaders: {
+  mainheaders: {
     fontFamily: "Donau",
     letterSpacing: 2,
     textTransform: "uppercase",
@@ -20,13 +20,32 @@ const useStyles = makeStyles(() => ({
     display: "block",
     fontSize: "medium",
   },
-  normalText: {
+  secondaryHeaders: {
+    fontFamily: "Donau",
+    letterSpacing: 2,
+    textTransform: "uppercase",
+    fontWeight: 600,
+    display: "block",
+    fontSize: "small",
+  },
+  mainText: {
     fontFamily: "Donau",
     letterSpacing: 2,
     fontWeight: 300,
     fontSize: "medium",
   },
-  skiabilityIcon: {
+  secondaryText: {
+    fontFamily: "Donau",
+    letterSpacing: 2,
+    fontWeight: 300,
+    fontSize: "small",
+  },
+  mainskiabilityIcon: {
+    height: "16px",
+    width: "90px",
+    display: "block",
+  },
+  secondarySkiabilityIcon: {
     height: "16px",
     width: "90px",
     display: "block",
@@ -39,6 +58,16 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#C4C4C4",
     justifyContent: "center",
     borderRadius: "7px",
+  },
+  snowtypeIconBig: {
+    display: "block",
+    margin: "auto",
+    width: "100%",
+  },
+  snowtypeIconSmall: {
+    display: "block",
+    margin: "auto",
+    width: "75%",
   },
 }));
   
@@ -60,29 +89,30 @@ function DisplaySnowType(props) {
 
 
   return (
-    <Grid item xs={inline ? 6 : 12} sm={props.Main ? 5 : 4} style={{ paddingTop: (isXS ? "0px" : "10px") }} container>                 
-      <Grid item xs={inline ? 6 : (props.Main ? 4 : 3)} sm={3}>
+    <Grid item xs={inline ? 6 : 12} sm={5} style={{ paddingTop: (isXS ? "0px" : "10px") }} container>
+      <Grid item xs={inline ? 6 : 4} sm={3}>
         {
           <CardMedia
             component={"img"}
+            className={props.Main? classes.snowtypeIconBig : classes.snowtypeIconSmall}
             src={process.env.PUBLIC_URL + "/icons/snowtypes-and-harms/" + props.Lumilaatu + ".svg"}
             alt="lumityypin logo"
           />
         }
       </Grid>
 
-      <Grid item container xs={inline ? 6 : (props.Main ? 8 : 9)} sm={9} className={classes.snowInfo}>
+      <Grid item container xs={inline ? 6 : 8} sm={9} className={classes.snowInfo}>
         <Grid item xs={12} sm={12}>
-          <Typography className={classes.smallHeaders} variant="body1" component="p">
+          <Typography className={props.Main? classes.mainheaders : classes.secondaryHeaders} variant="body1" component="p">
             {props.Nimi}
           </Typography>
         </Grid>
 
         {props.Hiihdettavyys !== null &&
         <Grid item xs={12} sm={12}>
-          <Typography xs={12} sm={12} className={classes.normalText} variant="body2" component="p">
+          <Typography xs={12} sm={12} className={props.Main? classes.mainText : classes.secondaryText} variant="body2" component="p">
             Hiihdettävyys
-            <img className={classes.skiabilityIcon} src={process.env.PUBLIC_URL + "/icons/skiability/" + props.Hiihdettavyys + ".svg"} alt="skiability" />
+            <img className={props.Main? classes.mainskiabilityIcon : classes.secondarySkiabilityIcon} src={process.env.PUBLIC_URL + "/icons/skiability/" + props.Hiihdettavyys + ".svg"} alt="skiability" />
           </Typography>
         </Grid>}
 

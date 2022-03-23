@@ -52,7 +52,7 @@ function isObjectEmpty(obj) {
 
 
 //
-const userReviewUpdater = cron.schedule("*/5 * * * * *", async () => {
+const userReviewUpdater = cron.schedule("*/1 * * * *", async () => {
   console.log("Updating user reviews...");
   let newestUpdate;
 
