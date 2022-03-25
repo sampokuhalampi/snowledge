@@ -24,8 +24,6 @@ const useStyles = makeStyles(() => ({
   },
   textContainer: {
     overflowY: "scroll",
-    marginRight: "50px",
-    marginLeft: "50px",
     flex: 4
   },
   text: {
@@ -92,7 +90,7 @@ function WelcomeView(props) {
         <Box className={styledClasses.iconContainer} style={{flex: 2}}>
           <img src="pallaksen_pollot_logo_white.png" alt="Pallaksen pöllöt logo" className={styledClasses.icon} />
         </Box>
-        <Box className={styledClasses.textContainer} style={{flex: 8}}>
+        <Box className={styledClasses.textContainer} style={{flex: 8, marginLeft: "30px", marginRight: "15px", marginTop: "10px"}}>
           {
             text.map((paragraph, index) => {
               return <Typography key={index} className={styledClasses.text}>{paragraph}</Typography>;
@@ -134,7 +132,7 @@ function WelcomeView(props) {
         <Box className={styledClasses.iconContainer}>
           <img src="pallaksen_pollot_logo_white.png" alt="Pallaksen pöllöt logo" className={styledClasses.icon} />
         </Box>
-        <Box className={styledClasses.textContainer}>
+        <Box className={styledClasses.textContainer} style={{marginLeft: "50px", marginRight: "50px"}}>
           {
             text.map((paragraph, index) => {
               return <Typography key={index} className={styledClasses.text}>{paragraph}</Typography>;
