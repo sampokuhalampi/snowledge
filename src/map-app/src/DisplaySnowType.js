@@ -50,15 +50,6 @@ const useStyles = makeStyles(() => ({
     width: "90px",
     display: "block",
   },
-  authorTag: {
-    padding: "2px",
-    fontFamily: "Josefin Sans",
-    fontSize: "12px",
-    color: "black",
-    backgroundColor: "#C4C4C4",
-    justifyContent: "center",
-    borderRadius: "7px",
-  },
   snowtypeIconBig: {
     display: "block",
     margin: "auto",
@@ -115,8 +106,6 @@ function DisplaySnowType(props) {
             <img className={props.Main? classes.mainskiabilityIcon : classes.secondarySkiabilityIcon} src={process.env.PUBLIC_URL + "/icons/skiability/" + props.Hiihdettavyys + ".svg"} alt="skiability" />
           </Typography>
         </Grid>}
-
-        {/*<Typography className={classes.authorTag}>Oppaan lumitieto</Typography>*/}
       </Grid>
     </Grid>
   );

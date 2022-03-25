@@ -99,6 +99,13 @@ function ReviewManage(props) {
 
   React.useEffect(() => {
     fetchReviews();
+    
+    const interval = setInterval(() => {
+      console.log("This is called every 10 seconds!");
+      fetchReviews();
+    }, 10000);
+
+    return () => clearInterval(interval);
   }, []);
   /*
    * Event handlers
@@ -122,21 +129,19 @@ function ReviewManage(props) {
 
   };
 
-   
  
   // Renderöinti
   return (  
     <div>
       
-      {/* Käyttäjäkortit */}
       <Box className={classes.cardContainer}>
         <Grid container spacing={0}> 
           
-          {/* Luodaan jokaiselle käyttäjälle oma kortti */}
+          {/* Luodaan jokaiselle arviolle oma kortti */}
           {
-            reviewData === null || reviewData === undefined
+            reviewData.length === 0
               ? 
-              <div />
+              <p style={{padding: "10px"}}>Ei käyttäjäarvioita</p>
               :
               reviewData.map((item, index) => {
                 return (

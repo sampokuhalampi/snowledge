@@ -23,20 +23,21 @@ const useStyles = makeStyles(() => ({
     height: "16px",
     width: "90px",
     display: "block",
-    marginLeft: "20px",
+    marginLeft: "3px",
   },
 
   smallHeaders: {
     padding: "3px",
     marginTop: "5px",
-    marginLeft: "20px",
-    marginRight: "20px",
     marginBottom: "5px",
     display: "flex",
-    fontSize: "18px",
     justifyContent: "center",
     color: "#000",
-    fontFamily: "Josefin Sans",
+
+    fontFamily: "Donau",
+    letterSpacing: 2,
+    fontWeight: 600,
+    fontSize: "18px",
   },
 
   mediumText: {
@@ -44,9 +45,12 @@ const useStyles = makeStyles(() => ({
     padding: "3px",
     marginBottom: "5px",
     display: "flex",
-    fontSize: "14px",
     color: "#000",
-    fontFamily: "Josefin Sans",
+
+    fontFamily: "Donau",
+    letterSpacing: 1,
+    fontWeight: 300,
+    fontSize: "18px",
   },
 
   buttonsRight: {
@@ -61,11 +65,14 @@ const useStyles = makeStyles(() => ({
       textTransform: "none",
       width: "94px",
       height: "37px",
-      fontSize: "14px",
       marginBottom: "5px",
       marginRight: "10px",
-      fontFamily: "Josefin Sans",
       color: "#FFF",
+
+      fontFamily: "Donau",
+      letterSpacing: 2,
+      fontWeight: 300,
+      fontSize: "16px",
     },
   },
 
@@ -80,15 +87,18 @@ const useStyles = makeStyles(() => ({
       textTransform: "lowercase",
       width: "181px",
       height: "60px",
-      fontSize: "16px",
       marginBottom: "10px",
-      fontFamily: "Josefin Sans",
       color: "#FFF",
+
+      fontFamily: "Donau",
+      letterSpacing: 2,
+      fontWeight: 300,
+      fontSize: "18px",
     },
   },
 
   grid: {
-    margin: "10px",
+    marginTop: "10px",
   },
 
   lightBlue: {
@@ -115,14 +125,14 @@ const useStyles = makeStyles(() => ({
   white: {
     backgroundColor: "#FFF",
     borderRadius: "30px",
-    maxHeight: "85px",
+    maxHeight: "80px",
     marginBottom: "10px",
     display: "flex",
     justifyContent: "left",
   },
 
   description: {
-    margin: "0px 35px",
+    margin: "5px 10px",
     display: "flex",
     flexDirection: "column",
     alignItems: "left",
@@ -393,7 +403,7 @@ function WriteUserReview(props) {
                       onClick={() => selectButton(index, data)}
                       className={styles.white}
                       style={{ 
-                        width: (isXS ? "90%" : "70%"), 
+                        width: (isXS ? "95%" : "70%"), 
                         border: (index === selectedButton ? "3px solid #4F81CD" : "1px solid #62A1FF") }}
                     >
                       <CardMedia
@@ -414,10 +424,10 @@ function WriteUserReview(props) {
           {/* Lumitiedon kuvausteksti */}
           { selectedType !== null && (
             <Box className={styles.description}>
-              <Typography className={styles.smallHeaders} style={{justifyContent: "left"}}>{selectedType.Nimi}</Typography>
+              <Typography className={styles.smallHeaders} style={{justifyContent: "left", marginBottom: "0px"}}>{selectedType.Nimi}</Typography>
               <p 
                 className={styles.mediumText}
-                style={{marginLeft: "17px", marginRight: "1px"}}
+                style={{marginRight: "1px"}}
               >{selectedType.Lumityyppi_selite}</p>
 
               { selectedType.Hiihdettavyys > 0 && (
@@ -477,7 +487,9 @@ function WriteUserReview(props) {
       { view === "feedback" && (
         <div className={styles.div}>
 
-          <Typography className={styles.smallHeaders}>Kiitos palautteesta! </Typography>
+          {props.mode === "category" &&
+            <Typography className={styles.smallHeaders}>Kiitos palautteesta! </Typography>        
+          }
 
           <Box className={styles.part}>
             <Typography variant="h5" className={styles.mediumText}>Muu huomio tai terveiset Pallaksen Pöllöille: </Typography>
@@ -488,7 +500,14 @@ function WriteUserReview(props) {
             <Button variant="contained" className={styles.darkGrey} onClick={props.close}>Sulje</Button>
             <Button variant="contained" className={styles.darkGrey} 
               disabled={ text === "" ? true : false } onClick={postFeedback}>Lähetä</Button>
-          </Box>        
+          </Box>    
+
+          <text style={{fontFamily: "Donau", letterSpacing: 2, fontWeight: 500, fontSize: "medium"}}>Lumisovellus on testausvaiheessa. Lähetä myös kehittäjille&nbsp;  
+            <a
+              href={"https://docs.google.com/forms/d/e/1FAIpQLSdal9SJFzBsv0UoMXraZ9zH7KR0Y-1moAsGbKKdx-0E8Cf9gg/viewform?usp=sf_link"}
+            >palautetta: </a>
+          </text>
+  
         </div>
       )}
     </>

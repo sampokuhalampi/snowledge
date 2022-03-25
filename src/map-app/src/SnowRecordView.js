@@ -88,13 +88,11 @@ const useStyles = makeStyles(() => ({
     maxHeight: "140px",
   },
   mediumText: {
-    textTransform: "none",
-    padding: "3px",
-    marginBottom: "5px",
-    display: "flex",
-    fontSize: "14px",
-    color: "#000",
-    fontFamily: "Josefin Sans",
+    fontFamily: "Donau",
+    letterSpacing: 2,
+    fontWeight: 300,
+    fontSize: "medium",
+    padding: "0px 0px 10px 5px",
   },
   timeStamp: {
     paddingTop: "10px",
@@ -136,12 +134,14 @@ const useStyles = makeStyles(() => ({
     "& Button": {
       borderRadius: "30px",
       textTransform: "none",
-      width: "266px",
+      width: "280px",
       height: "37px",
-      fontSize: "14px",
       marginBottom: "5px",
-      fontFamily: "Josefin Sans",
+      fontFamily: "Donau",
       color: "#FFF",
+      letterSpacing: 2,
+      fontWeight: 300,
+      fontSize: "18px",
     },
   },
   blue: {
@@ -363,7 +363,7 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
             }
             {!ifGuideInfoExists() &&
               <Grid item xs={12} sm={12}>
-                <Typography className={classes.smallHeaders} style={{ paddingLeft: "5px", paddingTop: (isXS ? "0px" : "5px") }} variant="body1" component="p" display="inline">Käyttäjäarvio</Typography>
+                <Typography className={classes.smallHeaders} style={{ paddingLeft: "5px", paddingTop: (isXS ? "0px" : "5px") }} variant="body1" component="p" display="inline">Käyttäjien arvio</Typography>
               </Grid>
             }
 
@@ -468,7 +468,7 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                 {/* Info about latest update time */}
                 <Grid item xs={12} sm={5}>
                   <Typography className={classes.timeStamp} align="left" variant="body2" component="p">
-                    {segmentdata.update === null || segmentdata.update === undefined ? "" : guideUpdateTime}
+                    {segmentdata.update === null || segmentdata.update === undefined ? "" : (ifGuideInfoExists() ? guideUpdateTime : userUpdateTime)}
                   </Typography>
                 </Grid>
               </Grid >
@@ -512,7 +512,7 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                         <Divider className={classes.divider} />
                       </Grid> 
                       <Grid item xs={12} sm={12}>
-                        <Typography className={classes.smallHeaders} style={{ paddingLeft: "5px", paddingTop: (isXS ? "10px" : "5px") }} variant="body1" component="p" display="inline">Käyttäjien arvio</Typography>
+                        <Typography className={classes.smallHeaders} style={{ paddingLeft: "5px", paddingTop: "10px"}} variant="body1" component="p" display="inline">Käyttäjien arvio</Typography>
                       </Grid>
 
                       <DisplaySnowType Lumilaatu={segmentdata.update.Käyttäjä_lumilaatu} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true}/>
@@ -520,11 +520,13 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                     
                     <div>
                       {segmentdata.update.Käyttäjä_lisätiedot === 1 && (
-                        <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false}/>
-                      )}
+                        <Grid style={{display: "flex", padding: "0px 15px"}}>
+                          <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false}/>
+                        </Grid>                      )}
                       {segmentdata.update.Käyttäjä_lisätiedot === 2 && (
-                        <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false}/>
-                      )}
+                        <Grid style={{display: "flex", padding: "0px 15px"}}>
+                          <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false}/>
+                        </Grid>                      )}
                       {segmentdata.update.Käyttäjä_lisätiedot === 3 && (
                         <Grid style={{display: "flex", padding: "0px 15px"}}>
                           <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false}/>
