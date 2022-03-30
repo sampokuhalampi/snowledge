@@ -115,13 +115,12 @@ const useStyles = makeStyles(() => ({
     flex: 1,
     display: "flex",
     justifyContent: "center",
+    alignItems: "center",
     flexWrap: "wrap",
-    paddingTop: "10px",
-    paddingBottom: "5px"
   },
   sponsor: {
-    width: "100px",
-    height: "100px",
+    maxWidth: "40px",
+    maxHeight: "40px",
     padding: "10px"
   },
   buttonsLeft: {
@@ -371,19 +370,19 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
             {!isXS && <>    
               {/* Main snowtype info */}
               {isEnabled(1) &&
-                <DisplaySnowType Lumilaatu={segmentdata.update.Lumilaatu_ID1} Nimi={segmentdata.update.Lumi1.Nimi} Hiihdettavyys={segmentdata.update.Lumi1.Hiihdettavyys} Main={true}/>
+                <DisplaySnowType Lumilaatu={segmentdata.update.Lumilaatu_ID1} Nimi={segmentdata.update.Lumi1.Nimi} Hiihdettavyys={segmentdata.update.Lumi1.Hiihdettavyys} Main={true} Guide={true}/>
               }
               {/* Main snowtype info 2 */}
               {isEnabled(2) &&
-                <DisplaySnowType Lumilaatu={segmentdata.update.Lumilaatu_ID2} Nimi={segmentdata.update.Lumi2.Nimi} Hiihdettavyys={segmentdata.update.Lumi2.Hiihdettavyys} Main={true}/>
+                <DisplaySnowType Lumilaatu={segmentdata.update.Lumilaatu_ID2} Nimi={segmentdata.update.Lumi2.Nimi} Hiihdettavyys={segmentdata.update.Lumi2.Hiihdettavyys} Main={true} Guide={true}/>
               }    
 
               {/* Secondary snowtypes */}
               {isEnabled(3) && 
-                <DisplaySnowType Lumilaatu={segmentdata.update.Toissijainen_ID1} Nimi={segmentdata.update.Lumi3.Nimi} Hiihdettavyys={segmentdata.update.Lumi3.Hiihdettavyys} Main={false}/>
+                <DisplaySnowType Lumilaatu={segmentdata.update.Toissijainen_ID1} Nimi={segmentdata.update.Lumi3.Nimi} Hiihdettavyys={segmentdata.update.Lumi3.Hiihdettavyys} Main={false} Guide={true}/>
               }
               {isEnabled(4) && 
-                <DisplaySnowType Lumilaatu={segmentdata.update.Toissijainen_ID2} Nimi={segmentdata.update.Lumi4.Nimi} Hiihdettavyys={segmentdata.update.Lumi4.Hiihdettavyys} Main={false}/>
+                <DisplaySnowType Lumilaatu={segmentdata.update.Toissijainen_ID2} Nimi={segmentdata.update.Lumi4.Nimi} Hiihdettavyys={segmentdata.update.Lumi4.Hiihdettavyys} Main={false} Guide={true}/>
               }
 
               {ifGuideInfoExists() && <>
@@ -397,11 +396,9 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
 
                 {/* Info about latest update time */}
                 <Grid item sm={12} container>
-                  <Grid item sm={5}>
-                    <Typography className={classes.timeStamp} variant="body2" component="p">
-                      {segmentdata.update === null || segmentdata.update === undefined ? "" : guideUpdateTime}
-                    </Typography>
-                  </Grid>
+                  <Typography className={classes.timeStamp} variant="body2" component="p">
+                    {segmentdata.update === null || segmentdata.update === undefined ? "" : guideUpdateTime}
+                  </Typography>
                 </Grid >
               </>}
 
@@ -417,28 +414,29 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                 </>
                 } 
 
-                <DisplaySnowType Lumilaatu={segmentdata.update.Käyttäjä_lumilaatu} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={false}/>
+                <DisplaySnowType Lumilaatu={segmentdata.update.Käyttäjä_lumilaatu} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true} Guide={false}/>
                 
                 {segmentdata.update.Käyttäjä_lisätiedot === 1 && (
-                  <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false}/>
+                  <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false} Guide={false}/>
                 )}
                 {segmentdata.update.Käyttäjä_lisätiedot === 2 && (
-                  <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false}/>
+                  <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false} Guide={false}/>
                 )}
                 {segmentdata.update.Käyttäjä_lisätiedot === 3 && (
                   <>
-                    <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false}/>
-                    <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false}/>
+                    <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false} Guide={false}/>
+                    <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false} Guide={false}/>
                   </>
                 )}
 
                 <Grid item xs={12} sm={12} container>
-                  <Grid item xs={12} sm={5}>
-                    <Typography className={classes.timeStamp} align="left" variant="body2" component="p">
-                      {segmentdata.update === null || segmentdata.update === undefined ? "" : userUpdateTime}
-                    </Typography>
-                  </Grid>
+                  <Typography className={classes.timeStamp} align="left" variant="body2" component="p">
+                    {segmentdata.update === null || segmentdata.update === undefined ? "" : userUpdateTime}
+                  </Typography>
                 </Grid >
+                <Grid item xs={12} sm={12}>
+                  <Divider className={classes.divider} />
+                </Grid> 
               </Grid>}
             </>}
 
@@ -451,15 +449,15 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
               {ifGuideInfoExists() && <>
                 {/* Main snowtype info */}
                 {isEnabled(1) &&
-                  <DisplaySnowType Lumilaatu={segmentdata.update.Lumilaatu_ID1} Nimi={segmentdata.update.Lumi1.Nimi} Hiihdettavyys={segmentdata.update.Lumi1.Hiihdettavyys} Main={true}/>
+                  <DisplaySnowType Lumilaatu={segmentdata.update.Lumilaatu_ID1} Nimi={segmentdata.update.Lumi1.Nimi} Hiihdettavyys={segmentdata.update.Lumi1.Hiihdettavyys} Main={true} Guide={true}/>
                 }
                 {/* Main snowtype info 2 */}
                 {isEnabled(2) &&
-                  <DisplaySnowType Lumilaatu={segmentdata.update.Lumilaatu_ID2} Nimi={segmentdata.update.Lumi2.Nimi} Hiihdettavyys={segmentdata.update.Lumi2.Hiihdettavyys} Main={true}/>
+                  <DisplaySnowType Lumilaatu={segmentdata.update.Lumilaatu_ID2} Nimi={segmentdata.update.Lumi2.Nimi} Hiihdettavyys={segmentdata.update.Lumi2.Hiihdettavyys} Main={true} Guide={true}/>
                 }              
               </>}
               {!ifGuideInfoExists() && <>
-                <DisplaySnowType Lumilaatu={segmentdata.update.Käyttäjä_lumilaatu} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true}/>
+                <DisplaySnowType Lumilaatu={segmentdata.update.Käyttäjä_lumilaatu} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true} Guide={false}/>
               </>}
 
               {!expanded &&
@@ -479,10 +477,10 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
 
                   {/* Secondary snowtypes */}
                   {isEnabled(3) && 
-                    <DisplaySnowType Lumilaatu={segmentdata.update.Toissijainen_ID1} Nimi={segmentdata.update.Lumi3.Nimi} Hiihdettavyys={segmentdata.update.Lumi3.Hiihdettavyys} Main={false}/>
+                    <DisplaySnowType Lumilaatu={segmentdata.update.Toissijainen_ID1} Nimi={segmentdata.update.Lumi3.Nimi} Hiihdettavyys={segmentdata.update.Lumi3.Hiihdettavyys} Main={false} Guide={true}/>
                   }
                   {isEnabled(4) && 
-                    <DisplaySnowType Lumilaatu={segmentdata.update.Toissijainen_ID2} Nimi={segmentdata.update.Lumi4.Nimi} Hiihdettavyys={segmentdata.update.Lumi4.Hiihdettavyys} Main={false}/>
+                    <DisplaySnowType Lumilaatu={segmentdata.update.Toissijainen_ID2} Nimi={segmentdata.update.Lumi4.Nimi} Hiihdettavyys={segmentdata.update.Lumi4.Hiihdettavyys} Main={false} Guide={true}/>
                   }
 
                   {ifGuideInfoExists() && <>
@@ -515,22 +513,22 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                         <Typography className={classes.smallHeaders} style={{ paddingLeft: "5px", paddingTop: "10px"}} variant="body1" component="p" display="inline">Käyttäjien arvio</Typography>
                       </Grid>
 
-                      <DisplaySnowType Lumilaatu={segmentdata.update.Käyttäjä_lumilaatu} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true}/>
+                      <DisplaySnowType Lumilaatu={segmentdata.update.Käyttäjä_lumilaatu} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true} Guide={false}/>
                     </> }
                     
                     <div>
                       {segmentdata.update.Käyttäjä_lisätiedot === 1 && (
                         <Grid style={{display: "flex", padding: "0px 15px"}}>
-                          <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false}/>
+                          <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false} Guide={false}/>
                         </Grid>                      )}
                       {segmentdata.update.Käyttäjä_lisätiedot === 2 && (
                         <Grid style={{display: "flex", padding: "0px 15px"}}>
-                          <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false}/>
+                          <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false} Guide={false}/>
                         </Grid>                      )}
                       {segmentdata.update.Käyttäjä_lisätiedot === 3 && (
                         <Grid style={{display: "flex", padding: "0px 15px"}}>
-                          <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false}/>
-                          <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false}/>
+                          <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false} Guide={false}/>
+                          <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false} Guide={false}/>
                         </Grid>
                       )}
                     </div>
@@ -543,35 +541,19 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                       </Grid>
                     </Grid >
 
+                    <Grid item xs={12} sm={12}>
+                      <Divider className={classes.divider} />
+                    </Grid> 
                   </Grid>}
-
-                  {/* Sponsor logos */}
-                  {(isXS && segmentdata.Nimi !== "Metsä") && <Grid container item xs={12} className={classes.sponsorContainer} >
-                    {/*<Grid item xs={6}>
-                      <a href="https://www.google.com/" target="_blank" rel="noopener noreferrer">
-                        <img src="sponsor.png" alt="Sponsor logo" className={classes.sponsor} />
-                      </a>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <a href="https://www.google.fi/maps/" target="_blank" rel="noopener noreferrer">
-                        <img src="" alt="sponsor2.png" className={classes.sponsor} />
-                      </a>
-                    </Grid>*/}
-                  </Grid>}
-
-                  {/*<UserReviewView segmentdata={segmentdata} writeReviewEnabled ={writeReviewEnabled}/>*/}
                 </Collapse>
               </Grid>
             </>}
-
 
             {/* Snow review buttons */}
             {!signedUser && ( 
               <Grid item xs={12} sm={12}>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                   
-                  <Divider className={classes.divider} />
-
                   <Box className={classes.buttonsLeft}>       
                     <Typography className={classes.mediumText}>Liikuitko alueella?</Typography> 
 
@@ -582,19 +564,6 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
               </Grid>
             )}
 
-            {(isXS && (isEnabled(3) || isEnabled(4) || isEnabled(5) || description !== "")) &&
-            <Grid item xs={12} align="center">
-              <IconButton
-                className={expanded ? classes.expandOpen : classes.expandClosed}
-                style={{ padding: 0 }}
-                onClick={handleExpandClick}
-                aria-expanded={expanded}
-                aria-label="show more"
-              >
-                <img src={`${process.env.PUBLIC_URL}/icons/expand.svg`} width="80%" height="15px" alt="expand" fill="black"></img>
-              </IconButton>
-            </Grid>
-            }
           </Grid>}
         {(isEmpty) && 
           <div className={classes.addPadding}>
@@ -613,6 +582,37 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
 
           </div>
         }
+
+        {/* Sponsor logos */} 
+        {expanded && !isEmpty &&
+        <Grid container item xs={12} className={classes.sponsorContainer} >
+          <a href="https://www.google.com/" target="_blank" rel="noopener noreferrer">
+            <img src="sponsorit/sponsor1.png" alt="" className={classes.sponsor} />
+          </a>
+
+          <a href="https://www.google.fi/maps/" target="_blank" rel="noopener noreferrer">
+            <img src="sponsorit/sponsor2.png" alt="" className={classes.sponsor} />
+          </a>
+
+          <a href="https://www.google.fi/maps/" target="_blank" rel="noopener noreferrer">
+            <img src="sponsorit/sponsor3.png" alt="" className={classes.sponsor} />
+          </a>
+        </Grid>}
+
+        {/* Closing arrow */}
+        {isXS && !isEmpty &&
+        <Grid item xs={12} align="center" className={classes.addPadding}>
+          <IconButton
+            className={expanded ? classes.expandOpen : classes.expandClosed}
+            style={{ padding: 0, marginBottom: "5px" }}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <img src={`${process.env.PUBLIC_URL}/icons/expand.svg`} width="80%" height="15px" alt="expand" fill="black"></img>
+          </IconButton>
+        </Grid>}
+
       </Grid>
     </Grid> 
   );

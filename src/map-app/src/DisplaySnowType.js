@@ -58,7 +58,7 @@ const useStyles = makeStyles(() => ({
   snowtypeIconSmall: {
     display: "block",
     margin: "auto",
-    width: "75%",
+    width: "85%",
   },
 }));
   
@@ -71,7 +71,7 @@ function DisplaySnowType(props) {
   const inline = isStonesOrBranches();
 
   function isStonesOrBranches () {
-    if (props.Lumilaatu === 21 || props.Lumilaatu === 22) {
+    if (props.Guide === false && (props.Lumilaatu === 21 || props.Lumilaatu === 22)) {
       return true;
     }
     return false;
@@ -80,7 +80,7 @@ function DisplaySnowType(props) {
 
 
   return (
-    <Grid item xs={inline ? 6 : 12} sm={5} style={{ paddingTop: (isXS ? "0px" : "10px") }} container>
+    <Grid item xs={inline ? 6 : 12} sm={6} style={{ paddingTop: (isXS ? "0px" : "10px") }} container>
       <Grid item xs={inline ? 6 : 4} sm={3}>
         {
           <CardMedia

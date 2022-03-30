@@ -47,11 +47,13 @@ const useStyles = makeStyles(() => ({
     flex: 1,
     display: "flex",
     justifyContent: "center",
-    flexWrap: "wrap"
+    alignItems: "center",
+    flexWrap: "wrap",
+    marginTop: "20px"
   },
   sponsor: {
-    width: "100px",
-    height: "100px",
+    maxWidth: "60px",
+    maxHeight: "60px",
     padding: "10px"
   },
   mobileRoot: {
@@ -108,12 +110,15 @@ function WelcomeView(props) {
 
 
         <Box className={styledClasses.sponsorContainer} style={{flex: 2}}>
-          {/* <a href="https://www.google.com/" target="_blank" rel="noopener noreferrer">
-            <img src="sponsor.png" alt="Sponsor logo" className={styledClasses.sponsor} />
+          <a href="https://www.google.com/" target="_blank" rel="noopener noreferrer">
+            <img src="sponsorit/sponsor1.png" alt="" className={styledClasses.sponsor} />
           </a>
           <a href="https://www.google.fi/maps/" target="_blank" rel="noopener noreferrer">
-            <img src="sponsor2.png" alt="Sponsor logo" className={styledClasses.sponsor} />
-          </a> */}
+            <img src="sponsorit/sponsor2.png" alt="" className={styledClasses.sponsor} />
+          </a>
+          <a href="https://www.google.fi/maps/" target="_blank" rel="noopener noreferrer">
+            <img src="sponsorit/sponsor3.png" alt="" className={styledClasses.sponsor} />
+          </a>
         </Box>
         <Box className={styledClasses.buttonContainer}>
           <Button
@@ -147,12 +152,15 @@ function WelcomeView(props) {
           >Lähetä kehittäjille palautetta tästä: </a>
         </Box>
         <Box className={styledClasses.sponsorContainer}>
-          {/* <a href="https://www.google.com/" target="_blank" rel="noopener noreferrer">
-            <img src="sponsor.png" alt="Sponsor logo" className={styledClasses.sponsor} />
+          <a href="https://www.google.com/" target="_blank" rel="noopener noreferrer">
+            <img src="sponsorit/sponsor1.png" alt="" className={styledClasses.sponsor} />
           </a>
           <a href="https://www.google.fi/maps/" target="_blank" rel="noopener noreferrer">
-            <img src="sponsor2.png" alt="Sponsor logo" className={styledClasses.sponsor} />
-          </a> */}
+            <img src="sponsorit/sponsor2.png" alt="" className={styledClasses.sponsor} />
+          </a>
+          <a href="https://www.google.fi/maps/" target="_blank" rel="noopener noreferrer">
+            <img src="sponsorit/sponsor3.png" alt="" className={styledClasses.sponsor} />
+          </a>
         </Box>
       </Box>
     );
