@@ -1,3 +1,9 @@
+/**
+Using cron schedule, function gets number of segments and makes loop of same length.
+In this loop, function gets the newest user review about the segment from KayttajaArviot-table.
+After checking that user review is newer than segment update, either it updates or inserts it to Paivitykset-table.
+**/
+
 const cron = require("node-cron");
 const date = require("date-and-time");
 const database = require("./routers/objectRouters/database");
@@ -105,6 +111,4 @@ const userReviewUpdater = cron.schedule("*/1 * * * *", async () => {
   console.log("All segments updated");
 });
 
-
 module.exports = userReviewUpdater;
-
