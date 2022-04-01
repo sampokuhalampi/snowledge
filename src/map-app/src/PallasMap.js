@@ -266,12 +266,12 @@ function PallasMap(props) {
         //Add hotel location marker and ski-lift lines to map.
         var hotel = document.createElement("img");
         hotel.className = "Hotel";
-        hotel.src ="icons/hotel_icon2.png";
+        hotel.src ="icons/hotel_marker.svg";
         hotel.alt = "Hotel_icon";
         hotel.style.width = "45px";
         hotel.style.height ="45px";
         
-        new maplibregl.Marker(hotel).setLngLat([24.061571, 68.046341]).addTo(map);
+        new maplibregl.Marker(hotel).setLngLat([24.062026, 68.046691]).addTo(map);
 
         // When user hovers over a segment, update its hover feature state to true
         var hoveredSegmentId = null;
