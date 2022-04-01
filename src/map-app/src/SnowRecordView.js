@@ -87,19 +87,17 @@ const useStyles = makeStyles(() => ({
     padding: "5px",
     maxHeight: "140px",
   },
+  smallText: {
+    fontFamily: "Donau",
+    letterSpacing: 2,
+    fontWeight: 100,
+    fontSize: "small",
+    marginLeft: "5px",
+  },
   mediumText: {
     fontFamily: "Donau",
     letterSpacing: 2,
     fontWeight: 300,
-    fontSize: "medium",
-    padding: "0px 0px 10px 5px",
-  },
-  timeStamp: {
-    paddingTop: "10px",
-    paddingBottom: "5px",
-    fontFamily: "Donau",
-    letterSpacing: 2,
-    fontWeight: 600,
     fontSize: "medium",
   },
   dangerIcon: {
@@ -148,6 +146,24 @@ const useStyles = makeStyles(() => ({
   },
   darkGrey: {
     backgroundColor: "#4C4C4C",
+  },
+  authorTag: {
+    padding: "4px",
+    margin: "4px",
+    fontFamily: "Donau",
+    letterSpacing: 2,
+    fontWeight: 600,
+    fontSize: "small",
+    color: "black",
+    justifyContent: "center",
+    borderRadius: "7px",
+  },
+  timeStamp: {
+    fontFamily: "Donau",
+    letterSpacing: 2,
+    fontWeight: 600,
+    fontSize: "medium",
+    marginLeft: "5px",
   },
 }));
 
@@ -204,7 +220,6 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
   const isEmpty = (segmentdata.update === null || segmentdata.update === undefined ? true : checkIfEmpty());
   // eslint-disable-next-line no-unused-vars
   const [expanded, setExpanded] = React.useState(isXS ? false : true);
-
 
   // Gets boolean value of snowtype visibility, by given index (indices 1&2 are primary types, 3&4 are secondary types, 5 user type)
   function isEnabled(index) {
@@ -354,18 +369,6 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
         {(!isEmpty) && 
           <Grid item xs={12} sm={12} container className={classes.addPadding}>
 
-            {/* Author headers */}
-            {ifGuideInfoExists() &&
-              <Grid item xs={12} sm={12}>
-                <Typography className={classes.smallHeaders} style={{ paddingLeft: "5px", paddingTop: (isXS ? "0px" : "5px") }} variant="body1" component="p" display="inline">Oppaiden arvio</Typography>
-              </Grid>
-            }
-            {!ifGuideInfoExists() &&
-              <Grid item xs={12} sm={12}>
-                <Typography className={classes.smallHeaders} style={{ paddingLeft: "5px", paddingTop: (isXS ? "0px" : "5px") }} variant="body1" component="p" display="inline">Käyttäjien arvio</Typography>
-              </Grid>
-            }
-
             {/* Desktop view information */}
             {!isXS && <>    
               {/* Main snowtype info */}
@@ -387,32 +390,40 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
 
               {ifGuideInfoExists() && <>
                 {/* Description of segment, this might be changed later */}
-                <Grid item xs={12} sm={12} align="start" className={classes.textContainer}>
-                  {description !== "" &&
+                {description !== "" && description !== null &&
+                  <Grid item xs={12} sm={12} align="start" className={classes.textContainer}>
                     <text className={classes.normalText}>
                       {description}
-                    </text>}
-                </Grid>
+                    </text>
+                  </Grid>            
+                }
+
 
                 {/* Info about latest update time */}
-                <Grid item sm={12} container>
-                  <Typography className={classes.timeStamp} variant="body2" component="p">
-                    {segmentdata.update === null || segmentdata.update === undefined ? "" : guideUpdateTime}
-                  </Typography>
+                <Grid item sm={12} container style={{paddingTop: "10px"}}>
+                  <Grid item sm={12}>
+                    <Typography className={classes.timeStamp}>{segmentdata.update === null || segmentdata.update === undefined ? "" : guideUpdateTime}</Typography>
+                  </Grid>
+                  <Grid>
+                    <Typography className={classes.authorTag} style={{backgroundColor: "#9FAFCE"}}>Pallaksen Pöllöt </Typography>
+                  </Grid>
                 </Grid >
+
+                <Grid item xs={12} sm={12}>
+                  <Divider className={classes.divider} />
+                </Grid> 
               </>}
 
               {/* User-made snowtypes */}
               {ifUserInfoExists() && <Grid item xs={12} sm={12} container>
                 {ifGuideInfoExists() && <>
-                  <Grid item xs={12} sm={12}>
-                    <Divider className={classes.divider} />
-                  </Grid> 
-                  <Grid item xs={12} sm={12}>
-                    <Typography className={classes.smallHeaders} style={{ paddingLeft: "5px", paddingTop: (isXS ? "10px" : "5px") }} variant="body1" component="p" display="inline">Käyttäjien arvio</Typography>
-                  </Grid>
+                  <Typography className={classes.smallText}>Alla oleva tieto pohjautuu tunturissa vierailleen päivitykseen.</Typography>
                 </>
-                } 
+                }
+
+                {!ifGuideInfoExists() && <>
+                  <Typography className={classes.smallText}>Alueella ei ole Pallaksen Pöllöjen vahvistamaa tietoa. Alla oleva tieto pohjautuu tunturissa vierailleen päivitykseen.</Typography>
+                </>} 
 
                 <DisplaySnowType Lumilaatu={segmentdata.update.Käyttäjä_lumilaatu} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true} Guide={false}/>
                 
@@ -429,11 +440,15 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                   </>
                 )}
 
-                <Grid item xs={12} sm={12} container>
-                  <Typography className={classes.timeStamp} align="left" variant="body2" component="p">
-                    {segmentdata.update === null || segmentdata.update === undefined ? "" : userUpdateTime}
-                  </Typography>
+                <Grid item sm={12} container style={{paddingTop: "10px"}}>
+                  <Grid item sm={12}>
+                    <Typography className={classes.timeStamp}>{segmentdata.update === null || segmentdata.update === undefined ? "" : userUpdateTime}</Typography>
+                  </Grid>
+                  <Grid>
+                    <Typography className={classes.authorTag} style={{backgroundColor: "#C4C4C4"}}>Vierailija </Typography>
+                  </Grid>
                 </Grid >
+
                 <Grid item xs={12} sm={12}>
                   <Divider className={classes.divider} />
                 </Grid> 
@@ -457,6 +472,7 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                 }              
               </>}
               {!ifGuideInfoExists() && <>
+                <Typography className={classes.smallText}>Alueella ei ole Pallaksen Pöllöjen vahvistamaa tietoa. Alla oleva tieto pohjautuu tunturissa vierailleen päivitykseen.</Typography>
                 <DisplaySnowType Lumilaatu={segmentdata.update.Käyttäjä_lumilaatu} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true} Guide={false}/>
               </>}
 
@@ -464,11 +480,11 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
               <Grid item xs={12} sm={12} container>
 
                 {/* Info about latest update time */}
-                <Grid item xs={12} sm={5}>
-                  <Typography className={classes.timeStamp} align="left" variant="body2" component="p">
-                    {segmentdata.update === null || segmentdata.update === undefined ? "" : (ifGuideInfoExists() ? guideUpdateTime : userUpdateTime)}
-                  </Typography>
-                </Grid>
+                <Grid item xs={12} container style={{paddingTop: "10px"}}>
+                  <Grid item xs={12}>
+                    <Typography className={classes.timeStamp}>{segmentdata.update === null || segmentdata.update === undefined ? "" : (ifGuideInfoExists() ? guideUpdateTime : userUpdateTime)}</Typography>
+                  </Grid>
+                </Grid >
               </Grid >
               }
 
@@ -485,33 +501,35 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
 
                   {ifGuideInfoExists() && <>
                     {/* Description of segment, this might be changed later */}
-                    <Grid item xs={12} sm={12} align="start" className={classes.textContainer}>
-                      {description !== "" &&
+                    {description !== "" && description !== null &&
+                      <Grid item xs={12} sm={12} align="start" className={classes.textContainer}>
                         <text className={classes.normalText}>
                           {description}
-                        </text>}
-                    </Grid>
+                        </text>
+                      </Grid>            
+                    }
 
                     {/* Info about latest update time */}
-                    <Grid item xs={12} sm={12} container>
-                      <Grid item xs={12} sm={5}>
-                        <Typography className={classes.timeStamp} align="left" variant="body2" component="p">
-                          {segmentdata.update === null || segmentdata.update === undefined ? "" : guideUpdateTime}
-                        </Typography>
+                    <Grid item xs={12} container style={{paddingTop: "10px"}}>
+                      <Grid item xs={12}>
+                        <Typography className={classes.timeStamp}>{segmentdata.update === null || segmentdata.update === undefined ? "" : guideUpdateTime}</Typography>
+                      </Grid>
+                      <Grid>
+                        <Typography className={classes.authorTag} style={{backgroundColor: "#9FAFCE"}}>Pallaksen Pöllöt </Typography>
                       </Grid>
                     </Grid >
+                    
+                    <Grid item xs={12} sm={12}>
+                      <Divider className={classes.divider} />
+                    </Grid> 
                   </>}
 
 
                   {/* User-made snowtypes */}
                   {ifUserInfoExists() && <Grid item xs={12} sm={12} container>
                     {ifGuideInfoExists() && <>
-                      <Grid item xs={12} sm={12}>
-                        <Divider className={classes.divider} />
-                      </Grid> 
-                      <Grid item xs={12} sm={12}>
-                        <Typography className={classes.smallHeaders} style={{ paddingLeft: "5px", paddingTop: "10px"}} variant="body1" component="p" display="inline">Käyttäjien arvio</Typography>
-                      </Grid>
+
+                      <Typography className={classes.smallText}>Alla oleva tieto pohjautuu tunturissa vierailleen päivitykseen.</Typography>
 
                       <DisplaySnowType Lumilaatu={segmentdata.update.Käyttäjä_lumilaatu} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true} Guide={false}/>
                     </> }
@@ -533,11 +551,12 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                       )}
                     </div>
 
-                    <Grid item xs={12} sm={12} container>
-                      <Grid item xs={12} sm={5}>
-                        <Typography className={classes.timeStamp} align="left" variant="body2" component="p">
-                          {segmentdata.update === null || segmentdata.update === undefined ? "" : userUpdateTime}
-                        </Typography>
+                    <Grid item xs={12} container style={{paddingTop: "10px"}}>
+                      <Grid item xs={12}>
+                        <Typography className={classes.timeStamp}>{segmentdata.update === null || segmentdata.update === undefined ? "" : userUpdateTime}</Typography>
+                      </Grid>
+                      <Grid>
+                        <Typography className={classes.authorTag} style={{backgroundColor: "#C4C4C4"}}>Vierailija </Typography>
                       </Grid>
                     </Grid >
 
@@ -555,7 +574,7 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                   
                   <Box className={classes.buttonsLeft}>       
-                    <Typography className={classes.mediumText}>Liikuitko alueella?</Typography> 
+                    <Typography className={classes.mediumText} style={{padding: "0px 0px 10px 5px"}}>Liikuitko alueella?</Typography> 
 
                     <Button variant="contained" className={classes.blue} onClick={openForm}>Kyllä, lisää arvio lumitilanteesta.</Button>
                     <Button variant="contained" className={classes.darkGrey} onClick={openFeedback}>Lisää muu havainto.</Button>
@@ -573,7 +592,7 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
 
             {!signedUser && (
               <Box className={classes.buttonsLeft}>       
-                <Typography className={classes.mediumText}>Liikuitko alueella?</Typography> 
+                <Typography className={classes.mediumText} style={{padding: "0px 0px 10px 5px"}}>Liikuitko alueella?</Typography> 
 
                 <Button variant="contained" className={classes.blue} onClick={openForm}>Kyllä, lisää arvio lumitilanteesta.</Button>
                 <Button variant="contained" className={classes.darkGrey} onClick={openFeedback}>Lisää muu havainto.</Button>

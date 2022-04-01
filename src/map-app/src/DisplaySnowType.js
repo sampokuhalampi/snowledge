@@ -81,7 +81,7 @@ function DisplaySnowType(props) {
 
   return (
     <Grid item xs={inline ? 6 : 12} sm={6} style={{ paddingTop: (isXS ? "0px" : "10px") }} container>
-      <Grid item xs={inline ? 6 : 4} sm={3}>
+      <Grid item xs={inline ? 6 : 4} sm={4}>
         {
           <CardMedia
             component={"img"}
@@ -92,7 +92,7 @@ function DisplaySnowType(props) {
         }
       </Grid>
 
-      <Grid item container xs={inline ? 6 : 8} sm={9} className={classes.snowInfo}>
+      <Grid item container xs={inline ? 6 : 8} sm={8} className={classes.snowInfo}>
         <Grid item xs={12} sm={12}>
           <Typography className={props.Main? classes.mainheaders : classes.secondaryHeaders} variant="body1" component="p">
             {props.Nimi}
