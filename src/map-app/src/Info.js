@@ -203,7 +203,6 @@ function Info(props) {
    * Event handlers
    */
   React.useEffect(() => {
-    console.log(props.segmentdata.update);
     setExpandArrow(showArrow());
   }, [props.segmentdata.update]);
 
@@ -226,12 +225,9 @@ function Info(props) {
 
   function showArrow() {
     if (props.segmentdata.update !== null && props.segmentdata.update !== undefined) {
-      console.log("Check arrow");
       let content = numberOfSnowTypes();
-      console.log("Content: ", content);
 
       if (props.token === null || props.token === undefined) {
-        console.log("Not signed");
         if(content !== 0) {
           return true;
         }
@@ -631,7 +627,7 @@ function Info(props) {
           }
           // päivitetään näytettävä segmentti
           if (segment.ID === props.segmentdata.ID) {
-            props.onUpdate(segment);
+            props.onUpdate(segment.ID);
           }
         });
         if (segment.On_Alasegmentti != null) {

@@ -172,7 +172,7 @@ function Map(props) {
   
   // Updates the chosen segment
   function updateChosen(segment) {
-    props.onClick(segment);
+    props.onClick(segment.ID);
   }
 
   function handleClose() {

@@ -137,7 +137,7 @@ function SegmentManage(props) {
 
   // Segmentin valikon avaaminen, tarkentaa samalla valitun segmentin 
   const handleMenu = (event, item) => {
-    props.onUpdate(item);
+    props.onUpdate(item.ID);
     setSelected(item);
     setPoints(item.Points);
     setName(item.Nimi);

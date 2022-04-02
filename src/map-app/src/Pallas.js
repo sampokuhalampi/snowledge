@@ -56,6 +56,7 @@ function App() {
   const [showSnow, setShowSnow] = React.useState(false);
   const [showWeather, setShowWeather] = React.useState(false);
   const [showWelcomeView, setShowWelcomeView] = React.useState(true); 
+  const [selectedSegment, setSelectedSegment] = React.useState(null);
 
   //imported hook. Kysely näyttöportin koosta
   const isMobile = useMediaQuery({query: "(max-width:900px)"});
@@ -129,12 +130,39 @@ function App() {
       });
       updateSegments(data);
     };
+
     fetchData();
+    const interval = setInterval(() => {
+      fetchData();
+    }, 10000);
+
+    return () => clearInterval(interval);
   }, []);
 
   /*
    * Event handlerit
    */
+  useEffect(() => {
+    if(shownSegment !== null && selectedSegment !== null) {
+      if(selectedSegment === segments[ selectedSegment-1 ].ID) {
+        setChoice(segments[ selectedSegment-1 ]);
+      } else {
+        console.log("ERROR occurred");
+      }
+    }
+  }, [segments]);
+
+  useEffect(() => {
+    if(selectedSegment !== null) {
+      segments.forEach(segment => {
+        if(segment.ID === selectedSegment) {
+          setChoice(segment);
+        }
+      });
+    } else {
+      setChoice(null);
+    }
+  }, [selectedSegment]);
 
   // Removes welcome view on mobile
   function updateShowWelcomeView() {
@@ -143,6 +171,9 @@ function App() {
 
   // Segmentin valinta
   function chooseSegment(choice) {
+    setSelectedSegment(choice);
+  }
+  function setChoice(choice) {
     setShownSegment(choice);
   }
 
