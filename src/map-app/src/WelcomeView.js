@@ -108,8 +108,9 @@ function WelcomeView(props) {
           >Lähetä kehittäjille palautetta tästä: </a>
         </Box>
 
-
+        
         <Box className={styledClasses.sponsorContainer} style={{flex: 2}}>
+          {/* 
           <a href="https://www.google.com/" target="_blank" rel="noopener noreferrer">
             <img src="sponsorit/sponsor1.png" alt="" className={styledClasses.sponsor} />
           </a>
@@ -119,7 +120,9 @@ function WelcomeView(props) {
           <a href="https://www.google.fi/maps/" target="_blank" rel="noopener noreferrer">
             <img src="sponsorit/sponsor3.png" alt="" className={styledClasses.sponsor} />
           </a>
+          */}
         </Box>
+        
         <Box className={styledClasses.buttonContainer}>
           <Button
             variant="contained"
@@ -151,7 +154,9 @@ function WelcomeView(props) {
             href={"https://docs.google.com/forms/d/e/1FAIpQLSdal9SJFzBsv0UoMXraZ9zH7KR0Y-1moAsGbKKdx-0E8Cf9gg/viewform?usp=sf_link"}
           >Lähetä kehittäjille palautetta tästä: </a>
         </Box>
+        
         <Box className={styledClasses.sponsorContainer}>
+          {/* 
           <a href="https://www.google.com/" target="_blank" rel="noopener noreferrer">
             <img src="sponsorit/sponsor1.png" alt="" className={styledClasses.sponsor} />
           </a>
@@ -161,7 +166,9 @@ function WelcomeView(props) {
           <a href="https://www.google.fi/maps/" target="_blank" rel="noopener noreferrer">
             <img src="sponsorit/sponsor3.png" alt="" className={styledClasses.sponsor} />
           </a>
+          */}
         </Box>
+        
       </Box>
     );
   }

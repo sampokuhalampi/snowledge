@@ -103,12 +103,6 @@ const useStyles = makeStyles(() => ({
   dangerIcon: {
     verticalAlign: "middle",
   },
-  expandOpen: {
-    transform: "rotate(-180deg)"
-  },
-  expandClosed: {
-    transform: "rotate(0)"
-  },
   sponsorContainer: {
     flex: 1,
     display: "flex",
@@ -209,7 +203,7 @@ function getRelativeTimestamp(current, previous) {
   }
 }
 
-function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedback, close, signedUser}) {
+function SnowRecordView({ segmentdata, expanded, writeReviewEnabled, openForm, openFeedback, close, signedUser}) {
   const classes = useStyles();
   // Avalanche warning LINK
   const url = "https://www.pallaksenpollot.com/";
@@ -218,8 +212,6 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
   //const isSM = useMediaQuery({ query: "(min-width: 600px) and (max-width: 900px)" });
   const description = (segmentdata.update === null || segmentdata.update === undefined ? "" : segmentdata.update.Kuvaus);
   const isEmpty = (segmentdata.update === null || segmentdata.update === undefined ? true : checkIfEmpty());
-  // eslint-disable-next-line no-unused-vars
-  const [expanded, setExpanded] = React.useState(isXS ? false : true);
 
   // Gets boolean value of snowtype visibility, by given index (indices 1&2 are primary types, 3&4 are secondary types, 5 user type)
   function isEnabled(index) {
@@ -269,10 +261,6 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
     }
     return true;
   }
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
   var guideUpdateTime = "";
   var userUpdateTime = "";
@@ -484,6 +472,9 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                   <Grid item xs={12}>
                     <Typography className={classes.timeStamp}>{segmentdata.update === null || segmentdata.update === undefined ? "" : (ifGuideInfoExists() ? guideUpdateTime : userUpdateTime)}</Typography>
                   </Grid>
+                  <Grid>
+                    <Typography className={classes.authorTag} style={{backgroundColor: (ifGuideInfoExists() ? "#9FAFCE" : "#C4C4C4")}}>{ifGuideInfoExists() ? "Pallaksen Pöllöt" : "Vierailija" }</Typography>
+                  </Grid>
                 </Grid >
               </Grid >
               }
@@ -602,7 +593,8 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
           </div>
         }
 
-        {/* Sponsor logos */} 
+        {/* Sponsor logos */}
+        {/* 
         {expanded && !isEmpty &&
         <Grid container item xs={12} className={classes.sponsorContainer} >
           <a href="https://www.google.com/" target="_blank" rel="noopener noreferrer">
@@ -617,20 +609,7 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
             <img src="sponsorit/sponsor3.png" alt="" className={classes.sponsor} />
           </a>
         </Grid>}
-
-        {/* Closing arrow */}
-        {isXS && !isEmpty &&
-        <Grid item xs={12} align="center" className={classes.addPadding}>
-          <IconButton
-            className={expanded ? classes.expandOpen : classes.expandClosed}
-            style={{ padding: 0, marginBottom: "5px" }}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-          >
-            <img src={`${process.env.PUBLIC_URL}/icons/expand.svg`} width="80%" height="15px" alt="expand" fill="black"></img>
-          </IconButton>
-        </Grid>}
+        */} 
 
       </Grid>
     </Grid> 
