@@ -178,17 +178,6 @@ function WriteUserReview(props) {
   }, []);
 
 
-  //Haetaan kaikki review-data tietokannasta ------ vain debug tarkoituksiin
-  
-  const getReviews = async () => {
-
-    const reviews = await fetch("api/reviews");
-    const reviewData = await reviews.json();
-
-    console.log("Reviews: ");
-    console.log(reviewData);
-  };
-
   const postData = async (path, data, id) => {
     const response = await fetch(path + id,
       {
@@ -226,8 +215,6 @@ function WriteUserReview(props) {
     };
 
     let res = postData("api/review/", data, props.segmentdata.ID);
-    console.log("New snow type");
-    console.log(res);
 
     // Parse the ID to our snow review
     res.then(item => {
@@ -255,15 +242,12 @@ function WriteUserReview(props) {
     };
 
     if(updateID === null) {
-      console.log("Regular description");
       let res = postData("api/review/", data, props.segmentdata.ID);
       console.log(res);
     } else {     
-      console.log("Description with ID ");
       let res = postData("api/updateReview/", data, updateID);
       console.log(res);
     }
-    getReviews();
     clearState();
     props.close();
   };
@@ -273,8 +257,6 @@ function WriteUserReview(props) {
     const snow = await fetch("api/lumilaadut");
     const data = await snow.json();
     setAllSnowTypes(data);
-    console.log("Got data!");
-    console.log(data);
   }
   
 
@@ -502,11 +484,11 @@ function WriteUserReview(props) {
               disabled={ text === "" ? true : false } onClick={postFeedback}>Lähetä</Button>
           </Box>    
 
-          <text style={{fontFamily: "Donau", letterSpacing: 2, fontWeight: 500, fontSize: "medium"}}>Lumisovellus on testausvaiheessa. Lähetä myös kehittäjille&nbsp;  
+          <span style={{fontFamily: "Donau", letterSpacing: 2, fontWeight: 500, fontSize: "medium"}}>Lumisovellus on testausvaiheessa. Lähetä myös kehittäjille&nbsp;  
             <a
               href={"https://docs.google.com/forms/d/e/1FAIpQLSdal9SJFzBsv0UoMXraZ9zH7KR0Y-1moAsGbKKdx-0E8Cf9gg/viewform?usp=sf_link"}
             >palautetta: </a>
-          </text>
+          </span>
   
         </div>
       )}

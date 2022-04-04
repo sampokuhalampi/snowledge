@@ -129,6 +129,7 @@ function App() {
         }
       });
       updateSegments(data);
+      console.log("Segments updated");
     };
 
     fetchData();
@@ -143,26 +144,26 @@ function App() {
    * Event handlerit
    */
   useEffect(() => {
-    if(shownSegment !== null && selectedSegment !== null) {
-      if(selectedSegment === segments[ selectedSegment-1 ].ID) {
-        setChoice(segments[ selectedSegment-1 ]);
-      } else {
-        console.log("ERROR occurred");
-      }
-    }
-  }, [segments]);
-
-  useEffect(() => {
     if(selectedSegment !== null) {
-      segments.forEach(segment => {
-        if(segment.ID === selectedSegment) {
-          setChoice(segment);
+      let selectedId = selectedSegment-1;
+
+      if(selectedId >= 0 && selectedId < segments.length) {
+        if(selectedSegment === segments[ selectedId ].ID) {
+          setChoice(segments[ selectedId ]);
+        } else {
+          console.log("Could not find segment with reference");
+          segments.forEach(segment => {
+            if(segment.ID === selectedSegment) {
+              setChoice(segment);
+            }
+          });
         }
-      });
+      }
     } else {
       setChoice(null);
     }
-  }, [selectedSegment]);
+  }, [segments, selectedSegment]);
+
 
   // Removes welcome view on mobile
   function updateShowWelcomeView() {

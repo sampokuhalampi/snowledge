@@ -139,7 +139,7 @@ router.get("/segments/update", function(req, res) {
     FROM Paivitykset
     GROUP BY(Segmentti)
    )
-   AND Aika > NOW() - INTERVAL 1 WEEK
+   AND Aika > NOW() - INTERVAL 3 DAY
    ORDER BY(Segmentti)`,
     function (err, result, fields) {
       if (err) throw err;
@@ -160,7 +160,7 @@ router.get("/reviews", function(req, res) {
     FROM KayttajaArviot
     GROUP BY(Segmentti)
    )
-   AND Aika > NOW() - INTERVAL 1 WEEK
+   AND Aika > NOW() - INTERVAL 3 DAY
    ORDER BY(Segmentti)`,
     function (err, result, fields) {
       if (err) throw err;

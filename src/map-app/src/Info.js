@@ -662,6 +662,7 @@ function Info(props) {
           <SnowRecordView segmentdata={props.segmentdata} expanded={expanded} close={closeShownSegment} signedUser={true}></SnowRecordView>
           <IconButton
             className={classes.editButton}
+            style={{padding: 0, paddingLeft: "12px"}}
             onClick={openUpdate}
           >
             <EditIcon />

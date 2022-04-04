@@ -69,7 +69,7 @@ const userReviewUpdater = cron.schedule("*/1 * * * *", async () => {
 
 
   for (let i=0; i<segmentCount; i++){
-    const segmentQuery = "SELECT Aika, Segmentti FROM Paivitykset WHERE Segmentti = " + (i + 1) + " ORDER BY Aika DESC LIMIT 1;";
+    const segmentQuery = "SELECT Aika, Segmentti FROM Paivitykset WHERE Segmentti = " + (i + 1) + " AND Aika > NOW() - INTERVAL 3 DAY ORDER BY Aika DESC LIMIT 1;";
 
     const segmentUpdate = await sqlQuery(segmentQuery).then(function (results){
       results=JSON.parse(JSON.stringify(results));

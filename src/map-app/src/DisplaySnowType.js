@@ -58,7 +58,7 @@ const useStyles = makeStyles(() => ({
   snowtypeIconSmall: {
     display: "block",
     margin: "auto",
-    width: "85%",
+    width: "78%",
   },
 }));
   
@@ -76,7 +76,6 @@ function DisplaySnowType(props) {
     }
     return false;
   }
-
 
 
   return (

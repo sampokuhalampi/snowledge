@@ -101,7 +101,6 @@ function ReviewManage(props) {
     fetchReviews();
     
     const interval = setInterval(() => {
-      console.log("This is called every 10 seconds!");
       fetchReviews();
     }, 10000);
 
@@ -124,9 +123,6 @@ function ReviewManage(props) {
       item.TimeString = `${getRelativeTimestamp(currentTime, latestUpdateTime)}`;
     });
     setReviewData(data);
-    console.log("got reviewData!!");
-    console.log(data);
-
   };
 
  

@@ -68,7 +68,6 @@ function initMap() {
     getSegments().then((data) => {
       const segmentArray = data;
 
-      console.log(segmentArray);
       for (let i = 0; i < segmentArray.length; i++) {
         let segment;
         // eslint-disable-next-line no-undef
