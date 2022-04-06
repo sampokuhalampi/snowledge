@@ -107,7 +107,7 @@ router.get("/segments", function(req, res) {
 //segmentin tuoreimman päivityksen haku
 router.get("/segments/update/:id", function(req, res) {
   database.query(
-    `SELECT Tekija, Segmentti, Aika, Kuvaus, Lumen_kuva, Lumilaatu_ID1, Lumilaatu_ID2,Toissijainen_ID1 ,Toissijainen_ID2, Käyttäjä_Aika, Käyttäjä_lumilaatu, Käyttäjä_lisätiedot, Käyttäjä_Arviointi
+    `SELECT Tekija, Segmentti, Aika, Kuvaus, Lumilaatu_ID1, Lumilaatu_ID2,Toissijainen_ID1 ,Toissijainen_ID2, Arvio_ID1, Arvio_ID2, Arvio_ID3
   FROM Paivitykset
   WHERE (Segmentti, Aika)
   IN
@@ -131,16 +131,22 @@ router.get("/segments/update/:id", function(req, res) {
 //päivitysten haku
 router.get("/segments/update", function(req, res) {
   database.query(
-    `SELECT Tekija, Segmentti, Aika, Kuvaus, Lumen_kuva, Lumilaatu_ID1, Lumilaatu_ID2,Toissijainen_ID1 ,Toissijainen_ID2, Käyttäjä_Aika, Käyttäjä_lumilaatu, Käyttäjä_lisätiedot, Käyttäjä_Arviointi
-  FROM Paivitykset
-  WHERE (Segmentti, Aika)
-  IN
-  (SELECT Segmentti, MAX(Aika)
-    FROM Paivitykset
-    GROUP BY(Segmentti)
-   )
-   AND Aika > NOW() - INTERVAL 3 DAY
-   ORDER BY(Segmentti)`,
+    `SELECT P.Segmentti, P.Aika, P.Kuvaus, P.Lumilaatu_ID1, P.Lumilaatu_ID2, P.Toissijainen_ID1, P.Toissijainen_ID2, 
+      a1.Aika AS A1_Aika, a1.Lumilaatu AS A1_Lumilaatu, a1.Lisätiedot AS A1_Lisätiedot, 
+      a2.Aika AS A2_Aika, a2.Lumilaatu AS A2_Lumilaatu, a2.Lisätiedot AS A2_Lisätiedot, 
+      a3.Aika AS A3_Aika, a3.Lumilaatu AS A3_Lumilaatu, a3.Lisätiedot AS A3_Lisätiedot
+      FROM Paivitykset P
+      LEFT JOIN KayttajaArviot a1 ON P.Arvio_ID1 = a1.ID
+      LEFT JOIN KayttajaArviot a2 ON P.Arvio_ID2 = a2.ID
+      LEFT JOIN KayttajaArviot a3 ON P.Arvio_ID3 = a3.ID
+      WHERE (P.Segmentti, P.Aika)
+      IN
+      (SELECT Segmentti, MAX(Aika)
+        FROM Paivitykset
+        GROUP BY(Segmentti)
+       )
+       AND P.Aika > NOW() - INTERVAL 3 DAY
+       ORDER BY(P.Segmentti);`,
     function (err, result, fields) {
       if (err) throw err;
       res.json(result);
@@ -152,7 +158,7 @@ router.get("/segments/update", function(req, res) {
 //segmentin uusimman arvion haku
 router.get("/reviews", function(req, res) {
   database.query(
-    `SELECT ID, Aika, Segmentti, Arvio, Lumilaatu, Lisätiedot, Kommentti
+    `SELECT ID, Aika, Segmentti, Lumilaatu, Lisätiedot, Kommentti
   FROM KayttajaArviot
   WHERE (Segmentti, Aika)
   IN
@@ -206,10 +212,9 @@ router.post("/review/:id", function(req, res) {
     res.json("Segmentti numerot eivät täsmää");
     res.status(400);
   }
-  database.query("INSERT INTO KayttajaArviot(Aika, Segmentti, Arvio, Lumilaatu, Lisätiedot, Kommentti) VALUES(NOW(), ?, ?, ?, ?, ?)",
+  database.query("INSERT INTO KayttajaArviot(Aika, Segmentti, Lumilaatu, Lisätiedot, Kommentti) VALUES(NOW(), ?, ?, ?, ?)",
     [ 
       req.body.Segmentti,
-      req.body.Arvio,
       req.body.Lumilaatu,
       req.body.Lisätiedot,
       req.body.Kommentti

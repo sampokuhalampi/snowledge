@@ -18,13 +18,13 @@ const sqlQuery = (query) => {
   });
 };
 
-const sqlInsert = (userTime, userSnowType, userInformation, segment) => {
+const sqlInsert = (data, segment) => {
   return new Promise (function (resolve, reject) {
-    database.query("UPDATE Paivitykset SET Käyttäjä_Aika=?, Käyttäjä_lumilaatu=?, Käyttäjä_lisätiedot=? WHERE Segmentti=? order by Aika desc limit 1;",
+    database.query("UPDATE Paivitykset SET Arvio_ID1=?, Arvio_ID2=?, Arvio_ID3=? WHERE Segmentti=? order by Aika desc limit 1;",
       [
-        userTime,
-        userSnowType,
-        userInformation,
+        data[0],
+        data[1],
+        data[2],
         segment
       ],
       function (err,results){
@@ -34,15 +34,15 @@ const sqlInsert = (userTime, userSnowType, userInformation, segment) => {
   });
 };
 
-const sqlUpdate = (userTime, userSnowType, userInformation, segment) => {
+const sqlUpdate = (data, segment, timeString) => {
   return new Promise (function (resolve, reject){
-    database.query("INSERT INTO Paivitykset (Aika, Käyttäjä_Aika, Käyttäjä_lumilaatu, Käyttäjä_lisätiedot, Segmentti)  VALUES (?, ?, ?, ?, ? );",
+    database.query("INSERT INTO Paivitykset (Aika, Segmentti, Arvio_ID1, Arvio_ID2, Arvio_ID3)  VALUES (?, ?, ?, ?, ?);",
       [
-        userTime,
-        userTime,
-        userSnowType,
-        userInformation,
-        segment
+        timeString,
+        segment,
+        data[0],
+        data[1],
+        data[2]         
       ],
       function (err,results){
         if (err) {reject(err);}
@@ -76,32 +76,50 @@ const userReviewUpdater = cron.schedule("*/1 * * * *", async () => {
       return results;
     });
 
+    // TODO: Aikaleimat kuntoon segmenteiltä, joissa ei ole oppaan dataa. Näkyykö käyttäjädata oikein jos oppaan 
+    // dataa ei ole?
+    
     if(isObjectEmpty(segmentUpdate) !== 0) {
       newestUpdate = date.format(new Date(segmentUpdate[0].Aika), "YYYY-MM-DD HH:mm:ss", true);
     } else {
       newestUpdate = "1601-01-01 00:00:00";
     }
 
-    const userReviewQuery = "SELECT Segmentti, Lumilaatu, Lisätiedot, Aika FROM KayttajaArviot WHERE Segmentti = " + (i + 1) + " AND Aika > \"" + newestUpdate + "\" order by Aika desc limit 1;";
+    const userReviewQuery = "SELECT ID, Segmentti, Lumilaatu, Aika FROM KayttajaArviot WHERE Segmentti = " + (i + 1) + " AND Aika > \"" + newestUpdate + "\" order by Aika desc;";
 
     const userReview = await sqlQuery(userReviewQuery).then(function (results){
       results=JSON.parse(JSON.stringify(results));
       return results;
     });
 
-
+    
     if (isObjectEmpty(userReview) !== 0){
       console.log("Updating segment " + (i+1) + "...");
       const timeString = date.format(new Date(userReview[0].Aika), "YYYY-MM-DD HH:mm:ss", true);
+      const segment = userReview[0].Segmentti;
+      const maxReviewsShown = 3;
 
+      let data = [null, null, null];
+      let reviewCount = 0;
+      for (let j=0; j < userReview.length; j++) {
+        if(reviewCount === maxReviewsShown) {
+          break;
+        }
+
+        //Include reviews that have snow type 
+        if(userReview[j].Lumilaatu !== null) {
+          data[reviewCount] = userReview[j].ID;
+          reviewCount += 1;
+        }
+      }
+      
       if(isObjectEmpty(segmentUpdate) !==0){
-        await sqlInsert(timeString, userReview[0].Lumilaatu, userReview[0].Lisätiedot, userReview[0].Segmentti).then(function (){
+        await sqlInsert(data, segment).then(function (){
           console.log("Segment updated");
         });
       }
-
       else {
-        await sqlUpdate(timeString, userReview[0].Lumilaatu, userReview[0].Lisätiedot, userReview[0].Segmentti).then(function (){
+        await sqlUpdate(data, segment, timeString).then(function (){
           console.log("Segment added");
         });
       }

@@ -208,7 +208,6 @@ function WriteUserReview(props) {
 
     const data = {
       Segmentti: props.segmentdata.ID,
-      Arvio: null,
       Lumilaatu: snowID,
       Lisätiedot: stonesOrBranches,
       Kommentti: null,
@@ -235,7 +234,6 @@ function WriteUserReview(props) {
   const postFeedback = async () => {
     const data = {
       Segmentti: props.segmentdata.ID,
-      Arvio: null,
       Lumilaatu: null,
       Lisätiedot: null,
       Kommentti: text,

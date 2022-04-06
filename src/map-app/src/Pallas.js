@@ -130,6 +130,7 @@ function App() {
       });
       updateSegments(data);
       console.log("Segments updated");
+      console.log("Segmentdata: ", data);
     };
 
     fetchData();
