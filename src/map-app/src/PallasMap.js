@@ -268,8 +268,19 @@ function PallasMap(props) {
         hotel.alt = "Hotel_icon";
         hotel.style.width = "45px";
         hotel.style.height ="45px";
-        
-        new maplibregl.Marker(hotel).setLngLat([24.062026, 68.046691]).addTo(map);
+
+
+        var popup = new maplibregl.Popup({ offset: 25 , closeOnClick: true, closeButton: false})
+          .setHTML(
+            "<div style='text-align: center; font-family: Donau; letter-spacing: 2px; font-size: large'>" +
+            "<h4 style='margin: 0;'>Hotelli Pallas</h4>" +
+            "<a style=' text-decoration:none; color: #539BD5' href=\"https://www.laplandhotels.com/FI/lapin-hotellit/pallas/lapland-hotels-pallas.html\">Kotisivut</a>" +
+            "</div>"
+          );
+
+
+
+        new maplibregl.Marker(hotel).setLngLat([24.062026, 68.046691]).setPopup(popup).addTo(map);
 
         // When user hovers over a segment, update its hover feature state to true
         var hoveredSegmentId = null;
