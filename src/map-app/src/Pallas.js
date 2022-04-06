@@ -129,14 +129,14 @@ function App() {
         }
       });
       updateSegments(data);
-      console.log("Segments updated");
-      console.log("Segmentdata: ", data);
+ 
+      console.log("Segments updated: ", data);
     };
 
     fetchData();
     const interval = setInterval(() => {
       fetchData();
-    }, 10000);
+    }, 15000);
 
     return () => clearInterval(interval);
   }, []);

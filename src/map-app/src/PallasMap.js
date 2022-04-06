@@ -139,7 +139,10 @@ function PallasMap(props) {
             "subsegment": item.On_Alasegmentti === null ? false : true,
             "segmentId": item.ID,
             "snowId1": item.update !== null ? (item.update.Lumi1 !== undefined ? item.update.Lumi1.ID : 0) : 0,
-            "snowId2": item.update !== null ? (item.update.Lumi2 !== undefined ? item.update.Lumi2.ID : 0) : 0
+            "snowId2": item.update !== null ? (item.update.Lumi2 !== undefined ? item.update.Lumi2.ID : 0) : 0,
+            "snowId3": item.update !== null ? (item.update.Lumi3 !== undefined ? item.update.Lumi3.ID : 0) : 0,
+            "snowId4": item.update !== null ? (item.update.Lumi4 !== undefined ? item.update.Lumi4.ID : 0) : 0,
+            "snowId5": item.update !== null ? (item.update.Lumi5 !== undefined ? item.update.Lumi5.ID : 0) : 0
           },
           "id": item.ID
         };
@@ -342,7 +345,8 @@ function PallasMap(props) {
 
         // Add a filter so that only a certain snowtype gets highlighted
         if(props.highlightedSnowType > -1) {
-          map.setFilter("segments-highlights", ["any", ["==", ["get", "snowId1"], props.highlightedSnowType], ["==", ["get", "snowId2"], props.highlightedSnowType]]);
+          map.setFilter("segments-highlights", ["any", ["==", ["get", "snowId1"], props.highlightedSnowType], ["==", ["get", "snowId2"], props.highlightedSnowType], 
+            ["==", ["get", "snowId3"], props.highlightedSnowType], ["==", ["get", "snowId4"], props.highlightedSnowType], ["==", ["get", "snowId5"], props.highlightedSnowType]]);
         }
 
         // Make highligt layer completely visible

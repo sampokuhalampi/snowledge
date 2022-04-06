@@ -138,19 +138,32 @@ function Map(props) {
 
   React.useEffect(() => {
     // Get all of the snow types that are currently applied to a segment on the map
+    let snowTypes = [];
     props.segments.forEach(segment => {
-      let newArray = currentSnowTypes;
       if(segment.update !== null) {
-        if(segment.update.Lumi1 !== undefined && !(currentSnowTypes.filter(e => e.ID === segment.update.Lumi1.ID).length > 0)) {
-          newArray.push(segment.update.Lumi1);
+        if(segment.update.Lumi1 !== undefined && !(snowTypes.filter(e => e.ID === segment.update.Lumi1.ID).length > 0)) {
+          snowTypes.push(segment.update.Lumi1);
         }
-        if(segment.update.Lumi2 !== undefined && !(currentSnowTypes.filter(e => e.ID === segment.update.Lumi2.ID).length > 0)) {
-          newArray.push(segment.update.Lumi2);
+        if(segment.update.Lumi2 !== undefined && !(snowTypes.filter(e => e.ID === segment.update.Lumi2.ID).length > 0)) {
+          snowTypes.push(segment.update.Lumi2);
+        }
+        if(segment.update.Lumi3 !== undefined && !(snowTypes.filter(e => e.ID === segment.update.Lumi3.ID).length > 0)) {
+          snowTypes.push(segment.update.Lumi3);
+        }
+        if(segment.update.Lumi4 !== undefined && !(snowTypes.filter(e => e.ID === segment.update.Lumi4.ID).length > 0)) {
+          snowTypes.push(segment.update.Lumi4);
+        }
+        if(segment.update.Lumi5 !== undefined && !(snowTypes.filter(e => e.ID === segment.update.Lumi5.ID).length > 0)) {
+          snowTypes.push(segment.update.Lumi5);
         }
       }
-      setCurrentSnowTypes(newArray);
+      setCurrentSnowTypes(snowTypes);
     });
   }, [props.segments]);
+
+  React.useEffect(() => {
+    console.log("Current types changed: ", currentSnowTypes);
+  }, [currentSnowTypes]);
 
   /*
    * Event handlers
@@ -224,7 +237,7 @@ function Map(props) {
                     return(
                       <Box key={snowType.ID}>
                         <Button
-                          fullWidth="true"
+                          fullWidth={true}
                           onClick={() => {updateHighlightedSnowType(snowType); handleClickOpen();}}
                           style={{backgroundColor: highlightedSnowType === snowType.ID ? "#ed7a72" : "white"}}
                         >
@@ -235,7 +248,7 @@ function Map(props) {
                   })
                 }
                 <Button
-                  fullWidth="true"
+                  fullWidth={true}
                   onClick={() => {updateHighlightedSnowType({Nimi: "Vain laskualueet", ID: -1}); handleClickOpen();}}
                   style={{backgroundColor: highlightedSnowType === -1 ? "#ed7a72" : "white"}}
                 >
@@ -272,7 +285,7 @@ function Map(props) {
                       return(
                         <Box key={snowType.ID}>
                           <Button
-                            fullWidth="true"
+                            fullWidth={true}
                             onClick={() => {updateHighlightedSnowType(snowType); handleClick();}}
                             style={{backgroundColor: highlightedSnowType === snowType.ID ? "#ed7a72" : "white"}}
                           >
@@ -283,7 +296,7 @@ function Map(props) {
                     })
                   }
                   <Button
-                    fullWidth="true"
+                    fullWidth={true}
                     onClick={() => {updateHighlightedSnowType({Nimi: "Vain laskualueet", ID: -1}); handleClick();}}
                     style={{backgroundColor: highlightedSnowType === -1 ? "#ed7a72" : "white"}}
                   >
