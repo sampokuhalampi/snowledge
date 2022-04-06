@@ -102,7 +102,7 @@ function App() {
           if (snow.ID === update.Toissijainen_ID2) {
             update.Lumi4 = snow;
           }
-          if (snow.ID === update.Käyttäjä_lumilaatu) {
+          if (snow.ID === update.A1_Lumilaatu) {
             update.Lumi5 = snow;
           }
         });

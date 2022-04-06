@@ -275,9 +275,9 @@ function SnowRecordView({ segmentdata, expanded, writeReviewEnabled, openForm, o
       guideUpdateTime = `Viimeksi päivitetty: ${getRelativeTimestamp(currentTime, latestUpdateTime)}`;
     }
 
-    if(segmentdata.update.Käyttäjä_Aika !== null && segmentdata.update.Käyttäjä_Aika !== undefined) {
+    if(segmentdata.update.A1_Aika !== null && segmentdata.update.A1_Aika !== undefined) {
       // Datasta saadaan viimeisin päivitysaika
-      let latestUpdateTime = new Date(segmentdata.update.Käyttäjä_Aika);
+      let latestUpdateTime = new Date(segmentdata.update.A1_Aika);
       userUpdateTime = `Viimeksi päivitetty: ${getRelativeTimestamp(currentTime, latestUpdateTime)}`;
     }
   }
@@ -377,7 +377,7 @@ function SnowRecordView({ segmentdata, expanded, writeReviewEnabled, openForm, o
             </>}
             {!ifGuideInfoExists() && <>
               <Typography className={classes.smallText}>Alueella ei ole Pallaksen Pöllöjen vahvistamaa tietoa. Alla oleva tieto pohjautuu tunturissa vierailleen päivitykseen.</Typography>
-              <DisplaySnowType Lumilaatu={segmentdata.update.Käyttäjä_lumilaatu} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true} Guide={false}/>
+              <DisplaySnowType Lumilaatu={segmentdata.update.Lumi5.ID} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true} Guide={false}/>
             </>}
 
             {!expanded &&
@@ -430,19 +430,19 @@ function SnowRecordView({ segmentdata, expanded, writeReviewEnabled, openForm, o
 
                     <Typography className={classes.smallText}>Alla oleva tieto pohjautuu tunturissa vierailleen päivitykseen.</Typography>
 
-                    <DisplaySnowType Lumilaatu={segmentdata.update.Käyttäjä_lumilaatu} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true} Guide={false}/>
+                    <DisplaySnowType Lumilaatu={segmentdata.update.Lumi5.ID} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true} Guide={false}/>
                   </> }
                   
                   <div>
-                    {segmentdata.update.Käyttäjä_lisätiedot === 1 && (
+                    {segmentdata.update.A1_Lisätiedot === 1 && (
                       <Grid style={{display: "flex", padding: (isXS ? "0px 15px" : "0px")}}>
                         <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false} Guide={false}/>
                       </Grid>                      )}
-                    {segmentdata.update.Käyttäjä_lisätiedot === 2 && (
+                    {segmentdata.update.A1_Lisätiedot === 2 && (
                       <Grid style={{display: "flex", padding: (isXS ? "0px 15px" : "0px")}}>
                         <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false} Guide={false}/>
                       </Grid>                      )}
-                    {segmentdata.update.Käyttäjä_lisätiedot === 3 && (
+                    {segmentdata.update.A1_Lisätiedot === 3 && (
                       <Grid style={{display: "flex", padding: (isXS ? "0px 15px" : "0px")}}>
                         <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false} Guide={false}/>
                         <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false} Guide={false}/>

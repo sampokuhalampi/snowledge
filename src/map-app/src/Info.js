@@ -216,7 +216,7 @@ function Info(props) {
     if(data.Toissijainen_ID1 !== null || data.Toissijainen_ID2 !== null) {
       number += 1;
     }
-    if(data.Käyttäjä_lumilaatu !== null) {
+    if(data.A1_Lumilaatu !== null) {
       number += 1;
     }
     
@@ -233,7 +233,7 @@ function Info(props) {
         }
       } else {
         if(content > 1 || (props.segmentdata.update.Kuvaus !== null && props.segmentdata.update.Kuvaus !== "") 
-        || props.segmentdata.update.Käyttäjä_lisätiedot > 0) {
+        || props.segmentdata.update.A1_Lisätiedot > 0) {
           return true;
         }
       }
@@ -613,7 +613,7 @@ function Info(props) {
           if (snow.ID === update.Toissijainen_ID2) {
             update.Lumi4 = snow;
           }
-          if (snow.ID === update.Käyttäjä_lumilaatu) {
+          if (snow.ID === update.A1_Lumilaatu) {
             update.Lumi5 = snow;
           }
         });
