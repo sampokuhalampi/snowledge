@@ -80,12 +80,12 @@ const userReviewUpdater = cron.schedule("*/1 * * * *", async () => {
     // dataa ei ole?
     
     if(isObjectEmpty(segmentUpdate) !== 0) {
-      newestUpdate = date.format(new Date(segmentUpdate[0].Aika), "YYYY-MM-DD HH:mm:ss", true);
+    newestUpdate = "\"" + date.format(new Date(segmentUpdate[0].Aika), "YYYY-MM-DD HH:mm:ss", true) + "\"";
     } else {
-      newestUpdate = "1601-01-01 00:00:00";
+      newestUpdate = "NOW() - INTERVAL 3 DAY";
     }
-
-    const userReviewQuery = "SELECT ID, Segmentti, Lumilaatu, Aika FROM KayttajaArviot WHERE Segmentti = " + (i + 1) + " AND Aika > \"" + newestUpdate + "\" order by Aika desc;";
+    
+    const userReviewQuery = "SELECT ID, Segmentti, Lumilaatu, Aika FROM KayttajaArviot WHERE Segmentti = " + (i + 1) + " AND Aika > " + newestUpdate + " order by Aika desc;";
 
     const userReview = await sqlQuery(userReviewQuery).then(function (results){
       results=JSON.parse(JSON.stringify(results));
@@ -95,19 +95,21 @@ const userReviewUpdater = cron.schedule("*/1 * * * *", async () => {
     
     if (isObjectEmpty(userReview) !== 0){
       console.log("Updating segment " + (i+1) + "...");
-      const timeString = date.format(new Date(userReview[0].Aika), "YYYY-MM-DD HH:mm:ss", true);
+      const itemCount = userReview.length;
+      const timeString = date.format(new Date(userReview[itemCount-1].Aika), "YYYY-MM-DD HH:mm:ss", true);
       const segment = userReview[0].Segmentti;
       const maxReviewsShown = 3;
 
       let data = [null, null, null];
       let reviewCount = 0;
-      for (let j=0; j < userReview.length; j++) {
+      for (let j=0; j < itemCount; j++) {
         if(reviewCount === maxReviewsShown) {
           break;
         }
 
         //Include reviews that have snow type 
         if(userReview[j].Lumilaatu !== null) {
+          console.log(userReview[j]);
           data[reviewCount] = userReview[j].ID;
           reviewCount += 1;
         }
