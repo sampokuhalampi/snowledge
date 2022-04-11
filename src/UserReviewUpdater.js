@@ -56,11 +56,24 @@ function isObjectEmpty(obj) {
   return Object.keys(obj).length;
 }
 
+function guideInfoExists(obj) {
+  if(isObjectEmpty(obj) === 0) {
+    return false;
+  }
+
+  if(obj[0].Lumilaatu_ID1 === null && obj[0].Lumilaatu_ID2 === null) {
+    return false;
+  }
+  
+  return true;
+}
+
 
 //
 const userReviewUpdater = cron.schedule("*/1 * * * *", async () => {
   console.log("Updating user reviews...");
   let newestUpdate;
+  let timeLimit;
 
   const segmentCount = await sqlQuery("SELECT ID FROM Segmentit order by ID desc limit 1;").then(function (results) {
     results = JSON.parse(JSON.stringify(results));
@@ -69,23 +82,22 @@ const userReviewUpdater = cron.schedule("*/1 * * * *", async () => {
 
 
   for (let i=0; i<segmentCount; i++){
-    const segmentQuery = "SELECT Aika, Segmentti FROM Paivitykset WHERE Segmentti = " + (i + 1) + " AND Aika > NOW() - INTERVAL 3 DAY ORDER BY Aika DESC LIMIT 1;";
+    const segmentQuery = "SELECT Aika, Segmentti, Lumilaatu_ID1, Lumilaatu_ID2 FROM Paivitykset WHERE Segmentti = " + (i + 1) + " AND Aika > NOW() - INTERVAL 3 DAY ORDER BY Aika DESC LIMIT 1;";
 
     const segmentUpdate = await sqlQuery(segmentQuery).then(function (results){
       results=JSON.parse(JSON.stringify(results));
       return results;
     });
-
-    // TODO: Aikaleimat kuntoon segmenteiltä, joissa ei ole oppaan dataa. Näkyykö käyttäjädata oikein jos oppaan 
-    // dataa ei ole?
     
-    if(isObjectEmpty(segmentUpdate) !== 0) {
-    newestUpdate = "\"" + date.format(new Date(segmentUpdate[0].Aika), "YYYY-MM-DD HH:mm:ss", true) + "\"";
+    if(guideInfoExists(segmentUpdate)) {
+      newestUpdate = "\"" + date.format(new Date(segmentUpdate[0].Aika), "YYYY-MM-DD HH:mm:ss", true) + "\"";
+      timeLimit = "NOW() - INTERVAL 1 DAY";
     } else {
       newestUpdate = "NOW() - INTERVAL 3 DAY";
+      timeLimit = "NOW() - INTERVAL 3 DAY";
     }
     
-    const userReviewQuery = "SELECT ID, Segmentti, Lumilaatu, Aika FROM KayttajaArviot WHERE Segmentti = " + (i + 1) + " AND Aika > " + newestUpdate + " order by Aika desc;";
+    const userReviewQuery = "SELECT ID, Segmentti, Lumilaatu, Aika FROM KayttajaArviot WHERE Segmentti = " + (i + 1) + " AND Aika >= " + newestUpdate + " AND Aika >= " + timeLimit + " order by Aika desc;";
 
     const userReview = await sqlQuery(userReviewQuery).then(function (results){
       results=JSON.parse(JSON.stringify(results));
