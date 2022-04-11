@@ -164,10 +164,23 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "10px",
   },
   expandOpen: {
-    transform: "rotate(-180deg)"
+    transform: "rotate(90deg)"
   },
   expandClosed: {
-    transform: "rotate(0)"
+    transform: "rotate(-90deg)"
+  },
+  expandButton: {
+    borderRadius: "30px",
+    textTransform: "none",
+    width: "150px",
+    height: "30px",
+    marginBottom: "5px",
+    fontFamily: "Donau",
+    color: "#FFF",
+    backgroundColor: "gray",
+    letterSpacing: 2,
+    fontWeight: 300,
+    fontSize: "18px",
   },
 }));
 
@@ -194,7 +207,7 @@ function Info(props) {
   const [writeReviewEnabled, setWriteReviewEnabled] = React.useState(false);
   const [reviewMode, setReviewMode] = React.useState("category");
 
-  const [expanded, setExpanded] = React.useState(isXS ? false : true);
+  const [expanded, setExpanded] = React.useState(true */isXS ? false : true*/);
   const [expandArrow, setExpandArrow] = React.useState(true);
 
   const classes = useStyles();
@@ -818,16 +831,16 @@ function Info(props) {
           )}
 
           {/* Closing arrow */}
-          {isXS && !writeReviewEnabled && expandArrow &&
-          <Box align="center" style={{padding: "5px 15px"}}>
+          {/*isXS && */!writeReviewEnabled && expandArrow &&
+          <Box style={{padding: "5px 15px"}}>
             <IconButton
-              className={expanded ? classes.expandOpen : classes.expandClosed}
-              style={{ padding: 0, marginBottom: "5px" }}
+              className={classes.expandButton}
               onClick={handleExpandClick}
               aria-expanded={expanded}
               aria-label="show more"
             >
-              <img src={`${process.env.PUBLIC_URL}/icons/expand.svg`} width="80%" height="15px" alt="expand" fill="black"></img>
+              <div style={{marginRight: "5px"}}>Käyttäjätiedot</div>
+              <div className={expanded ? classes.expandOpen : classes.expandClosed}>〱</div>
             </IconButton>
           </Box>}
         </div>
