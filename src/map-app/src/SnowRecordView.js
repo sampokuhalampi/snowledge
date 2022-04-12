@@ -222,7 +222,7 @@ function getRelativeTimestamp(current, previous) {
 }
 
 
-function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedback, close, signedUser}) {
+function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedback, close, signedUser, sponsors}) {
   const classes = useStyles();
   // Avalanche warning LINK
   const url = "https://www.pallaksenpollot.com/";
@@ -585,22 +585,25 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
         }
 
         {/* Sponsor logos */}
-        {/* 
-        {expanded && !isEmpty &&
+        
+        {!isEmpty &&
         <Grid container item xs={12} className={classes.sponsorContainer} >
-          <a href="https://www.google.com/" target="_blank" rel="noopener noreferrer">
-            <img src="sponsorit/sponsor1.png" alt="" className={classes.sponsor} />
-          </a>
-
-          <a href="https://www.google.fi/maps/" target="_blank" rel="noopener noreferrer">
-            <img src="sponsorit/sponsor2.png" alt="" className={classes.sponsor} />
-          </a>
-
-          <a href="https://www.google.fi/maps/" target="_blank" rel="noopener noreferrer">
-            <img src="sponsorit/sponsor3.png" alt="" className={classes.sponsor} />
-          </a>
+          {sponsors !== undefined && <>
+            {sponsors.length >= 1 && sponsors[0].logo !== "" && 
+              <a href={sponsors[0].address} target="_blank" rel="noopener noreferrer">
+                <img src={"sponsorit/" + sponsors[0].logo} alt="" className={classes.sponsor} />
+              </a> }
+            {sponsors.length >= 2 && sponsors[1].logo !== "" && 
+              <a href={sponsors[1].address} target="_blank" rel="noopener noreferrer">
+                <img src={"sponsorit/" + sponsors[1].logo} alt="" className={classes.sponsor} />
+              </a> }
+            {sponsors.length >= 3 && sponsors[2].logo !== "" && 
+              <a href={sponsors[2].address} target="_blank" rel="noopener noreferrer">
+                <img src={"sponsorit/" + sponsors[2].logo} alt="" className={classes.sponsor} />
+              </a> }           
+          </>}
         </Grid>}
-        */} 
+        
 
       </Grid>
     </Grid> 

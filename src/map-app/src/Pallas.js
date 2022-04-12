@@ -61,6 +61,34 @@ function App() {
   //imported hook. Kysely näyttöportin koosta
   const isMobile = useMediaQuery({query: "(max-width:900px)"});
 
+
+  /* Sponsor logos & links
+
+    Save logo files into map-app/public/sponsorit
+    Link addresses to sponsor's website
+
+    Example:
+    const sponsor1 = {
+      logo: "sponsor1.png",
+      address: "https://www.google.com/"
+    };
+  */
+  const sponsor1 = {
+    logo: "",
+    address: ""
+  };
+  const sponsor2 = {
+    logo: "",
+    address: ""
+  };
+  const sponsor3 = {
+    logo: "",
+    address: ""
+  };
+
+  const sponsors = [sponsor1, sponsor2, sponsor3];
+
+
   /*
    * Haetaan renderöinnin jälkeen aina tiedot lumilaaduista, päivityksistä ja segmenteistä
    * Tallennetaan ne hookkeihin
@@ -320,6 +348,7 @@ function App() {
               onClose={chooseSegment}
               updateWoods={updateWoods}
               snowtypes={snowtypes}
+              sponsors={sponsors}
             />
             :
             <div />
@@ -337,7 +366,7 @@ function App() {
         <div></div>
         :
         <div className="welcome_view">
-          <WelcomeView isMobile={isMobile} updateShowWelcomeView={updateShowWelcomeView}/>
+          <WelcomeView isMobile={isMobile} sponsors={sponsors} updateShowWelcomeView={updateShowWelcomeView}/>
         </div>}
       {(
         token === null || token === undefined 

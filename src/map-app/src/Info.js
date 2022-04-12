@@ -607,7 +607,7 @@ function Info(props) {
       return (
         <div className={isXS ? "mobileInfo" : "info"}>
 
-          <SnowRecordView segmentdata={props.segmentdata} close={closeShownSegment} signedUser={true}></SnowRecordView>
+          <SnowRecordView segmentdata={props.segmentdata} close={closeShownSegment} signedUser={true} sponsors={props.sponsors}></SnowRecordView>
           <IconButton
             className={classes.editButton}
             style={{padding: 0, paddingLeft: "12px"}}
@@ -744,6 +744,7 @@ function Info(props) {
             openFeedback={openFeedback} 
             close={closeShownSegment}
             signedUser={false}
+            sponsors={props.sponsors}
           />
 
           { writeReviewEnabled && (

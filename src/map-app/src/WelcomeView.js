@@ -110,17 +110,20 @@ function WelcomeView(props) {
 
         
         <Box className={styledClasses.sponsorContainer} style={{flex: 2}}>
-          {/* 
-          <a href="https://www.google.com/" target="_blank" rel="noopener noreferrer">
-            <img src="sponsorit/sponsor1.png" alt="" className={styledClasses.sponsor} />
-          </a>
-          <a href="https://www.google.fi/maps/" target="_blank" rel="noopener noreferrer">
-            <img src="sponsorit/sponsor2.png" alt="" className={styledClasses.sponsor} />
-          </a>
-          <a href="https://www.google.fi/maps/" target="_blank" rel="noopener noreferrer">
-            <img src="sponsorit/sponsor3.png" alt="" className={styledClasses.sponsor} />
-          </a>
-          */}
+          {props.sponsors !== undefined && <>
+            {props.sponsors.length >= 1 && props.sponsors[0].logo !== "" && 
+              <a href={props.sponsors[0].address} target="_blank" rel="noopener noreferrer">
+                <img src={"sponsorit/" + props.sponsors[0].logo} alt="" className={styledClasses.sponsor} />
+              </a> }
+            {props.sponsors.length >= 2 && props.sponsors[1].logo !== "" && 
+              <a href={props.sponsors[1].address} target="_blank" rel="noopener noreferrer">
+                <img src={"sponsorit/" + props.sponsors[1].logo} alt="" className={styledClasses.sponsor} />
+              </a> }
+            {props.sponsors.length >= 3 && props.sponsors[2].logo !== "" && 
+              <a href={props.sponsors[2].address} target="_blank" rel="noopener noreferrer">
+                <img src={"sponsorit/" + props.sponsors[2].logo} alt="" className={styledClasses.sponsor} />
+              </a> }           
+          </>}   
         </Box>
         
         <Box className={styledClasses.buttonContainer}>
@@ -156,17 +159,20 @@ function WelcomeView(props) {
         </Box>
         
         <Box className={styledClasses.sponsorContainer}>
-          {/* 
-          <a href="https://www.google.com/" target="_blank" rel="noopener noreferrer">
-            <img src="sponsorit/sponsor1.png" alt="" className={styledClasses.sponsor} />
-          </a>
-          <a href="https://www.google.fi/maps/" target="_blank" rel="noopener noreferrer">
-            <img src="sponsorit/sponsor2.png" alt="" className={styledClasses.sponsor} />
-          </a>
-          <a href="https://www.google.fi/maps/" target="_blank" rel="noopener noreferrer">
-            <img src="sponsorit/sponsor3.png" alt="" className={styledClasses.sponsor} />
-          </a>
-          */}
+          {props.sponsors !== undefined && <>
+            {props.sponsors.length >= 1 && props.sponsors[0].logo !== "" && 
+              <a href={props.sponsors[0].address} target="_blank" rel="noopener noreferrer">
+                <img src={"sponsorit/" + props.sponsors[0].logo} alt="" className={styledClasses.sponsor} />
+              </a> }
+            {props.sponsors.length >= 2 && props.sponsors[1].logo !== "" && 
+              <a href={props.sponsors[1].address} target="_blank" rel="noopener noreferrer">
+                <img src={"sponsorit/" + props.sponsors[1].logo} alt="" className={styledClasses.sponsor} />
+              </a> }
+            {props.sponsors.length >= 3 && props.sponsors[2].logo !== "" && 
+              <a href={props.sponsors[2].address} target="_blank" rel="noopener noreferrer">
+                <img src={"sponsorit/" + props.sponsors[2].logo} alt="" className={styledClasses.sponsor} />
+              </a> }           
+          </>}
         </Box>
         
       </Box>
