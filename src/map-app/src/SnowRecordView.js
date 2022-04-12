@@ -158,6 +158,25 @@ const useStyles = makeStyles(() => ({
     fontSize: "medium",
     marginLeft: "5px",
   },
+  expandOpen: {
+    transform: "rotate(90deg)"
+  },
+  expandClosed: {
+    transform: "rotate(-90deg)"
+  },
+  expandButton: {
+    borderRadius: "30px",
+    textTransform: "none",
+    width: "150px",
+    height: "30px",
+    marginBottom: "5px",
+    fontFamily: "Donau",
+    color: "#FFF",
+    backgroundColor: "gray",
+    letterSpacing: 2,
+    fontWeight: 300,
+    fontSize: "18px",
+  },
 }));
 
 function getRelativeTimestamp(current, previous) {
@@ -202,7 +221,8 @@ function getRelativeTimestamp(current, previous) {
   }
 }
 
-function SnowRecordView({ segmentdata, expanded, writeReviewEnabled, openForm, openFeedback, close, signedUser}) {
+
+function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedback, close, signedUser}) {
   const classes = useStyles();
   // Avalanche warning LINK
   const url = "https://www.pallaksenpollot.com/";
@@ -211,6 +231,49 @@ function SnowRecordView({ segmentdata, expanded, writeReviewEnabled, openForm, o
   //const isSM = useMediaQuery({ query: "(min-width: 600px) and (max-width: 900px)" });
   const description = (segmentdata.update === null || segmentdata.update === undefined ? "" : segmentdata.update.Kuvaus);
   const isEmpty = (segmentdata.update === null || segmentdata.update === undefined ? true : checkIfEmpty());
+  const [expanded, setExpanded] = React.useState(false);
+  const [guideTime, setGuideTime] = React.useState("");
+  const [userTimes, setUserTimes] = React.useState([]);
+
+
+  //Calculate all timestamps only in the first render
+  React.useEffect(() => {
+
+    // Parsitaan päivämäärä ja aika päivityksestä, mikäli päivitys löytyy
+    if (segmentdata.update !== null && segmentdata.update !== undefined) {
+      console.log("Time been set!");
+      let currentTime = new Date();
+  
+      if(segmentdata.update.Aika !== null && segmentdata.update.Aika !== undefined) {
+        // Datasta saadaan viimeisin päivitysaika
+        let latestUpdateTime = new Date(segmentdata.update.Aika);
+        let guideUpdateTime = `Viimeksi päivitetty: ${getRelativeTimestamp(currentTime, latestUpdateTime)}`;
+        setGuideTime(guideUpdateTime);
+      }
+  
+      let userTime1 = "";
+      let userTime2 = "";
+      let userTime3 = "";
+
+      if(segmentdata.update.A1_Aika !== null) {
+        // Datasta saadaan viimeisin päivitysaika
+        let latestUpdateTime = new Date(segmentdata.update.A1_Aika);
+        userTime1 = `Viimeksi päivitetty: ${getRelativeTimestamp(currentTime, latestUpdateTime)}`;
+      }
+      if(segmentdata.update.A2_Aika !== null) {
+        // Datasta saadaan viimeisin päivitysaika
+        let latestUpdateTime = new Date(segmentdata.update.A2_Aika);
+        userTime2 = `Viimeksi päivitetty: ${getRelativeTimestamp(currentTime, latestUpdateTime)}`;
+      }
+      if(segmentdata.update.A3_Aika !== null) {
+        // Datasta saadaan viimeisin päivitysaika
+        let latestUpdateTime = new Date(segmentdata.update.A3_Aika);
+        userTime3 = `Viimeksi päivitetty: ${getRelativeTimestamp(currentTime, latestUpdateTime)}`;
+      }
+
+      setUserTimes([userTime1, userTime2, userTime3]);
+    }
+  }, [segmentdata]);
 
   // Gets boolean value of snowtype visibility, by given index (indices 1&2 are primary types, 3&4 are secondary types, 5 user type)
   function isEnabled(index) {
@@ -261,26 +324,11 @@ function SnowRecordView({ segmentdata, expanded, writeReviewEnabled, openForm, o
     return true;
   }
 
-  var guideUpdateTime = "";
-  var userUpdateTime = "";
+  //Set expanded
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
-  // Parsitaan päivämäärä ja aika päivityksestä, mikäli päivitys löytyy
-  if (segmentdata.update !== null && segmentdata.update !== undefined) {
-
-    let currentTime = new Date();
-
-    if(segmentdata.update.Aika !== null && segmentdata.update.Aika !== undefined) {
-      // Datasta saadaan viimeisin päivitysaika
-      let latestUpdateTime = new Date(segmentdata.update.Aika);
-      guideUpdateTime = `Viimeksi päivitetty: ${getRelativeTimestamp(currentTime, latestUpdateTime)}`;
-    }
-
-    if(segmentdata.update.A1_Aika !== null && segmentdata.update.A1_Aika !== undefined) {
-      // Datasta saadaan viimeisin päivitysaika
-      let latestUpdateTime = new Date(segmentdata.update.A1_Aika);
-      userUpdateTime = `Viimeksi päivitetty: ${getRelativeTimestamp(currentTime, latestUpdateTime)}`;
-    }
-  }
 
   var dangerimage;
   var dangertext;
@@ -301,6 +349,46 @@ function SnowRecordView({ segmentdata, expanded, writeReviewEnabled, openForm, o
       dangerimage = <div />;
       dangertext = null;
     }
+  }
+
+  function StonesAndBranches(props) {
+    return (
+      <div>
+        {props.option === 1 && (
+          <Grid style={{display: "flex", padding: (isXS ? "0px 15px" : "0px")}}>
+            <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false} Guide={false}/>
+          </Grid>                      )}
+        {props.option === 2 && (
+          <Grid style={{display: "flex", padding: (isXS ? "0px 15px" : "0px")}}>
+            <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false} Guide={false}/>
+          </Grid>                      )}
+        {props.option === 3 && (
+          <Grid style={{display: "flex", padding: (isXS ? "0px 15px" : "0px")}}>
+            <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false} Guide={false}/>
+            <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false} Guide={false}/>
+          </Grid>
+        )}
+      </div>
+    );
+  }
+
+  function TimeStamp(props) {
+    let timeText = "";
+    if(props.fromGuide) {
+      timeText = guideTime;
+    } else {
+      timeText = userTimes[props.index];
+    }
+    return (
+      <Grid item sm={12} xs={12} container style={{paddingTop: "10px"}}>
+        <Grid item sm={12} xs={12}>
+          <Typography className={classes.timeStamp}>{timeText}</Typography>
+        </Grid>
+        <Grid>
+          <Typography className={classes.authorTag} style={{backgroundColor: (props.fromGuide ? "#9FAFCE" : "#C4C4C4")}}>{props.fromGuide ? "Pallaksen Pöllöt" : "Vierailija" }</Typography>
+        </Grid>
+      </Grid >
+    );
   }
 
   return (
@@ -365,120 +453,115 @@ function SnowRecordView({ segmentdata, expanded, writeReviewEnabled, openForm, o
               {isEnabled(2) &&
                 <DisplaySnowType Lumilaatu={segmentdata.update.Lumilaatu_ID2} Nimi={segmentdata.update.Lumi2.Nimi} Hiihdettavyys={segmentdata.update.Lumi2.Hiihdettavyys} Main={true} Guide={true}/>
               }
-              {expanded && <>
-                {/* Secondary snowtypes */}
-                {isEnabled(3) && 
-                  <DisplaySnowType Lumilaatu={segmentdata.update.Toissijainen_ID1} Nimi={segmentdata.update.Lumi3.Nimi} Hiihdettavyys={segmentdata.update.Lumi3.Hiihdettavyys} Main={false} Guide={true}/>
-                }
-                {isEnabled(4) && 
-                  <DisplaySnowType Lumilaatu={segmentdata.update.Toissijainen_ID2} Nimi={segmentdata.update.Lumi4.Nimi} Hiihdettavyys={segmentdata.update.Lumi4.Hiihdettavyys} Main={false} Guide={true}/>
-                }               
-              </>}              
+              {/* Secondary snowtypes */}
+              {isEnabled(3) && 
+                <DisplaySnowType Lumilaatu={segmentdata.update.Toissijainen_ID1} Nimi={segmentdata.update.Lumi3.Nimi} Hiihdettavyys={segmentdata.update.Lumi3.Hiihdettavyys} Main={false} Guide={true}/>
+              }
+              {isEnabled(4) && 
+                <DisplaySnowType Lumilaatu={segmentdata.update.Toissijainen_ID2} Nimi={segmentdata.update.Lumi4.Nimi} Hiihdettavyys={segmentdata.update.Lumi4.Hiihdettavyys} Main={false} Guide={true}/>
+              }                            
             </>}
             {!ifGuideInfoExists() && <>
               <Typography className={classes.smallText}>Alueella ei ole Pallaksen Pöllöjen vahvistamaa tietoa. Alla oleva tieto pohjautuu tunturissa vierailleen päivitykseen.</Typography>
               <DisplaySnowType Lumilaatu={segmentdata.update.Lumi5.ID} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true} Guide={false}/>
+
+              <StonesAndBranches option={segmentdata.update.A1_Lisätiedot} />
+
+              <TimeStamp fromGuide={false} index={0}/>
+          
+              <Grid item xs={12} sm={12}>
+                <Divider className={classes.divider} />
+              </Grid>
             </>}
 
-            {!expanded &&
-            <Grid item xs={12} sm={12} container>
-
-              {/* Info about latest update time */}
-              <Grid item xs={12} container style={{paddingTop: "10px"}}>
-                <Grid item xs={12}>
-                  <Typography className={classes.timeStamp}>{segmentdata.update === null || segmentdata.update === undefined ? "" : (ifGuideInfoExists() ? guideUpdateTime : userUpdateTime)}</Typography>
-                </Grid>
-                <Grid>
-                  <Typography className={classes.authorTag} style={{backgroundColor: (ifGuideInfoExists() ? "#9FAFCE" : "#C4C4C4")}}>{ifGuideInfoExists() ? "Pallaksen Pöllöt" : "Vierailija" }</Typography>
-                </Grid>
-              </Grid >
-            </Grid >
-            }
-
             <Grid item xs={12} sm={12}>
-              <Collapse in={expanded} timeout="auto" unmountOnExit>
+              {ifGuideInfoExists() && <>
+                {/* Description of segment, this might be changed later */}
+                {description !== "" && description !== null &&
+                  <Grid item xs={12} sm={12} align="start" className={classes.textContainer}>
+                    <p className={classes.normalText}>
+                      {description}
+                    </p>
+                  </Grid>            
+                }
 
+                {/* Info about latest update time */}
+
+                <TimeStamp fromGuide={true} />
+
+                <Grid item xs={12} sm={12}>
+                  <Divider className={classes.divider} />
+                </Grid> 
+              </>}
+
+
+              {/* User-made snowtypes */}
+              {ifUserInfoExists() && <Grid item xs={12} sm={12} container>
                 {ifGuideInfoExists() && <>
-                  {/* Description of segment, this might be changed later */}
-                  {description !== "" && description !== null &&
-                    <Grid item xs={12} sm={12} align="start" className={classes.textContainer}>
-                      <p className={classes.normalText}>
-                        {description}
-                      </p>
-                    </Grid>            
-                  }
 
-                  {/* Info about latest update time */}
-                  <Grid item sm={12} xs={12} container style={{paddingTop: "10px"}}>
-                    <Grid item sm={12} xs={12}>
-                      <Typography className={classes.timeStamp}>{segmentdata.update === null || segmentdata.update === undefined ? "" : guideUpdateTime}</Typography>
-                    </Grid>
-                    <Grid>
-                      <Typography className={classes.authorTag} style={{backgroundColor: "#9FAFCE"}}>Pallaksen Pöllöt </Typography>
-                    </Grid>
-                  </Grid >
-                  
-                  <Grid item xs={12} sm={12}>
-                    <Divider className={classes.divider} />
-                  </Grid> 
-                </>}
+                  {/* Open-close infos */}
+                  <Box style={{padding: "5px 15px"}}>
+                    <IconButton
+                      className={classes.expandButton}
+                      onClick={handleExpandClick}
+                      aria-expanded={expanded}
+                      aria-label="show more"
+                    >
+                      <div style={{marginRight: "5px"}}>Käyttäjätiedot</div>
+                      <div className={expanded ? classes.expandOpen : classes.expandClosed}>〱</div>
+                    </IconButton>
+                  </Box>
 
-
-                {/* User-made snowtypes */}
-                {ifUserInfoExists() && <Grid item xs={12} sm={12} container>
-                  {ifGuideInfoExists() && <>
+                  <Collapse in={expanded} timeout="auto" unmountOnExit>
 
                     <Typography className={classes.smallText}>Alla oleva tieto pohjautuu tunturissa vierailleen päivitykseen.</Typography>
 
-                    <DisplaySnowType Lumilaatu={segmentdata.update.Lumi5.ID} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true} Guide={false}/>
-                  </> }
-                  
-                  <div>
-                    {segmentdata.update.A1_Lisätiedot === 1 && (
-                      <Grid style={{display: "flex", padding: (isXS ? "0px 15px" : "0px")}}>
-                        <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false} Guide={false}/>
-                      </Grid>                      )}
-                    {segmentdata.update.A1_Lisätiedot === 2 && (
-                      <Grid style={{display: "flex", padding: (isXS ? "0px 15px" : "0px")}}>
-                        <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false} Guide={false}/>
-                      </Grid>                      )}
-                    {segmentdata.update.A1_Lisätiedot === 3 && (
-                      <Grid style={{display: "flex", padding: (isXS ? "0px 15px" : "0px")}}>
-                        <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false} Guide={false}/>
-                        <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false} Guide={false}/>
+                    {segmentdata.update.Lumi5 !== undefined && <>
+                      <DisplaySnowType Lumilaatu={segmentdata.update.Lumi5.ID} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true} Guide={false}/>
+                      <StonesAndBranches option={segmentdata.update.A1_Lisätiedot} />
+                      <TimeStamp fromGuide={false} index={0} />
+
+                      <Grid item xs={12} sm={12}>
+                        <Divider className={classes.divider} />
                       </Grid>
-                    )}
-                  </div>
+                    </>}
 
-                  <Grid item sm={12} xs={12} container style={{paddingTop: "10px"}}>
-                    <Grid item sm={12} xs={12}>
-                      <Typography className={classes.timeStamp}>{segmentdata.update === null || segmentdata.update === undefined ? "" : userUpdateTime}</Typography>
-                    </Grid>
-                    <Grid>
-                      <Typography className={classes.authorTag} style={{backgroundColor: "#C4C4C4"}}>Vierailija </Typography>
-                    </Grid>
-                  </Grid >
+                    {segmentdata.update.Lumi6 !== undefined && <>
+                      <DisplaySnowType Lumilaatu={segmentdata.update.Lumi6.ID} Nimi={segmentdata.update.Lumi6.Nimi} Hiihdettavyys={segmentdata.update.Lumi6.Hiihdettavyys} Main={true} Guide={false}/>
+                      <StonesAndBranches option={segmentdata.update.A2_Lisätiedot} />
+                      <TimeStamp fromGuide={false} index={1} />
 
-                  <Grid item xs={12} sm={12}>
-                    <Divider className={classes.divider} />
-                  </Grid> 
-                </Grid>}
-              </Collapse>
+                      <Grid item xs={12} sm={12}>
+                        <Divider className={classes.divider} />
+                      </Grid>
+                    </>}
+
+                    {segmentdata.update.Lumi7 !== undefined && <>
+                      <DisplaySnowType Lumilaatu={segmentdata.update.Lumi7.ID} Nimi={segmentdata.update.Lumi7.Nimi} Hiihdettavyys={segmentdata.update.Lumi7.Hiihdettavyys} Main={true} Guide={false}/>
+                      <StonesAndBranches option={segmentdata.update.A3_Lisätiedot} />
+                      <TimeStamp fromGuide={false} index={2} />
+
+                      <Grid item xs={12} sm={12}>
+                        <Divider className={classes.divider} />
+                      </Grid>
+                    </>}
+                
+
+                  </Collapse>
+                </> }
+              </Grid>}
             </Grid>
       
 
             {/* Snow review buttons */}
             {!signedUser && ( 
-              <Grid item xs={12} sm={12}>
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
-                  
-                  <Box className={classes.buttonsLeft}>       
-                    <Typography className={classes.mediumText} style={{padding: "0px 0px 10px 5px"}}>Liikuitko alueella?</Typography> 
+              <Grid item xs={12} sm={12}>                  
+                <Box className={classes.buttonsLeft}>       
+                  <Typography className={classes.mediumText} style={{padding: "0px 0px 10px 5px"}}>Liikuitko alueella?</Typography> 
 
-                    <Button variant="contained" className={classes.blue} onClick={openForm}>Kyllä, lisää arvio lumitilanteesta.</Button>
-                    <Button variant="contained" className={classes.darkGrey} onClick={openFeedback}>Lisää muu havainto.</Button>
-                  </Box>
-                </Collapse>
+                  <Button variant="contained" className={classes.blue} onClick={openForm}>Kyllä, lisää arvio lumitilanteesta.</Button>
+                  <Button variant="contained" className={classes.darkGrey} onClick={openFeedback}>Lisää muu havainto.</Button>
+                </Box>
               </Grid>
             )}
 

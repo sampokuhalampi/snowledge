@@ -105,6 +105,12 @@ function App() {
           if (snow.ID === update.A1_Lumilaatu) {
             update.Lumi5 = snow;
           }
+          if (snow.ID === update.A2_Lumilaatu) {
+            update.Lumi6 = snow;
+          }
+          if (snow.ID === update.A3_Lumilaatu) {
+            update.Lumi7 = snow;
+          }
         });
       });
       

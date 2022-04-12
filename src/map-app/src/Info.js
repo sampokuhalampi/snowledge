@@ -163,25 +163,6 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Donau",
     borderRadius: "10px",
   },
-  expandOpen: {
-    transform: "rotate(90deg)"
-  },
-  expandClosed: {
-    transform: "rotate(-90deg)"
-  },
-  expandButton: {
-    borderRadius: "30px",
-    textTransform: "none",
-    width: "150px",
-    height: "30px",
-    marginBottom: "5px",
-    fontFamily: "Donau",
-    color: "#FFF",
-    backgroundColor: "gray",
-    letterSpacing: 2,
-    fontWeight: 300,
-    fontSize: "18px",
-  },
 }));
 
 
@@ -207,52 +188,11 @@ function Info(props) {
   const [writeReviewEnabled, setWriteReviewEnabled] = React.useState(false);
   const [reviewMode, setReviewMode] = React.useState("category");
 
-  const [expanded, setExpanded] = React.useState(true */isXS ? false : true*/);
-  const [expandArrow, setExpandArrow] = React.useState(true);
-
   const classes = useStyles();
 
   /*
    * Event handlers
    */
-  React.useEffect(() => {
-    setExpandArrow(showArrow());
-  }, [props.segmentdata.update]);
-
-
-  function numberOfSnowTypes() {
-    let number = 0;
-    let data = props.segmentdata.update;
-    if(data.Lumilaatu_ID1 !== null || data.Lumilaatu_ID2 !== null) {
-      number += 1;
-    }
-    if(data.Toissijainen_ID1 !== null || data.Toissijainen_ID2 !== null) {
-      number += 1;
-    }
-    if(data.A1_Lumilaatu !== null) {
-      number += 1;
-    }
-    
-    return number;
-  }
-
-  function showArrow() {
-    if (props.segmentdata.update !== null && props.segmentdata.update !== undefined) {
-      let content = numberOfSnowTypes();
-
-      if (props.token === null || props.token === undefined) {
-        if(content !== 0) {
-          return true;
-        }
-      } else {
-        if(content > 1 || (props.segmentdata.update.Kuvaus !== null && props.segmentdata.update.Kuvaus !== "") 
-        || props.segmentdata.update.A1_Lisätiedot > 0) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
 
 
   // Segmentin päivitysdialogin avaus
@@ -311,11 +251,6 @@ function Info(props) {
   function closeReview() {
     setWriteReviewEnabled(false);
   }
-
-  //Set expanded
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
 
   // Hides unnecessary information on snow record entry view, if checkbox is checked.
@@ -672,7 +607,7 @@ function Info(props) {
       return (
         <div className={isXS ? "mobileInfo" : "info"}>
 
-          <SnowRecordView segmentdata={props.segmentdata} expanded={expanded} close={closeShownSegment} signedUser={true}></SnowRecordView>
+          <SnowRecordView segmentdata={props.segmentdata} close={closeShownSegment} signedUser={true}></SnowRecordView>
           <IconButton
             className={classes.editButton}
             style={{padding: 0, paddingLeft: "12px"}}
@@ -681,20 +616,6 @@ function Info(props) {
             <EditIcon />
             <Typography className={classes.smallHeaders} variant="button">Päivitä</Typography>
           </IconButton>
-
-          {/* Closing arrow */}
-          {isXS && !writeReviewEnabled && expandArrow &&
-          <Box align="center">
-            <IconButton
-              className={expanded ? classes.expandOpen : classes.expandClosed}
-              style={{ padding: 0, marginBottom: "5px" }}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <img src={`${process.env.PUBLIC_URL}/icons/expand.svg`} width="80%" height="15px" alt="expand" fill="black"></img>
-            </IconButton>
-          </Box>}
 
           {/* Segmentin päivitysdialogi - SNOW RECORD ENTRY VIEW*/}
 
@@ -818,7 +739,6 @@ function Info(props) {
 
           <SnowRecordView 
             segmentdata={props.segmentdata} 
-            expanded={expanded}
             writeReviewEnabled={writeReviewEnabled} 
             openForm={openForm} 
             openFeedback={openFeedback} 
@@ -829,20 +749,6 @@ function Info(props) {
           { writeReviewEnabled && (
             <WriteUserReview segmentdata={props.segmentdata} mode={reviewMode} back={closeReview} close={closeShownSegment}/>
           )}
-
-          {/* Closing arrow */}
-          {/*isXS && */!writeReviewEnabled && expandArrow &&
-          <Box style={{padding: "5px 15px"}}>
-            <IconButton
-              className={classes.expandButton}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <div style={{marginRight: "5px"}}>Käyttäjätiedot</div>
-              <div className={expanded ? classes.expandOpen : classes.expandClosed}>〱</div>
-            </IconButton>
-          </Box>}
         </div>
       );
     }
