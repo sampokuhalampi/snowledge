@@ -79,7 +79,7 @@ function DisplaySnowType(props) {
 
 
   return (
-    <Grid item xs={inline ? 6 : 12} sm={6} style={{ paddingTop: (isXS ? "0px" : "10px") }} container>
+    <Grid item xs={inline ? 6 : 12} sm={12} style={{ paddingTop: (isXS ? "0px" : "10px") }} container>
       <Grid item xs={inline ? 6 : 4} sm={4}>
         {
           <CardMedia
@@ -91,7 +91,7 @@ function DisplaySnowType(props) {
         }
       </Grid>
 
-      <Grid item container xs={inline ? 6 : 8} sm={8} className={classes.snowInfo}>
+      {props.Nimi !== undefined && <Grid item container xs={inline ? 6 : 8} sm={8} className={classes.snowInfo}>
         <Grid item xs={12} sm={12}>
           <Typography className={props.Main? classes.mainheaders : classes.secondaryHeaders} variant="body1" component="p">
             {props.Nimi}
@@ -104,8 +104,8 @@ function DisplaySnowType(props) {
             Hiihdettävyys
             <img className={props.Main? classes.mainskiabilityIcon : classes.secondarySkiabilityIcon} src={process.env.PUBLIC_URL + "/icons/skiability/" + props.Hiihdettavyys + ".svg"} alt="skiability" />
           </Typography>
-        </Grid>}
-      </Grid>
+        </Grid> }
+      </Grid> }
     </Grid>
   );
 }

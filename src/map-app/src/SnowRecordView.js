@@ -177,6 +177,12 @@ const useStyles = makeStyles(() => ({
     fontWeight: 300,
     fontSize: "18px",
   },
+  snowComment: {
+    borderRadius: "20px",
+    backgroundColor: "rgba(186, 186, 186, 0.31)",
+    paddingLeft: "20px",
+    margin: 5,
+  },
 }));
 
 function getRelativeTimestamp(current, previous) {
@@ -351,15 +357,15 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
     }
   }
 
-  function StonesAndBranches(props) {
+  function StonesAndBranchesWithHeader(props) {
     return (
       <div>
         {props.option === 1 && (
-          <Grid style={{display: "flex", padding: (isXS ? "0px 15px" : "0px")}}>
+          <Grid item sm={6} style={{display: "flex", padding: (isXS ? "0px 15px" : "0px")}}>
             <DisplaySnowType Lumilaatu={21} Nimi={"Kiviä"} Hiihdettavyys={null} Main={false} Guide={false}/>
           </Grid>                      )}
         {props.option === 2 && (
-          <Grid style={{display: "flex", padding: (isXS ? "0px 15px" : "0px")}}>
+          <Grid item sm={6} style={{display: "flex", padding: (isXS ? "0px 15px" : "0px")}}>
             <DisplaySnowType Lumilaatu={22} Nimi={"Oksia"} Hiihdettavyys={null} Main={false} Guide={false}/>
           </Grid>                      )}
         {props.option === 3 && (
@@ -369,6 +375,45 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
           </Grid>
         )}
       </div>
+    );
+  }
+
+  function StonesAndBranches(props) {
+    return (
+      <>
+        {props.option === 1 && ( <Grid item xs={6} sm={4}>
+          <CardMedia
+            component={"img"}
+            style={{display: "block", width: "78%"}}
+            src={process.env.PUBLIC_URL + "/icons/snowtypes-and-harms/" + 21 + ".svg"}
+            alt="lumityypin logo"
+          /></Grid>                  )}
+        {props.option === 2 && ( <Grid item xs={6} sm={4}>
+          <CardMedia
+            component={"img"}
+            style={{display: "block", width: "78%"}}
+            src={process.env.PUBLIC_URL + "/icons/snowtypes-and-harms/" + 22 + ".svg"}
+            alt="lumityypin logo"
+          /></Grid>                   )}
+        {props.option === 3 && ( <Grid item xs={12} sm={12} container>
+          <Grid item xs={6} sm={4}>
+            <CardMedia
+              component={"img"}
+              style={{display: "block", width: "78%"}}
+              src={process.env.PUBLIC_URL + "/icons/snowtypes-and-harms/" + 21 + ".svg"}
+              alt="lumityypin logo"
+            /> 
+          </Grid>
+          <Grid item xs={6} sm={4}>
+            <CardMedia
+              component={"img"}
+              style={{display: "block", width: "78%"}}
+              src={process.env.PUBLIC_URL + "/icons/snowtypes-and-harms/" + 22 + ".svg"}
+              alt="lumityypin logo"
+            />          
+          </Grid>
+        </Grid>)}
+      </>
     );
   }
 
@@ -384,9 +429,9 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
         <Grid item sm={12} xs={12}>
           <Typography className={classes.timeStamp}>{timeText}</Typography>
         </Grid>
-        <Grid>
+        {props.tag && <Grid>
           <Typography className={classes.authorTag} style={{backgroundColor: (props.fromGuide ? "#9FAFCE" : "#C4C4C4")}}>{props.fromGuide ? "Pallaksen Pöllöt" : "Vierailija" }</Typography>
-        </Grid>
+        </Grid>}
       </Grid >
     );
   }
@@ -446,28 +491,34 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
 
             {ifGuideInfoExists() && <>
               {/* Main snowtype info */}
-              {isEnabled(1) &&
+              {isEnabled(1) && <Grid item xs={12} sm={6}>
                 <DisplaySnowType Lumilaatu={segmentdata.update.Lumilaatu_ID1} Nimi={segmentdata.update.Lumi1.Nimi} Hiihdettavyys={segmentdata.update.Lumi1.Hiihdettavyys} Main={true} Guide={true}/>
+              </Grid>
               }
               {/* Main snowtype info 2 */}
-              {isEnabled(2) &&
+              {isEnabled(2) && <Grid item xs={12} sm={6}>
                 <DisplaySnowType Lumilaatu={segmentdata.update.Lumilaatu_ID2} Nimi={segmentdata.update.Lumi2.Nimi} Hiihdettavyys={segmentdata.update.Lumi2.Hiihdettavyys} Main={true} Guide={true}/>
+              </Grid>
               }
               {/* Secondary snowtypes */}
-              {isEnabled(3) && 
+              {isEnabled(3) && <Grid item xs={12} sm={6}>
                 <DisplaySnowType Lumilaatu={segmentdata.update.Toissijainen_ID1} Nimi={segmentdata.update.Lumi3.Nimi} Hiihdettavyys={segmentdata.update.Lumi3.Hiihdettavyys} Main={false} Guide={true}/>
+              </Grid>
               }
-              {isEnabled(4) && 
+              {isEnabled(4) && <Grid item xs={12} sm={6}>
                 <DisplaySnowType Lumilaatu={segmentdata.update.Toissijainen_ID2} Nimi={segmentdata.update.Lumi4.Nimi} Hiihdettavyys={segmentdata.update.Lumi4.Hiihdettavyys} Main={false} Guide={true}/>
+              </Grid>
               }                            
             </>}
             {!ifGuideInfoExists() && <>
               <Typography className={classes.smallText}>Alueella ei ole Pallaksen Pöllöjen vahvistamaa tietoa. Alla oleva tieto pohjautuu tunturissa vierailleen päivitykseen.</Typography>
-              <DisplaySnowType Lumilaatu={segmentdata.update.Lumi5.ID} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true} Guide={false}/>
+              <Grid item xs={12} sm={6}>
+                <DisplaySnowType Lumilaatu={segmentdata.update.Lumi5.ID} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true} Guide={false}/>
+              </Grid>
 
-              <StonesAndBranches option={segmentdata.update.A1_Lisätiedot} />
+              <StonesAndBranchesWithHeader option={segmentdata.update.A1_Lisätiedot} />
 
-              <TimeStamp fromGuide={false} index={0}/>
+              <TimeStamp fromGuide={false} tag={true} index={0}/>
           
               <Grid item xs={12} sm={12}>
                 <Divider className={classes.divider} />
@@ -487,7 +538,7 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
 
                 {/* Info about latest update time */}
 
-                <TimeStamp fromGuide={true} />
+                <TimeStamp fromGuide={true} tag={true}/>
 
                 <Grid item xs={12} sm={12}>
                   <Divider className={classes.divider} />
@@ -516,35 +567,38 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
 
                     <Typography className={classes.smallText}>Alla oleva tieto pohjautuu tunturissa vierailleen päivitykseen.</Typography>
 
-                    {segmentdata.update.Lumi5 !== undefined && <>
-                      <DisplaySnowType Lumilaatu={segmentdata.update.Lumi5.ID} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true} Guide={false}/>
-                      <StonesAndBranches option={segmentdata.update.A1_Lisätiedot} />
+                    {segmentdata.update.Lumi5 !== undefined && <Grid item xs={12} sm={12} className={classes.snowComment} container>
+                      <Grid item xs={8} sm={6}>
+                        <DisplaySnowType Lumilaatu={segmentdata.update.Lumi5.ID} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true} Guide={false}/>
+                      </Grid>
+                      <Grid item xs={4} sm={6} container style={{alignContent: "center"}}>
+                        <StonesAndBranches option={segmentdata.update.A1_Lisätiedot} />
+                      </Grid>
                       <TimeStamp fromGuide={false} index={0} />
 
-                      <Grid item xs={12} sm={12}>
-                        <Divider className={classes.divider} />
-                      </Grid>
-                    </>}
+                    </Grid>}
 
-                    {segmentdata.update.Lumi6 !== undefined && <>
-                      <DisplaySnowType Lumilaatu={segmentdata.update.Lumi6.ID} Nimi={segmentdata.update.Lumi6.Nimi} Hiihdettavyys={segmentdata.update.Lumi6.Hiihdettavyys} Main={true} Guide={false}/>
-                      <StonesAndBranches option={segmentdata.update.A2_Lisätiedot} />
+                    {segmentdata.update.Lumi6 !== undefined && <Grid item xs={12} sm={12} className={classes.snowComment} container>
+                      <Grid item xs={8} sm={6}>
+                        <DisplaySnowType Lumilaatu={segmentdata.update.Lumi6.ID} Nimi={segmentdata.update.Lumi6.Nimi} Hiihdettavyys={segmentdata.update.Lumi6.Hiihdettavyys} Main={true} Guide={false}/>
+                      </Grid>
+                      <Grid item xs={4} sm={6} container style={{alignContent: "center"}}>
+                        <StonesAndBranches option={segmentdata.update.A2_Lisätiedot} />
+                      </Grid>
+
                       <TimeStamp fromGuide={false} index={1} />
 
-                      <Grid item xs={12} sm={12}>
-                        <Divider className={classes.divider} />
-                      </Grid>
-                    </>}
+                    </Grid>}
 
-                    {segmentdata.update.Lumi7 !== undefined && <>
-                      <DisplaySnowType Lumilaatu={segmentdata.update.Lumi7.ID} Nimi={segmentdata.update.Lumi7.Nimi} Hiihdettavyys={segmentdata.update.Lumi7.Hiihdettavyys} Main={true} Guide={false}/>
-                      <StonesAndBranches option={segmentdata.update.A3_Lisätiedot} />
+                    {segmentdata.update.Lumi7 !== undefined && <Grid item xs={12} sm={12} className={classes.snowComment} container>
+                      <Grid item xs={8} sm={6}>
+                        <DisplaySnowType Lumilaatu={segmentdata.update.Lumi7.ID} Nimi={segmentdata.update.Lumi7.Nimi} Hiihdettavyys={segmentdata.update.Lumi7.Hiihdettavyys} Main={true} Guide={false}/>
+                      </Grid>
+                      <Grid item xs={4} sm={6} container style={{alignContent: "center"}}>
+                        <StonesAndBranches option={segmentdata.update.A3_Lisätiedot} />
+                      </Grid>
                       <TimeStamp fromGuide={false} index={2} />
-
-                      <Grid item xs={12} sm={12}>
-                        <Divider className={classes.divider} />
-                      </Grid>
-                    </>}
+                    </Grid>}
                 
 
                   </Collapse>
