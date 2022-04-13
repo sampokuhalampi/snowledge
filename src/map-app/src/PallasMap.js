@@ -40,6 +40,41 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+//Defines area around the hotel which is not to be rendered as forest area, so user can click hotel icon
+// without opening forest info window.
+const hotel_area = {
+  type: "Feature",
+  geometry: {
+    type: "Polygon",
+    coordinates:  [
+      [
+        [
+          24.052997678518295,
+          68.04969970288553
+        ],
+        [
+          24.044299945235252,
+          68.04799995622012
+        ],
+        [
+          24.080684781074524,
+          68.04010418233425
+        ],
+        [
+          24.06219631433487,
+          68.05130333086372
+        ],
+        [
+          24.052997678518295,
+          68.04969970288553
+        ]
+      ]
+    ]
+
+  },
+  properties: {}
+};
+
 let map;
 
 function PallasMap(props) {
@@ -95,6 +130,9 @@ function PallasMap(props) {
           },
           properties: {}
         };
+
+        unifiedSegment = union(unifiedSegment, hotel_area);
+
         let otherSegment = {};
         for(let i = 1; i<newSegments.length;i++) {
           otherSegment = {

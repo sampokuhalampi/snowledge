@@ -543,7 +543,7 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                 {ifGuideInfoExists() && <>
 
                   {/* Open-close infos */}
-                  <Box style={{padding: "5px 15px"}}>
+                  <Box>
                     <IconButton
                       className={classes.expandButton}
                       onClick={handleExpandClick}
