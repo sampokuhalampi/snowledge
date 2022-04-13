@@ -161,9 +161,6 @@ function Map(props) {
     });
   }, [props.segments]);
 
-  React.useEffect(() => {
-    console.log("Current types changed: ", currentSnowTypes);
-  }, [currentSnowTypes]);
 
   /*
    * Event handlers

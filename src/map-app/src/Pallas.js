@@ -164,7 +164,7 @@ function App() {
       });
       updateSegments(data);
  
-      console.log("Segments updated: ", data);
+      console.log("Segments updated");
     };
 
     fetchData();

@@ -54,7 +54,7 @@ const useStyles = makeStyles(() => ({
   divider: {
     height: "1px",
     background: "#707070",
-    margin: 5,
+    margin: "15px 5px 15px 5px",
   },
   snowInfo: {
     alignContent: "center",
@@ -114,40 +114,26 @@ const useStyles = makeStyles(() => ({
     maxHeight: "40px",
     padding: "10px"
   },
-  buttonsLeft: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "left",
-    marginTop: "20px",
-    marginBottom: "10px",
-
-    "& Button": {
-      borderRadius: "30px",
-      textTransform: "none",
-      width: "280px",
-      height: "37px",
-      marginBottom: "5px",
-      fontFamily: "Donau",
-      color: "#FFF",
-      letterSpacing: 2,
-      fontWeight: 300,
-      fontSize: "18px",
-    },
-  },
-  blue: {
-    backgroundColor: "#204376",
-  },
-  darkGrey: {
-    backgroundColor: "#4C4C4C",
+  reviewButton: {
+    borderRadius: "30px",
+    textTransform: "none",
+    width: "100%",
+    maxWidth: "280px",
+    maxHeight: "40px",
+    marginBottom: "5px",
+    fontFamily: "Donau",
+    color: "#FFF",
+    letterSpacing: 2,
+    fontWeight: 300,
+    fontSize: "medium",
   },
   authorTag: {
     padding: "4px",
     margin: "4px",
     fontFamily: "Donau",
     letterSpacing: 2,
-    fontWeight: 600,
+    fontWeight: 300,
     fontSize: "small",
-    color: "black",
     justifyContent: "center",
     borderRadius: "7px",
   },
@@ -172,10 +158,10 @@ const useStyles = makeStyles(() => ({
     marginBottom: "5px",
     fontFamily: "Donau",
     color: "#FFF",
-    backgroundColor: "gray",
+    backgroundColor: "#374B6A",
     letterSpacing: 2,
     fontWeight: 300,
-    fontSize: "18px",
+    fontSize: "medium",
   },
   snowComment: {
     borderRadius: "20px",
@@ -236,7 +222,9 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
   const isXS = useMediaQuery({ query: "(max-width: 599px)" });
   //const isSM = useMediaQuery({ query: "(min-width: 600px) and (max-width: 900px)" });
   const description = (segmentdata.update === null || segmentdata.update === undefined ? "" : segmentdata.update.Kuvaus);
+
   const isEmpty = (segmentdata.update === null || segmentdata.update === undefined ? true : checkIfEmpty());
+
   const [expanded, setExpanded] = React.useState(false);
   const [guideTime, setGuideTime] = React.useState("");
   const [userTimes, setUserTimes] = React.useState([]);
@@ -247,7 +235,6 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
 
     // Parsitaan päivämäärä ja aika päivityksestä, mikäli päivitys löytyy
     if (segmentdata.update !== null && segmentdata.update !== undefined) {
-      console.log("Time been set!");
       let currentTime = new Date();
   
       if(segmentdata.update.Aika !== null && segmentdata.update.Aika !== undefined) {
@@ -280,6 +267,7 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
       setUserTimes([userTime1, userTime2, userTime3]);
     }
   }, [segmentdata]);
+
 
   // Gets boolean value of snowtype visibility, by given index (indices 1&2 are primary types, 3&4 are secondary types, 5 user type)
   function isEnabled(index) {
@@ -381,33 +369,33 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
   function StonesAndBranches(props) {
     return (
       <>
-        {props.option === 1 && ( <Grid item xs={6} sm={4}>
+        {props.option === 1 && ( <Grid item xs={6} sm={6}>
           <CardMedia
             component={"img"}
-            style={{display: "block", width: "78%"}}
+            style={{display: "block", width: "85%"}}
             src={process.env.PUBLIC_URL + "/icons/snowtypes-and-harms/" + 21 + ".svg"}
             alt="lumityypin logo"
           /></Grid>                  )}
-        {props.option === 2 && ( <Grid item xs={6} sm={4}>
+        {props.option === 2 && ( <Grid item xs={6} sm={6}>
           <CardMedia
             component={"img"}
-            style={{display: "block", width: "78%"}}
+            style={{display: "block", width: "85%"}}
             src={process.env.PUBLIC_URL + "/icons/snowtypes-and-harms/" + 22 + ".svg"}
             alt="lumityypin logo"
           /></Grid>                   )}
         {props.option === 3 && ( <Grid item xs={12} sm={12} container>
-          <Grid item xs={6} sm={4}>
+          <Grid item xs={6} sm={6}>
             <CardMedia
               component={"img"}
-              style={{display: "block", width: "78%"}}
+              style={{display: "block", width: "85%"}}
               src={process.env.PUBLIC_URL + "/icons/snowtypes-and-harms/" + 21 + ".svg"}
               alt="lumityypin logo"
             /> 
           </Grid>
-          <Grid item xs={6} sm={4}>
+          <Grid item xs={6} sm={6}>
             <CardMedia
               component={"img"}
-              style={{display: "block", width: "78%"}}
+              style={{display: "block", width: "85%"}}
               src={process.env.PUBLIC_URL + "/icons/snowtypes-and-harms/" + 22 + ".svg"}
               alt="lumityypin logo"
             />          
@@ -427,10 +415,14 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
     return (
       <Grid item sm={12} xs={12} container style={{paddingTop: "10px"}}>
         <Grid item sm={12} xs={12}>
-          <Typography className={classes.timeStamp}>{timeText}</Typography>
+          <Typography className={classes.timeStamp} style={{fontWeight: (props.tag ? "600" : "400")}}>{timeText}</Typography>
         </Grid>
         {props.tag && <Grid>
-          <Typography className={classes.authorTag} style={{backgroundColor: (props.fromGuide ? "#9FAFCE" : "#C4C4C4")}}>{props.fromGuide ? "Pallaksen Pöllöt" : "Vierailija" }</Typography>
+          <Typography 
+            className={classes.authorTag} 
+            style={{backgroundColor: (props.fromGuide ? "#4C4C4C" : "#C4C4C4"), color: (props.fromGuide ? "#FFF" : "#000")}}>
+            {props.fromGuide ? "Pallaksen Pöllöt" : "Vierailija" }
+          </Typography>
         </Grid>}
       </Grid >
     );
@@ -558,7 +550,7 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                       aria-expanded={expanded}
                       aria-label="show more"
                     >
-                      <div style={{marginRight: "5px"}}>Käyttäjätiedot</div>
+                      <div style={{marginRight: "5px"}}>Käyttäjäarviot</div>
                       <div className={expanded ? classes.expandOpen : classes.expandClosed}>〱</div>
                     </IconButton>
                   </Box>
@@ -571,7 +563,8 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                       <Grid item xs={8} sm={6}>
                         <DisplaySnowType Lumilaatu={segmentdata.update.Lumi5.ID} Nimi={segmentdata.update.Lumi5.Nimi} Hiihdettavyys={segmentdata.update.Lumi5.Hiihdettavyys} Main={true} Guide={false}/>
                       </Grid>
-                      <Grid item xs={4} sm={6} container style={{alignContent: "center"}}>
+                      <Grid item sm={2}></Grid>
+                      <Grid item xs={4} sm={4} container style={{alignContent: "center"}}>
                         <StonesAndBranches option={segmentdata.update.A1_Lisätiedot} />
                       </Grid>
                       <TimeStamp fromGuide={false} index={0} />
@@ -582,7 +575,8 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                       <Grid item xs={8} sm={6}>
                         <DisplaySnowType Lumilaatu={segmentdata.update.Lumi6.ID} Nimi={segmentdata.update.Lumi6.Nimi} Hiihdettavyys={segmentdata.update.Lumi6.Hiihdettavyys} Main={true} Guide={false}/>
                       </Grid>
-                      <Grid item xs={4} sm={6} container style={{alignContent: "center"}}>
+                      <Grid item sm={2}></Grid>
+                      <Grid item xs={4} sm={4} container style={{alignContent: "center"}}>
                         <StonesAndBranches option={segmentdata.update.A2_Lisätiedot} />
                       </Grid>
 
@@ -594,13 +588,17 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                       <Grid item xs={8} sm={6}>
                         <DisplaySnowType Lumilaatu={segmentdata.update.Lumi7.ID} Nimi={segmentdata.update.Lumi7.Nimi} Hiihdettavyys={segmentdata.update.Lumi7.Hiihdettavyys} Main={true} Guide={false}/>
                       </Grid>
-                      <Grid item xs={4} sm={6} container style={{alignContent: "center"}}>
+                      <Grid item sm={2}></Grid>
+                      <Grid item xs={4} sm={4} container style={{alignContent: "center"}}>
                         <StonesAndBranches option={segmentdata.update.A3_Lisätiedot} />
                       </Grid>
                       <TimeStamp fromGuide={false} index={2} />
                     </Grid>}
-                
 
+                    <Grid item xs={12} sm={12}>
+                      <Divider className={classes.divider} />
+                    </Grid> 
+                
                   </Collapse>
                 </> }
               </Grid>}
@@ -608,34 +606,50 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
       
 
             {/* Snow review buttons */}
-            {!signedUser && ( 
+            {!signedUser && (expanded || (!ifGuideInfoExists() || !ifUserInfoExists())) && (
               <Grid item xs={12} sm={12}>                  
-                <Box className={classes.buttonsLeft}>       
+                <Grid item xs={12} sm={12}>       
                   <Typography className={classes.mediumText} style={{padding: "0px 0px 10px 5px"}}>Liikuitko alueella?</Typography> 
+                </Grid>
 
-                  <Button variant="contained" className={classes.blue} onClick={openForm}>Kyllä, lisää arvio lumitilanteesta.</Button>
-                  <Button variant="contained" className={classes.darkGrey} onClick={openFeedback}>Lisää muu havainto.</Button>
-                </Box>
+                <Grid container spacing={(isXS ? 0 : 2)} style={{marginBottom: "10px"}}>
+                  <Grid item xs={12} sm={7}>
+                    <Button 
+                      variant="contained" className={classes.reviewButton} style={{backgroundColor: "#374B6A"}} onClick={openForm}>Kyllä, lisää arvio lumitilanteesta.</Button>
+                  </Grid>
+                  <Grid item xs={12} sm={5}>
+                    <Button variant="contained" className={classes.reviewButton} style={{backgroundColor: "#4C4C4C"}} onClick={openFeedback}>Lisää muu havainto.</Button>
+                  </Grid>
+                </Grid>
               </Grid>
             )}
 
           </Grid>}
         {(isEmpty) && 
-          <div className={classes.addPadding}>
-            <Typography className={classes.timeStamp}>
+          <Grid item xs={12} sm={12} container className={classes.addPadding}>
+            <Typography className={classes.timeStamp} style={{marginBottom: "10px"}}>
               Ei havaintoja alueelta.
             </Typography>
 
             {!signedUser && (
-              <Box className={classes.buttonsLeft}>       
-                <Typography className={classes.mediumText} style={{padding: "0px 0px 10px 5px"}}>Liikuitko alueella?</Typography> 
+              <Grid item xs={12} sm={12}>                  
+                <Grid item xs={12} sm={12}>       
+                  <Typography className={classes.mediumText} style={{padding: "0px 0px 10px 5px"}}>Liikuitko alueella?</Typography> 
+                </Grid>
 
-                <Button variant="contained" className={classes.blue} onClick={openForm}>Kyllä, lisää arvio lumitilanteesta.</Button>
-                <Button variant="contained" className={classes.darkGrey} onClick={openFeedback}>Lisää muu havainto.</Button>
-              </Box>
+                <Grid container spacing={(isXS ? 0 : 2)} style={{marginBottom: "10px"}}>
+                  <Grid item xs={12} sm={7}>
+                    <Button 
+                      variant="contained" className={classes.reviewButton} style={{backgroundColor: "#374B6A"}} onClick={openForm}>Kyllä, lisää arvio lumitilanteesta.</Button>
+                  </Grid>
+                  <Grid item xs={12} sm={5}>
+                    <Button variant="contained" className={classes.reviewButton} style={{backgroundColor: "#4C4C4C"}} onClick={openFeedback}>Lisää muu havainto.</Button>
+                  </Grid>
+                </Grid>
+              </Grid>
             )}
 
-          </div>
+          </Grid>
         }
 
         {/* Sponsor logos */}
