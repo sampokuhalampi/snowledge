@@ -145,9 +145,11 @@ const useStyles = makeStyles(() => ({
     marginLeft: "5px",
   },
   expandOpen: {
+    color: "#FFF",
     transform: "rotate(90deg)"
   },
   expandClosed: {
+    color: "#FFF",
     transform: "rotate(-90deg)"
   },
   expandButton: {
@@ -156,12 +158,7 @@ const useStyles = makeStyles(() => ({
     width: "150px",
     height: "30px",
     marginBottom: "5px",
-    fontFamily: "Donau",
-    color: "#FFF",
     backgroundColor: "#374B6A",
-    letterSpacing: 2,
-    fontWeight: 300,
-    fontSize: "medium",
   },
   snowComment: {
     borderRadius: "20px",
@@ -547,11 +544,12 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                     <IconButton
                       className={classes.expandButton}
                       onClick={handleExpandClick}
+                      style={{backgroundColor: "#374B6A"}}
                       aria-expanded={expanded}
                       aria-label="show more"
                     >
-                      <div style={{marginRight: "5px"}}>Käyttäjäarviot</div>
-                      <div className={expanded ? classes.expandOpen : classes.expandClosed}>〱</div>
+                      <Typography className={classes.mediumText} style={{marginRight: "5px", color: "#FFF"}}>Käyttäjäarviot</Typography>
+                      <Typography className={expanded ? classes.expandOpen : classes.expandClosed}>〱</Typography>
                     </IconButton>
                   </Box>
 
