@@ -549,7 +549,7 @@ function SnowRecordView({ segmentdata, writeReviewEnabled, openForm, openFeedbac
                       aria-label="show more"
                     >
                       <Typography className={classes.mediumText} style={{marginRight: "5px", color: "#FFF"}}>Käyttäjäarviot</Typography>
-                      <Typography className={expanded ? classes.expandOpen : classes.expandClosed}>〱</Typography>
+                      <Typography className={expanded ? classes.expandOpen : classes.expandClosed}>{isXS? "<":"〱"}</Typography>
                     </IconButton>
                   </Box>
 
