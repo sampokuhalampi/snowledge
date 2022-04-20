@@ -51,7 +51,7 @@ const sqlUpdate = (data, segment, timeString) => {
   });
 };
 
-
+//Function to check is specific things exist
 function isObjectEmpty(obj) {
   return Object.keys(obj).length;
 }
@@ -69,18 +69,20 @@ function guideInfoExists(obj) {
 }
 
 
-//
+//userReviewUpdater uses cron schedule to run periodically to update user reviews data shown.
+//Set to run every minute.
 const userReviewUpdater = cron.schedule("*/1 * * * *", async () => {
   console.log("Updating user reviews...");
   let newestUpdate;
   let timeLimit;
 
+  //Get numbers of segments
   const segmentCount = await sqlQuery("SELECT ID FROM Segmentit order by ID desc limit 1;").then(function (results) {
     results = JSON.parse(JSON.stringify(results));
     return results[0].ID;
   });
 
-
+  //loop goes through every segment in database
   for (let i=0; i<segmentCount; i++){
     const segmentQuery = "SELECT Aika, Segmentti, Lumilaatu_ID1, Lumilaatu_ID2 FROM Paivitykset WHERE Segmentti = " + (i + 1) + " AND Aika > NOW() - INTERVAL 3 DAY ORDER BY Aika DESC LIMIT 1;";
 
@@ -88,15 +90,21 @@ const userReviewUpdater = cron.schedule("*/1 * * * *", async () => {
       results=JSON.parse(JSON.stringify(results));
       return results;
     });
-    
+
+    //If review made by guide exist, select only user reviews delay hours newer than guide review, and not older than 1 day
+    //If guide info doesn't exist, select user reviews that are max 3 days old.
+    //delayHours variable set
     if(guideInfoExists(segmentUpdate)) {
-      newestUpdate = "\"" + date.format(new Date(segmentUpdate[0].Aika), "YYYY-MM-DD HH:mm:ss", true) + "\"";
+      const delayHours = 3;
+      const dateWithAddedHours = new Date(new Date(segmentUpdate[0].Aika).getTime() + (3600000 * delayHours));
+
+      newestUpdate = "\"" + date.format(dateWithAddedHours, "YYYY-MM-DD HH:mm:ss", true) + "\"";
       timeLimit = "NOW() - INTERVAL 1 DAY";
     } else {
       newestUpdate = "NOW() - INTERVAL 3 DAY";
       timeLimit = "NOW() - INTERVAL 3 DAY";
     }
-    
+
     const userReviewQuery = "SELECT ID, Segmentti, Lumilaatu, Aika FROM KayttajaArviot WHERE Segmentti = " + (i + 1) + " AND Aika >= " + newestUpdate + " AND Aika >= " + timeLimit + " order by Aika desc;";
 
     const userReview = await sqlQuery(userReviewQuery).then(function (results){
@@ -104,7 +112,8 @@ const userReviewUpdater = cron.schedule("*/1 * * * *", async () => {
       return results;
     });
 
-    
+    //If segment has user reviews, loop goes through them and saves three of the newest review's ID number
+    //to corresponding segment's newest update on PAIVITYKSET table. If segment doesn't have update on PAIVITYKSET table, it creates one.
     if (isObjectEmpty(userReview) !== 0){
       console.log("Updating segment " + (i+1) + "...");
       const itemCount = userReview.length;
