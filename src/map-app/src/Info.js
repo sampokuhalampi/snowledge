@@ -6,7 +6,7 @@ Luonut: Markku Nirkkonen
 
 Päivityshistoria
 
-23.2.2021 Juho Räisänen
+23.2.2022 Juho Räisänen
 Created API-calls for user review data
 
 13.12.2021 Juho Kumara
@@ -312,12 +312,12 @@ function Info(props) {
 
     let newValues = selectDisabled;
 
-    if (primaryCount == 2) {
+    if (primaryCount === 2) {
       // disables primary option
       newValues[0] = true;
     }
 
-    if (secondaryCount == 2) {
+    if (secondaryCount === 2) {
       // disables secondary option
       newValues[1] = true;
     }
@@ -351,7 +351,7 @@ function Info(props) {
       let primaryContent = { id: id, secondary: false };
       setSnowRecordContent(snowRecordContent.concat(primaryContent));
 
-      if (primaryValues == 1) {
+      if (primaryValues === 1) {
         // disables primary option
         let newValues = selectDisabled;
         newValues[0] = true;
@@ -363,7 +363,7 @@ function Info(props) {
       let secondaryContent = { id: id, secondary: true };
       setSnowRecordContent(snowRecordContent.concat(secondaryContent));
 
-      if (secondaryValues == 1) {
+      if (secondaryValues === 1) {
         // disables secondary option
         let newValues = selectDisabled;
         newValues[1] = true;
@@ -381,10 +381,10 @@ function Info(props) {
       }
     });
 
-    if (idArray.length == 1) {
+    if (idArray.length === 1) {
       idArray.push(null);
     }
-    else if (idArray.length == 0) {
+    else if (idArray.length === 0) {
       idArray.push(null);
       idArray.push(null);
     }
@@ -395,10 +395,10 @@ function Info(props) {
       }
     });
 
-    if (secondaryArray.length == 1) {
+    if (secondaryArray.length === 1) {
       secondaryArray.push(null);
     }
-    else if (secondaryArray.length == 0) {
+    else if (secondaryArray.length === 0) {
       secondaryArray.push(null);
       secondaryArray.push(null);
     }
@@ -412,7 +412,7 @@ function Info(props) {
   const removeSnowtype = (item) => {
     setUpdateEnabled(true);
 
-    const newContent1 = snowRecordContent.filter(snowRecordContent => { return snowRecordContent.id != item.id; });
+    const newContent1 = snowRecordContent.filter(snowRecordContent => { return snowRecordContent.id !== item.id; });
     setSnowRecordContent(newContent1);
 
     if (newContent1.length < 4) {
@@ -431,7 +431,7 @@ function Info(props) {
       setSelectDisabled(newValues);
     }
 
-    const newContent2 = disabledSnowTypes.filter(disabledSnowTypes => { return disabledSnowTypes != item.id; });
+    const newContent2 = disabledSnowTypes.filter(disabledSnowTypes => { return disabledSnowTypes !== item.id; });
     setDisabledSnowTypes(newContent2);
 
   };
@@ -445,7 +445,7 @@ function Info(props) {
     let returnValue = false;
 
     disabledSnowTypes.forEach(type => {
-      if (option.ID == type) {
+      if (option.ID === type) {
         returnValue = true;
       }
     });
@@ -464,7 +464,7 @@ function Info(props) {
     newContent[index].id = valueId;
     setSnowRecordContent(newContent);
 
-    let newContent2 = disabledSnowTypes.filter(snowtype => snowtype != itemId);
+    let newContent2 = disabledSnowTypes.filter(snowtype => snowtype !== itemId);
     newContent2 = newContent2.concat(valueId);
     setDisabledSnowTypes(newContent2);
   };
@@ -607,7 +607,7 @@ function Info(props) {
       return (
         <div className={isXS ? "mobileInfo" : "info"}>
 
-          <SnowRecordView segmentdata={props.segmentdata} close={closeShownSegment} signedUser={true} sponsors={props.sponsors}></SnowRecordView>
+          <SnowRecordView segmentdata={props.segmentdata} close={closeShownSegment} signedUser={true} sponsors={props.sponsors}/>
           <IconButton
             className={classes.editButton}
             style={{padding: 0, paddingLeft: "12px"}}

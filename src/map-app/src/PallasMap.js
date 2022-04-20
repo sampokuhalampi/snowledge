@@ -203,7 +203,7 @@ function PallasMap(props) {
       });
     }
 
-    if(map != undefined) {
+    if(map !== undefined) {
       map.on("load", function () {
         // Add geojson as source for layers
         if(map.getSource("segments-source") === undefined) {
@@ -310,7 +310,6 @@ function PallasMap(props) {
         hotel.style.width = "45px";
         hotel.style.height ="45px";
 
-
         var popup = new maplibregl.Popup({ offset: 25 , closeOnClick: true, closeButton: false})
           .setHTML(
             "<div style='text-align: center; font-family: Donau; letter-spacing: 2px; font-size: large'>" +
@@ -319,9 +318,8 @@ function PallasMap(props) {
             "</div>"
           );
 
-
-
         new maplibregl.Marker(hotel).setLngLat([24.062026, 68.046691]).setPopup(popup).addTo(map);
+
 
         // When user hovers over a segment, update its hover feature state to true
         var hoveredSegmentId = null;

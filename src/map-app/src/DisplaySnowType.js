@@ -62,7 +62,9 @@ const useStyles = makeStyles(() => ({
   },
 }));
   
-
+//This function is used to display snow icon, name and skiability.
+//Returns Grid element which consists these attributes.
+//Icon and skiability size's determined by if the snow type is main or secondary type
 function DisplaySnowType(props) {
 
   const classes = useStyles();
@@ -71,10 +73,8 @@ function DisplaySnowType(props) {
   const inline = isStonesOrBranches();
 
   function isStonesOrBranches () {
-    if (props.Guide === false && (props.Lumilaatu === 21 || props.Lumilaatu === 22)) {
-      return true;
-    }
-    return false;
+    return props.Guide === false && (props.Lumilaatu === 21 || props.Lumilaatu === 22);
+
   }
 
 

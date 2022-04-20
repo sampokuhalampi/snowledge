@@ -1,13 +1,10 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import { IconButton } from "@material-ui/core";
+import {Box, CardMedia, IconButton, TextField} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import { Box } from "@material-ui/core";
-import { CardMedia } from "@material-ui/core";
-import { TextField } from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import { useMediaQuery } from "react-responsive";
+import {useMediaQuery} from "react-responsive";
 import Divider from "@material-ui/core/Divider";
 
 
@@ -188,12 +185,11 @@ function WriteUserReview(props) {
         },
         body: JSON.stringify(data),
       });
-    const res = await response.json();
-    return res;
+    return await response.json();
   };
 
 
-  // When a user reviews snowdata, POST-method call is sent to api/review. 
+  // When a user reviews snow data, POST-method call is sent to api/review.
   // New snow review is added to the database.
   // The call returns ID number to the new row in the database, so that feedback text can be
   // later added to it. 
@@ -478,8 +474,8 @@ function WriteUserReview(props) {
 
           <Box className={styles.buttonsRight}>         
             <Button variant="contained" className={styles.darkGrey} onClick={props.close}>Sulje</Button>
-            <Button variant="contained" className={styles.darkGrey} 
-              disabled={ text === "" ? true : false } onClick={postFeedback}>Lähetä</Button>
+            <Button variant="contained" className={styles.darkGrey}
+              disabled={ text === "" } onClick={postFeedback}>Lähetä</Button>
           </Box>    
 
           <span style={{fontFamily: "Donau", letterSpacing: 2, fontWeight: 500, fontSize: "medium"}}>Lumisovellus on testausvaiheessa. Lähetä myös kehittäjille&nbsp;  
