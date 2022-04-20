@@ -68,6 +68,9 @@ function guideInfoExists(obj) {
   return true;
 }
 
+const commentsTime = "NOW() - INTERVAL 1 DAY";
+const reviewsTime = "NOW() - INTERVAL 3 DAY";
+const delayHours = 3;
 
 //userReviewUpdater uses cron schedule to run periodically to update user reviews data shown.
 //Set to run every minute.
@@ -84,7 +87,7 @@ const userReviewUpdater = cron.schedule("*/1 * * * *", async () => {
 
   //loop goes through every segment in database
   for (let i=0; i<segmentCount; i++){
-    const segmentQuery = "SELECT Aika, Segmentti, Lumilaatu_ID1, Lumilaatu_ID2 FROM Paivitykset WHERE Segmentti = " + (i + 1) + " AND Aika > NOW() - INTERVAL 3 DAY ORDER BY Aika DESC LIMIT 1;";
+    const segmentQuery = "SELECT Aika, Segmentti, Lumilaatu_ID1, Lumilaatu_ID2 FROM Paivitykset WHERE Segmentti = " + (i + 1) + " AND Aika > " + reviewsTime + " ORDER BY Aika DESC LIMIT 1;";
 
     const segmentUpdate = await sqlQuery(segmentQuery).then(function (results){
       results=JSON.parse(JSON.stringify(results));
@@ -95,14 +98,13 @@ const userReviewUpdater = cron.schedule("*/1 * * * *", async () => {
     //If guide info doesn't exist, select user reviews that are max 3 days old.
     //delayHours variable set
     if(guideInfoExists(segmentUpdate)) {
-      const delayHours = 3;
       const dateWithAddedHours = new Date(new Date(segmentUpdate[0].Aika).getTime() + (3600000 * delayHours));
 
       newestUpdate = "\"" + date.format(dateWithAddedHours, "YYYY-MM-DD HH:mm:ss", true) + "\"";
-      timeLimit = "NOW() - INTERVAL 1 DAY";
+      timeLimit = commentsTime;
     } else {
-      newestUpdate = "NOW() - INTERVAL 3 DAY";
-      timeLimit = "NOW() - INTERVAL 3 DAY";
+      newestUpdate = reviewsTime;
+      timeLimit = reviewsTime;
     }
 
     const userReviewQuery = "SELECT ID, Segmentti, Lumilaatu, Aika FROM KayttajaArviot WHERE Segmentti = " + (i + 1) + " AND Aika >= " + newestUpdate + " AND Aika >= " + timeLimit + " order by Aika desc;";
