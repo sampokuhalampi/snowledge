@@ -100,14 +100,6 @@ function WelcomeView(props) {
           }
         </Box>
 
-        <Box style={{display: "flex", flexDirection: "column", alignItems: "center", marginTop: "40px"}}>
-          <Typography className={styledClasses.text} style={{fontSize: "16px"}}>Sovellus on tällä hetkellä testausvaiheessa. </Typography>
-          <a className={styledClasses.text} 
-            style={{fontSize: "16px"}}
-            href={"https://docs.google.com/forms/d/e/1FAIpQLSdal9SJFzBsv0UoMXraZ9zH7KR0Y-1moAsGbKKdx-0E8Cf9gg/viewform?usp=sf_link"}
-          >Lähetä kehittäjille palautetta tästä: </a>
-        </Box>
-
         
         <Box className={styledClasses.sponsorContainer} style={{flex: 2}}>
           {props.sponsors !== undefined && <>
@@ -149,13 +141,6 @@ function WelcomeView(props) {
               return <Typography key={index} className={styledClasses.text}>{paragraph}</Typography>;
             })
           }
-        </Box>
-        <Box style={{display: "flex", flexDirection: "column", alignItems: "center", marginTop: "40px"}}>
-          <Typography className={styledClasses.text} style={{fontSize: "16px"}}>Sovellus on tällä hetkellä testausvaiheessa. </Typography>
-          <a className={styledClasses.text} 
-            style={{fontSize: "16px"}}
-            href={"https://docs.google.com/forms/d/e/1FAIpQLSdal9SJFzBsv0UoMXraZ9zH7KR0Y-1moAsGbKKdx-0E8Cf9gg/viewform?usp=sf_link"}
-          >Lähetä kehittäjille palautetta tästä: </a>
         </Box>
         
         <Box className={styledClasses.sponsorContainer}>

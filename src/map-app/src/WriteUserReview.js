@@ -477,12 +477,6 @@ function WriteUserReview(props) {
             <Button variant="contained" className={styles.darkGrey}
               disabled={ text === "" } onClick={postFeedback}>Lähetä</Button>
           </Box>    
-
-          <span style={{fontFamily: "Donau", letterSpacing: 2, fontWeight: 500, fontSize: "medium"}}>Lumisovellus on testausvaiheessa. Lähetä myös kehittäjille&nbsp;  
-            <a
-              href={"https://docs.google.com/forms/d/e/1FAIpQLSdal9SJFzBsv0UoMXraZ9zH7KR0Y-1moAsGbKKdx-0E8Cf9gg/viewform?usp=sf_link"}
-            >palautetta: </a>
-          </span>
   
         </div>
       )}
