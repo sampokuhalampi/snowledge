@@ -5,13 +5,13 @@ import time
 from sqlite3 import Error
 
 
-with open('admin_user.txt', 'r') as file:
+with open('Mobile snowledge/Server/back_end/admin_user.txt', 'r') as file:
     lines = file.readlines()
     for i in range(len(lines)):
         lines[i] = lines[i].rstrip()
     ADMIN = lines[0]
     PASSWORD = lines[1]
-    
+
 
 def create_connection(path):
     connection = None
@@ -109,7 +109,8 @@ def create_help_entry(connection, help):
     sql = ''' INSERT INTO help(dev_id,timestamp,gpscoord)
               VALUES (?,?,?)'''
 
-    _, exists = check_if_entry_exists(connection, 'help', 'dev_id', 'dev_id', help[0], False)
+    _, exists = check_if_entry_exists(
+        connection, 'help', 'dev_id', 'dev_id', help[0], False)
 
     if exists:
         return
@@ -124,7 +125,8 @@ def create_request_entry(connection, requester, helper):
     sql = '''INSERT INTO requests(help_giver,help_requester,state)
              VALUES(?,?,?)'''
 
-    entry, exists = check_if_entry_exists(connection, 'requests', 'help_giver', 'help_giver', helper, False)
+    entry, exists = check_if_entry_exists(
+        connection, 'requests', 'help_giver', 'help_giver', helper, False)
 
     if exists:
         return False
@@ -135,15 +137,15 @@ def create_request_entry(connection, requester, helper):
     return True
 
 
-def update_request_state(connection ,_state, helper):
+def update_request_state(connection, _state, helper):
     sql = '''UPDATE requests SET state=? WHERE help_giver=?'''
 
     cur = connection.cursor()
     cur.execute(sql, (_state, helper))
     connection.commit()
-    
-    
-def update_ip_address(connection , dev_id, addr_str):
+
+
+def update_ip_address(connection, dev_id, addr_str):
     sql = '''UPDATE users SET ip_address=? WHERE dev_id=?'''
 
     cur = connection.cursor()
@@ -170,6 +172,7 @@ def get_all_requests(connection):
     entry = cur.fetchall()
     return entry
 
+
 def get_all_pallaksen_pollot(connection):
     sql = '''SELECT * FROM users WHERE first_name= "8M0sZy" AND last_name= "FBy2sR";'''
 
@@ -177,6 +180,7 @@ def get_all_pallaksen_pollot(connection):
     cur.execute(sql)
     entry = cur.fetchall()
     return entry
+
 
 def delete_request_entry(connection, entry, ID):
     sql = '''DELETE FROM requests
@@ -231,7 +235,8 @@ def delete_old_users(connection):
     dev_ids = cur.fetchall()
 
     for id in dev_ids:
-        _, exists = check_if_entry_exists(connection, 'data', 'dev_id', 'dev_id', id[0], False)
+        _, exists = check_if_entry_exists(
+            connection, 'data', 'dev_id', 'dev_id', id[0], False)
         if not exists:
             cur.execute(delete_sql, (id[0],))
             cur.execute(delete_sql2, (id[0],))
@@ -272,7 +277,7 @@ def init_tables(connection):
                             password text NOT NULL,
                             role text NOT NULL
                             );'''
-    
+
     sql_table_requests = '''CREATE TABLE IF NOT EXISTS requests (
                             help_giver text PRIMARY KEY,
                             help_requester text NOT NULL,
@@ -285,7 +290,7 @@ def init_tables(connection):
     create_table(connection, sql_table_accounts)
     create_table(connection, sql_table_requests)
 
-    sql  = "DELETE FROM accounts WHERE role = 'Admin'"
+    sql = "DELETE FROM accounts WHERE role = 'Admin'"
     sql2 = 'INSERT OR IGNORE INTO accounts(username,password,role) VALUES(?,?,?);'
     username = ADMIN
     password = PASSWORD
@@ -304,7 +309,7 @@ def check_if_entry_exists(connection, table, key1, key2, entry, full_return):
         print(e)
 
     _query = "SELECT {} FROM {} WHERE {}=?".format(key1, table, key2)
-    cur.execute(_query, (entry,) )
+    cur.execute(_query, (entry,))
 
     exists = cur.fetchall()
 

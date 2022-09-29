@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
-    <head>
-    </head>
+<head>
+</head>
 
-   <body>
+<body>
+  <p id="demo">
+  </p>
+</body>
 
-      <p id="demo">
-      </p>
-    
-   </body>
-    
-   <script>
-   const HAL_ARVOT = ['obs-obs-1-1-t2m','obs-obs-1-1-ws_10min','obs-obs-1-1-wd_10min','obs-obs-1-1-wg_10min'];
-   //riittä jos haet kaikki tulokset relevantti tieto niissä
-   const data = fetch('http://opendata.fmi.fi/wfs/fin?service=WFS&version=2.0.0&request=GetFeature&storedquery_id=fmi::observations::weather::timevaluepair&fmisid=101982&')
-   .then((response) => response.text())
-   .then((response) => {
-     parser = new DOMParser();
-     xmlDoc = parser.parseFromString(response,"text/xml");
-     tulokset = xmlDoc.getElementsByTagName("om:result");
-     for(let tulos of tulokset) {
-      if(HAL_ARVOT.includes(tulos.firstElementChild.getAttribute('gml:id'))){
-        console.log(tulos.firstElementChild.lastElementChild.lastElementChild.lastElementChild.innerHTML);
+<script>
+  const HAL_ARVOT = ['obs-obs-1-1-t2m', 'obs-obs-1-1-ws_10min', 'obs-obs-1-1-wd_10min', 'obs-obs-1-1-wg_10min'];
+  //riittä jos haet kaikki tulokset relevantti tieto niissä
+  const data = fetch('http://opendata.fmi.fi/wfs/fin?service=WFS&version=2.0.0&request=GetFeature&storedquery_id=fmi::observations::weather::timevaluepair&fmisid=101982&')
+    .then((response) => response.text())
+    .then((response) => {
+      parser = new DOMParser();
+      xmlDoc = parser.parseFromString(response, "text/xml");
+      tulokset = xmlDoc.getElementsByTagName("om:result");
+      for (let tulos of tulokset) {
+        if (HAL_ARVOT.includes(tulos.firstElementChild.getAttribute('gml:id'))) {
+          console.log(tulos.firstElementChild.lastElementChild.lastElementChild.lastElementChild.innerHTML);
+        }
       }
-     }
     });
-   </script>
+</script>
+
 </html>
