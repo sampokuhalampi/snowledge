@@ -8,6 +8,7 @@ import time
 
 class UdpServer:
     def __init__(self):
+        print("init")
         self.connection = db.connect_to_database()
         self.status = True
 
@@ -25,7 +26,9 @@ class UdpServer:
         print("Run function working")
         last_time = time.time()
         while self.status:
+            print("test")
             curr_time = time.time()
+            print(curr_time)
             if curr_time - last_time > 30:
                 last_time = curr_time
                 timestamp = time.time() - self.max_time_from_closest_users
@@ -73,5 +76,6 @@ class UdpServer:
 
 
 if __name__ == "__main__":
+    print("main")
     udp = UdpServer()
     udp.run()

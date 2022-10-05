@@ -1,7 +1,7 @@
 /*
-** Base of the backend application
-** Opens express and sends calls to API and user interface
-*/
+ ** Base of the backend application
+ ** Opens express and sends calls to API and user interface
+ */
 
 const express = require("express");
 const app = express();
@@ -11,7 +11,6 @@ const path = require("path");
 const https = require("https");
 const fs = require("fs");
 const userReviewUpdater = require("./UserReviewUpdater");
-
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -30,14 +29,10 @@ app.listen(3000);
 
 var options = {
   key: fs.readFileSync(path.join(__dirname, "key.pem")),
-  cert: fs.readFileSync(path.join(__dirname, "cert.pem"))
+  cert: fs.readFileSync(path.join(__dirname, "cert.pem")),
 };
 
 console.log("Listening to port 443");
 https.createServer(options, app).listen(443);
 
 userReviewUpdater;
-
-
-
-
